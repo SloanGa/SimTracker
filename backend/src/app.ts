@@ -4,6 +4,7 @@ dotenv.config();
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { join } from "path";
+import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 const app = express();
 
@@ -25,6 +26,11 @@ if (process.env.NODE_ENV === "production") {
 app.get("/api/data", (_req: Request, res: Response) => {
   res.setHeader("Content-Type", "application/json");
   res.json({ message: "Hello from the backend!" });
+});
+
+//utilise le midle pour gerer l'authentification
+app.get("/api/protected-data", isAuthenticated, (_req, res) => {
+  res.json({ data: "This is protected data" });
 });
 
 app.listen(process.env.PORT || 5000, () => {
