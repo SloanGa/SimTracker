@@ -16,6 +16,8 @@ app.use(
   })
 );
 
+app.use(express.json());
+
 app.use(router);
 
 app.listen(process.env.PORT || 5000, () => {

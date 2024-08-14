@@ -15,4 +15,5 @@ client.connect((err) => {
         console.log("Connected to database Simtracker");
     }
 });
+exports.default = client;
 //# sourceMappingURL=client.js.map

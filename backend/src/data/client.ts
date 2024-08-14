@@ -11,3 +11,5 @@ client.connect((err) => {
     console.log("Connected to database Simtracker");
   }
 });
+
+export default client;

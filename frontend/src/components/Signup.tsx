@@ -24,7 +24,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/auth/signup", {
+      const res = await fetch("http://localhost:5000/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,6 @@ const Signup = () => {
         return console.log("error");
       }
       navigate("/");
-      console.log(formData);
     } catch (e) {
       console.log(e);
     }

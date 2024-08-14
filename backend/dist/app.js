@@ -14,6 +14,7 @@ app.use((0, cors_1.default)({
     origin: "http://localhost:3000",
     credentials: true,
 }));
+app.use(express_1.default.json());
 app.use(routes_1.default);
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
