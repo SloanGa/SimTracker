@@ -7,7 +7,7 @@ interface BurgerProps {
 
 const BurgerMenu: React.FC<BurgerProps> = ({ onClose }) => {
   return (
-    <div className="flex flex-col items-center bg-gray-800 w-1/4 h-1/3 fixed top-0 right-0 z-50">
+    <div className="flex flex-col items-center bg-primary w-1/4 h-1/3 fixed top-0 right-0 z-50 lg:hidden">
       <a href="settings" className="text-white text-3xl mt-10">
         <FontAwesomeIcon icon={faGear} size="lg" />
       </a>

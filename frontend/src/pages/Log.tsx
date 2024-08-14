@@ -12,11 +12,11 @@ const Log = () => {
 
   return (
     <div>
-      <header className="text-center pb-10 flex flex-col items-center">
+      <header className="text-center pb-10 flex flex-col items-center w-11/12 lg:w-10/12 m-auto py-6 ">
         <h1 className="text-3xl font-medium">SimTracker</h1>
         <img src="/icons/logoST.png" className="w-24 mt-2 rounded-lg" alt="" />
       </header>
-      <main>
+      <main className="w-11/12 lg:w-10/12 m-auto">
         <div className="lg:hidden text-center mb-12">
           <Button onClick={toggleClick} props={isClicked ? "Se connecter" : "S'inscrire"}></Button>
         </div>

@@ -5,9 +5,10 @@ module.exports = {
     extend: {
       colors: {
         bg: "#f5f5f5",
-        btn: "#A7C7E7",
+        btn: "#F59E0B",
         otherbtn: "#A7A6A4",
         textBtn: "#fff",
+        primary: "#1F2937",
         btnHover: "#8BD9D9",
       },
       boxShadow: {

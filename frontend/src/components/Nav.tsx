@@ -12,21 +12,21 @@ const Nav = () => {
 
   return (
     <nav className="pb-4">
-      <ul className="flex justify-between items-center lg:w-full lg:justify-between lg:items-center">
-        <li className="hidden lg:flex">
+      <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:w-screen lg:justify-between lg:items-center">
+        <li className="hidden lg:flex hover:text-btn ease-out duration-300">
           <a href="settings" className="text-3xl">
             <FontAwesomeIcon icon={faGear} size="lg" />
           </a>
         </li>
 
         <li className="lg:w-2/6 lg:flex lg:justify-center">
-          <h1 className="font-bold text-2xl">
+          <h1 className="font-bold text-2xl lg:text-4xl">
             <a href="/">SimTracker</a>
           </h1>
         </li>
 
         <li className="hidden lg:flex ">
-          <button className="text-3xl">
+          <button className="text-3xl hover:text-btn ease-out duration-300">
             <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
           </button>
         </li>
