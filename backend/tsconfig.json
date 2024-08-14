@@ -1,11 +1,12 @@
 {
-    "include": ["./src"],
+    "include": ["src"],
     "compilerOptions": {
       "incremental": true,
       "target": "ES6",
       "module": "CommonJS",
       "sourceMap": true,
       "outDir": "./dist",
+      "rootDir": "./src",
       "removeComments": true,
       "strict": true,
       "noUnusedLocals": true,
