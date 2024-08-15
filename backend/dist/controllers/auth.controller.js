@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
 const dataMapper_1 = require("../data/dataMapper");
-const console_1 = require("console");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.authController = {
     signup(req, res) {
@@ -27,7 +26,6 @@ exports.authController = {
                 res.status(201).json({ message: "User created" });
             }
             catch (error) {
-                (0, console_1.log)(error);
                 res.status(500).json({ message: "An error occurred" });
             }
         });

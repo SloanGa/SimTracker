@@ -15,14 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataMapper = void 0;
 const client_1 = __importDefault(require("./client"));
 exports.dataMapper = {
+    findUserPerEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield client_1.default.query("SELECT * FROM users WHERE email = $1", [email]);
+            return result.rows[0];
+        });
+    },
     userCreate(firstname, lastname, email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *", [firstname, lastname, email, password]);
-            }
-            catch (error) {
-                throw error;
-            }
+            yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *", [firstname, lastname, email, password]);
         });
     },
 };

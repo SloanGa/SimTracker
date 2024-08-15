@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { dataMapper } from "../data/dataMapper";
-import { log } from "console";
 import bcrypt from "bcrypt";
 
 export const authController = {
@@ -15,7 +14,6 @@ export const authController = {
 
       res.status(201).json({ message: "User created" });
     } catch (error) {
-      log(error);
       res.status(500).json({ message: "An error occurred" });
     }
   },

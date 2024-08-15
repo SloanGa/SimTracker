@@ -11,6 +11,7 @@ const app = express();
 export default app;
 
 import "./config/sessions.config";
+import "./config/passport.config";
 
 app.use(
   cors({
