@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
 const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const passport_1 = __importDefault(require("passport"));
 exports.authController = {
     signup(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -36,6 +37,24 @@ exports.authController = {
             catch (error) {
                 res.status(500).json({ message: "An error occurred" });
             }
+        });
+    },
+    login(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            passport_1.default.authenticate("local", (err, user, info) => {
+                if (err) {
+                    return next(err);
+                }
+                if (!user) {
+                    return res.status(401).json({ message: info.message });
+                }
+                req.login(user, (err) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.status(200).json({ message: "Logged in" });
+                });
+            })(req, res, next);
         });
     },
     logout(req, res) {

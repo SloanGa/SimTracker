@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { dataMapper } from "../data/dataMapper";
 import bcrypt from "bcrypt";
+import passport from "passport";
 
 export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
@@ -24,6 +25,24 @@ export const authController = {
     } catch (error) {
       res.status(500).json({ message: "An error occurred" });
     }
+  },
+
+  async login(req: Request, res: Response, next: NextFunction) {
+    passport.authenticate("local", (err: any, user: Express.User, info: { message: string }) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(401).json({ message: info.message });
+      }
+
+      req.login(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.status(200).json({ message: "Logged in" });
+      });
+    })(req, res, next);
   },
 
   async logout(req: Request, res: Response) {

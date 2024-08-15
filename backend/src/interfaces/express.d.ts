@@ -1,4 +1,4 @@
-import { User as AppUser } from "../interfaces/User";
+import { User as AppUser } from "./User";
 
 declare global {
   namespace Express {
