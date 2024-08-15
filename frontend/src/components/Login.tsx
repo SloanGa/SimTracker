@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import ButtonLog from "./ButtonLog";
 import Button from "./Button";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -35,7 +35,7 @@ const Login = () => {
       if (!res.ok) {
         return console.log("error");
       }
-      navigate("/");
+      setIsAuthenticated(true); // navigate("/");
     } catch (e) {
       console.log(e);
     }

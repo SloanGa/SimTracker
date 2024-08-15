@@ -1,9 +1,9 @@
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ButtonLog from "./ButtonLog";
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -36,7 +36,7 @@ const Signup = () => {
       if (!res.ok) {
         return console.log("error");
       }
-      navigate("/");
+      setIsAuthenticated(true); //navigate("/");
     } catch (e) {
       console.log(e);
     }

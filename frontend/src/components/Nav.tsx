@@ -3,10 +3,10 @@ import { faBars, faGear } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import LogOut from "./Logout";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Nav = () => {
-  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
 
   const toggleClick = () => {
@@ -22,7 +22,7 @@ const Nav = () => {
       if (!res.ok) {
         return console.log("error");
       }
-      navigate("/login");
+      setIsAuthenticated(false); //navigate("/login");
     } catch (e) {
       console.log(e);
     }
