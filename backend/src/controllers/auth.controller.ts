@@ -7,6 +7,22 @@ export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
       const { firstname, lastname, email, password } = req.body;
+
+      if (!firstname || !lastname || !email || !password) {
+        res.status(400).json({ message: "Veuillez remplir tous les champs" });
+        return;
+      }
+
+      if (
+        email.match(
+          // eslint-disable-next-line no-useless-escape
+          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+        ) === null
+      ) {
+        res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
+        return;
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
       await dataMapper.userCreate(firstname, lastname, email, hashedPassword);
       const newUser = await dataMapper.findUserPerEmail(email);
@@ -19,7 +35,7 @@ export const authController = {
         }
       });
     } catch (error) {
-      res.status(500).json({ message: "An error occurred" });
+      res.status(500).json({ message: "Une erreur est survenue" });
     }
   },
 

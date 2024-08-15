@@ -6,11 +6,11 @@ DROP TABLE IF EXISTS "sessions";
 DROP TABLE IF EXISTS "users";
 -- Créer les tables
 CREATE TABLE "users" (
-  "id" SERIAL PRIMARY KEY,
-  "firstname" varchar,
-  "lastname" varchar,
-  "email" varchar UNIQUE,
-  "password" char(60),
+  "id" SERIAL PRIMARY KEY NOT NULL,
+  "firstname" varchar NOT NULL,
+  "lastname" varchar NOT NULL,
+  "email" varchar UNIQUE NOT NULL,
+  "password" char(60) NOT NULL,
   "picture_url" varchar
 );
 CREATE TABLE "aircraft" (

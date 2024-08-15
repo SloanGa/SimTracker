@@ -762,12 +762,6 @@ html{
     --tw-text-opacity: 1;
     color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   }
-
-  .table tr.hover:hover,
-  .table tr.hover:nth-child(even):hover{
-    --tw-bg-opacity: 1;
-    background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
-  }
 }
 
 .label{
@@ -820,39 +814,6 @@ html{
   place-items: center;
   text-align: center;
   min-width: 4rem;
-}
-
-.table{
-  position: relative;
-  width: 100%;
-  border-radius: var(--rounded-box, 1rem);
-  text-align: left;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.table :where(.table-pin-rows thead tr){
-  position: sticky;
-  top: 0px;
-  z-index: 1;
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
-}
-
-.table :where(.table-pin-rows tfoot tr){
-  position: sticky;
-  bottom: 0px;
-  z-index: 1;
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
-}
-
-.table :where(.table-pin-cols tr th){
-  position: sticky;
-  left: 0px;
-  right: 0px;
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
 }
 
 .btm-nav > * .label{
@@ -1096,45 +1057,6 @@ html{
   content: attr(data-content);
 }
 
-.table:where([dir="rtl"], [dir="rtl"] *){
-  text-align: right;
-}
-
-.table :where(th, td){
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  vertical-align: middle;
-}
-
-.table tr.active,
-  .table tr.active:nth-child(even),
-  .table-zebra tbody tr:nth-child(even){
-  --tw-bg-opacity: 1;
-  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
-}
-
-.table :where(thead tr, tbody tr:not(:last-child), tbody tr:first-child:last-child){
-  border-bottom-width: 1px;
-  --tw-border-opacity: 1;
-  border-bottom-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
-}
-
-.table :where(thead, tfoot){
-  white-space: nowrap;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 700;
-  color: var(--fallback-bc,oklch(var(--bc)/0.6));
-}
-
-.table :where(tfoot){
-  border-top-width: 1px;
-  --tw-border-opacity: 1;
-  border-top-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
-}
-
 @keyframes toast-pop{
   0%{
     transform: scale(0.9);
@@ -1208,10 +1130,6 @@ html{
   position: fixed;
 }
 
-.relative{
-  position: relative;
-}
-
 .right-0{
   right: 0px;
 }
@@ -1254,16 +1172,8 @@ html{
   margin-top: 0.5rem;
 }
 
-.block{
-  display: block;
-}
-
 .flex{
   display: flex;
-}
-
-.table{
-  display: table;
 }
 
 .hidden{
@@ -1298,16 +1208,8 @@ html{
   width: max-content;
 }
 
-.min-w-full{
-  min-width: 100%;
-}
-
 .grow{
   flex-grow: 1;
-}
-
-.border-collapse{
-  border-collapse: collapse;
 }
 
 .cursor-pointer{
@@ -1348,24 +1250,6 @@ html{
   border-radius: 0.5rem;
 }
 
-.border{
-  border-width: 1px;
-}
-
-.border-b{
-  border-bottom-width: 1px;
-}
-
-.border-black{
-  --tw-border-opacity: 1;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity));
-}
-
-.border-gray-200{
-  --tw-border-opacity: 1;
-  border-color: rgb(229 231 235 / var(--tw-border-opacity));
-}
-
 .bg-bg{
   --tw-bg-opacity: 1;
   background-color: rgb(245 245 245 / var(--tw-bg-opacity));
@@ -1386,21 +1270,12 @@ html{
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-gray-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
-
-.p-8{
-  padding: 2rem;
-}
-
 .p-6{
   padding: 1.5rem;
 }
 
-.p-2{
-  padding: 0.5rem;
+.p-8{
+  padding: 2rem;
 }
 
 .px-12{
@@ -1434,14 +1309,6 @@ html{
 
 .pb-4{
   padding-bottom: 1rem;
-}
-
-.pl-10{
-  padding-left: 2.5rem;
-}
-
-.text-left{
-  text-align: left;
 }
 
 .text-center{
@@ -1480,6 +1347,11 @@ html{
   font-weight: 500;
 }
 
+.text-red-600{
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
 .text-textBtn{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -1488,6 +1360,11 @@ html{
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-red-500{
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .opacity-70{
@@ -1508,95 +1385,6 @@ html{
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-@media (min-width: 1024px){
-  @media (hover:hover){
-    .lg\:table tr.hover:hover,.lg\:table tr.hover:nth-child(even):hover{
-      --tw-bg-opacity: 1;
-      background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
-    }
-  }
-
-  .lg\:table{
-    position: relative;
-    width: 100%;
-    border-radius: var(--rounded-box, 1rem);
-    text-align: left;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
-
-  .lg\:table :where(.table-pin-rows thead tr){
-    position: sticky;
-    top: 0px;
-    z-index: 1;
-    --tw-bg-opacity: 1;
-    background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
-  }
-
-  .lg\:table :where(.table-pin-rows tfoot tr){
-    position: sticky;
-    bottom: 0px;
-    z-index: 1;
-    --tw-bg-opacity: 1;
-    background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
-  }
-
-  .lg\:table :where(.table-pin-cols tr th){
-    position: sticky;
-    left: 0px;
-    right: 0px;
-    --tw-bg-opacity: 1;
-    background-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)));
-  }
-
-  .lg\:table:where([dir="rtl"], [dir="rtl"] *){
-    text-align: right;
-  }
-
-  .lg\:table :where(th, td){
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    vertical-align: middle;
-  }
-
-  .lg\:table tr.active,.lg\:table tr.active:nth-child(even){
-    --tw-bg-opacity: 1;
-    background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
-  }
-
-  .lg\:table :where(thead tr, tbody tr:not(:last-child), tbody tr:first-child:last-child){
-    border-bottom-width: 1px;
-    --tw-border-opacity: 1;
-    border-bottom-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
-  }
-
-  .lg\:table :where(thead, tfoot){
-    white-space: nowrap;
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: 700;
-    color: var(--fallback-bc,oklch(var(--bc)/0.6));
-  }
-
-  .lg\:table :where(tfoot){
-    border-top-width: 1px;
-    --tw-border-opacity: 1;
-    border-top-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-border-opacity)));
-  }
-}
-
-.hover\:bg-bg:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 245 245 / var(--tw-bg-opacity));
-}
-
-.hover\:text-bg:hover{
-  --tw-text-opacity: 1;
-  color: rgb(245 245 245 / var(--tw-text-opacity));
-}
-
 .hover\:text-btn:hover{
   --tw-text-opacity: 1;
   color: rgb(245 158 11 / var(--tw-text-opacity));
@@ -1605,26 +1393,6 @@ html{
 @media (min-width: 1024px){
   .lg\:flex{
     display: flex;
-  }
-
-  .lg\:table{
-    display: table;
-  }
-
-  .lg\:table-cell{
-    display: table-cell;
-  }
-
-  .lg\:table-header-group{
-    display: table-header-group;
-  }
-
-  .lg\:table-row-group{
-    display: table-row-group;
-  }
-
-  .lg\:table-row{
-    display: table-row;
   }
 
   .lg\:hidden{

@@ -2,9 +2,12 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import ButtonLog from "./ButtonLog";
 import Button from "./Button";
+import ErrorMessage from "./ErrorMessage";
 
 const Login = () => {
   const { setIsAuthenticated } = useAuth();
+
+  const [errorMessageLog, setErrorMessageLog] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -33,7 +36,25 @@ const Login = () => {
       });
 
       if (!res.ok) {
-        return console.log("error");
+        if (!formData.email || !formData.password) {
+          setErrorMessageLog("Veuillez remplir tous les champs");
+          return;
+        }
+
+        if (
+          formData.email.match(
+            // eslint-disable-next-line no-useless-escape
+            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+          ) === null
+        ) {
+          setErrorMessageLog("Veuillez entrer un email valide");
+          return;
+        }
+
+        const error = await res.json();
+        setErrorMessageLog(error.message);
+        setFormData({ email: formData.email, password: "" });
+        return;
       }
       setIsAuthenticated(true); // navigate("/");
     } catch (e) {
@@ -88,6 +109,7 @@ const Login = () => {
           onChange={handleChange}
         />
       </label>
+      <ErrorMessage errorMessage={errorMessageLog} />
       <ButtonLog props="Se connecter" />
       <Button props="Mot de passe oublié" />
     </form>

@@ -1,9 +1,12 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import ButtonLog from "./ButtonLog";
+import ErrorMessage from "./ErrorMessage";
 
 const Signup = () => {
   const { setIsAuthenticated } = useAuth();
+
+  const [errorMessageSign, setErrorMessageSign] = useState("");
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -34,8 +37,12 @@ const Signup = () => {
       });
 
       if (!res.ok) {
-        return console.log("error");
+        const error = await res.json();
+        setErrorMessageSign(error.message);
+        return;
       }
+
+      console.log("success");
       setIsAuthenticated(true); //navigate("/");
     } catch (e) {
       console.log(e);
@@ -129,7 +136,7 @@ const Signup = () => {
           onChange={handleChange}
         />
       </label>
-
+      <ErrorMessage errorMessage={errorMessageSign} />
       <ButtonLog props="S'inscrire" />
     </form>
   );

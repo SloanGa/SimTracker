@@ -54,7 +54,7 @@ const Nav = () => {
             onClick={toggleClick}
           />
         </li>
-        {isClicked ? <BurgerMenu onClose={toggleClick} /> : null}
+        {isClicked ? <BurgerMenu onLogOut={logOut} onClose={toggleClick} /> : null}
       </ul>
     </nav>
   );
