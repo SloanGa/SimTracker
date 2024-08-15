@@ -1,9 +1,9 @@
 -- Supprimer les tables si elles existent
-DROP TABLE IF EXISTS "aircraft";
 DROP TABLE IF EXISTS "flight_log_content";
 DROP TABLE IF EXISTS "flight_log";
-DROP TABLE IF EXISTS "users";
+DROP TABLE IF EXISTS "aircraft";
 DROP TABLE IF EXISTS "sessions";
+DROP TABLE IF EXISTS "users";
 -- Créer les tables
 CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,

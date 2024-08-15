@@ -8,6 +8,9 @@ import router from "./routes/routes";
 import "./data/client";
 
 const app = express();
+export default app;
+
+import "./config/sessions.config";
 
 app.use(
   cors({

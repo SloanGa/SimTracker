@@ -10,6 +10,8 @@ const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./routes/routes"));
 require("./data/client");
 const app = (0, express_1.default)();
+exports.default = app;
+require("./config/sessions.config");
 app.use((0, cors_1.default)({
     origin: "http://localhost:3000",
     credentials: true,
