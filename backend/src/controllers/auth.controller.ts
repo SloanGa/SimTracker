@@ -7,12 +7,8 @@ export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
       const { firstname, lastname, email, password } = req.body;
-
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(hashedPassword);
-
       await dataMapper.userCreate(firstname, lastname, email, hashedPassword);
-
       const newUser = await dataMapper.findUserPerEmail(email);
 
       req.login(newUser, (err) => {
@@ -43,6 +39,14 @@ export const authController = {
         res.status(200).json({ message: "Logged in" });
       });
     })(req, res, next);
+  },
+
+  isAuthenticated(req: Request, res: Response) {
+    if (req.user) {
+      return res.status(200).json({ message: "User authenticated" });
+    } else {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
   },
 
   async logout(req: Request, res: Response) {

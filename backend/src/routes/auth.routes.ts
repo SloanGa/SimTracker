@@ -1,15 +1,11 @@
-import { Router, Request, Response } from "express";
-import { isAuthenticated } from "../middlewares/isAuthenticated";
+import { Router } from "express";
 import { authController } from "../controllers/auth.controller";
 
 const router = Router();
 
-router.get("/protected-data", isAuthenticated, (_req: Request, res: Response) => {
-  res.json({ data: "This is protected data" });
-});
-
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
+router.get("/user", authController.isAuthenticated);
 
 export default router;

@@ -1,11 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Button from "../components/Button";
 
 const Log = () => {
-  const [isClicked, setIsClicked] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/auth/user", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          return;
+        }
+        setIsAuthenticated(true);
+        navigate("/");
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    checkAuth();
+  }, [navigate]);
+
+  const [isClicked, setIsClicked] = useState(false);
   const toggleClick = () => {
     setIsClicked(!isClicked);
   };

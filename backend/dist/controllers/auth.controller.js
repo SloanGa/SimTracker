@@ -22,7 +22,6 @@ exports.authController = {
             try {
                 const { firstname, lastname, email, password } = req.body;
                 const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-                console.log(hashedPassword);
                 yield dataMapper_1.dataMapper.userCreate(firstname, lastname, email, hashedPassword);
                 const newUser = yield dataMapper_1.dataMapper.findUserPerEmail(email);
                 req.login(newUser, (err) => {
@@ -56,6 +55,14 @@ exports.authController = {
                 });
             })(req, res, next);
         });
+    },
+    isAuthenticated(req, res) {
+        if (req.user) {
+            return res.status(200).json({ message: "User authenticated" });
+        }
+        else {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
     },
     logout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
