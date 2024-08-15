@@ -8,16 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
 const dataMapper_1 = require("../data/dataMapper");
 const console_1 = require("console");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.authController = {
     signup(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { firstname, lastname, email, password } = req.body;
-                yield dataMapper_1.dataMapper.userCreate(firstname, lastname, email, password);
+                const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+                console.log(hashedPassword);
+                yield dataMapper_1.dataMapper.userCreate(firstname, lastname, email, hashedPassword);
                 res.status(201).json({ message: "User created" });
             }
             catch (error) {

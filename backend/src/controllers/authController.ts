@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
 import { dataMapper } from "../data/dataMapper";
 import { log } from "console";
+import bcrypt from "bcrypt";
 
 export const authController = {
   async signup(req: Request, res: Response) {
     try {
       const { firstname, lastname, email, password } = req.body;
-      await dataMapper.userCreate(firstname, lastname, email, password);
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log(hashedPassword);
+
+      await dataMapper.userCreate(firstname, lastname, email, hashedPassword);
 
       res.status(201).json({ message: "User created" });
     } catch (error) {
