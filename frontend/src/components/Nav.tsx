@@ -1,13 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
+import LogOut from "./Logout";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
+  const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
 
   const toggleClick = () => {
     setIsClicked(!isClicked);
+  };
+
+  const logOut = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/auth/logout", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (!res.ok) {
+        return console.log("error");
+      }
+      navigate("/login");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -26,9 +44,7 @@ const Nav = () => {
         </li>
 
         <li className="hidden lg:flex ">
-          <button className="text-3xl hover:text-btn ease-out duration-300">
-            <FontAwesomeIcon icon={faSignOutAlt} size="lg" />
-          </button>
+          <LogOut onClick={logOut} />
         </li>
 
         <li className="lg:hidden">

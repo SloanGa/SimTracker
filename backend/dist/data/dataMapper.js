@@ -21,6 +21,12 @@ exports.dataMapper = {
             return result.rows[0];
         });
     },
+    findUserPerId(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield client_1.default.query("SELECT * FROM users WHERE id = $1", [id]);
+            return result.rows[0];
+        });
+    },
     userCreate(firstname, lastname, email, password) {
         return __awaiter(this, void 0, void 0, function* () {
             yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *", [firstname, lastname, email, password]);

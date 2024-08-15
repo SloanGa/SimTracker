@@ -6,6 +6,11 @@ export const dataMapper = {
     return result.rows[0];
   },
 
+  async findUserPerId(id: number) {
+    const result = await client.query("SELECT * FROM users WHERE id = $1", [id]);
+    return result.rows[0];
+  },
+
   async userCreate(firstname: string, lastname: string, email: string, password: string) {
     await client.query(
       "INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *",

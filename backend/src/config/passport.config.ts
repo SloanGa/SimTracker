@@ -35,6 +35,15 @@ passport.use(
   )
 );
 
-// passport.serializeUser((user, done) => {
-//   done(null, user._id);
-// });
+passport.serializeUser((user: Express.User, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id: number, done) => {
+  try {
+    const user = await dataMapper.findUserPerId(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});

@@ -16,14 +16,34 @@ exports.authController = void 0;
 const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.authController = {
-    signup(req, res) {
+    signup(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { firstname, lastname, email, password } = req.body;
                 const hashedPassword = yield bcrypt_1.default.hash(password, 10);
                 console.log(hashedPassword);
                 yield dataMapper_1.dataMapper.userCreate(firstname, lastname, email, hashedPassword);
-                res.status(201).json({ message: "User created" });
+                const newUser = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+                req.login(newUser, (err) => {
+                    if (err) {
+                        next(err);
+                    }
+                    else {
+                        res.status(201).json({ message: "User created" });
+                    }
+                });
+            }
+            catch (error) {
+                res.status(500).json({ message: "An error occurred" });
+            }
+        });
+    },
+    logout(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                req.logout(() => {
+                    res.status(200).json({ message: "Logged out" });
+                });
             }
             catch (error) {
                 res.status(500).json({ message: "An error occurred" });

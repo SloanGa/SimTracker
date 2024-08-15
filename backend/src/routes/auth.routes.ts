@@ -9,5 +9,6 @@ router.get("/protected-data", isAuthenticated, (_req: Request, res: Response) =>
 });
 
 router.post("/signup", authController.signup);
+router.get("/logout", authController.logout);
 
 export default router;

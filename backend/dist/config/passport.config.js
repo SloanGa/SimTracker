@@ -42,4 +42,16 @@ passport_1.default.use("local", new passport_local_1.Strategy({
         console.log(err);
     }
 })));
+passport_1.default.serializeUser((user, done) => {
+    done(null, user.id);
+});
+passport_1.default.deserializeUser((id, done) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield dataMapper_1.dataMapper.findUserPerId(id);
+        done(null, user);
+    }
+    catch (err) {
+        done(err, null);
+    }
+}));
 //# sourceMappingURL=passport.config.js.map

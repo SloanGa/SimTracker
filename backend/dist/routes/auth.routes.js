@@ -8,5 +8,6 @@ router.get("/protected-data", isAuthenticated_1.isAuthenticated, (_req, res) => 
     res.json({ data: "This is protected data" });
 });
 router.post("/signup", auth_controller_1.authController.signup);
+router.get("/logout", auth_controller_1.authController.logout);
 exports.default = router;
 //# sourceMappingURL=auth.routes.js.map
