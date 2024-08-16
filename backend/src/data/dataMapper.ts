@@ -17,4 +17,11 @@ export const dataMapper = {
       [firstname, lastname, email, password]
     );
   },
+
+  async createFlightLogId(email: string) {
+    await client.query(
+      "INSERT INTO flight_log (user_id) VALUES ((SELECT id FROM users WHERE email = $1))",
+      [email]
+    );
+  },
 };

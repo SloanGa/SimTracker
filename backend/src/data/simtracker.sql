@@ -1,7 +1,6 @@
 -- Supprimer les tables si elles existent
 DROP TABLE IF EXISTS "flight_log_content";
 DROP TABLE IF EXISTS "flight_log";
-DROP TABLE IF EXISTS "aircraft";
 DROP TABLE IF EXISTS "sessions";
 DROP TABLE IF EXISTS "users";
 -- Créer les tables
@@ -12,16 +11,6 @@ CREATE TABLE "users" (
   "email" varchar UNIQUE NOT NULL,
   "password" char(60) NOT NULL,
   "picture_url" varchar
-);
-CREATE TABLE "aircraft" (
-  "id" SERIAL PRIMARY KEY,
-  "model" varchar,
-  "registration" varchar,
-  "company" varchar,
-  "flight_time" integer,
-  "total_flight" integer,
-  "user_id" integer REFERENCES "users"("id") ON DELETE
-  SET NULL
 );
 CREATE TABLE "flight_log" (
   "id" SERIAL PRIMARY KEY,
@@ -35,8 +24,7 @@ CREATE TABLE "flight_log_content" (
   "arrival" varchar(4),
   "alt" varchar(4),
   "flight_time" integer,
-  "aircraft_id" integer REFERENCES "aircraft"("id") ON DELETE
-  SET NULL
+  "aircraft_name" varchar
 );
 CREATE TABLE "sessions" (
   "sid" varchar PRIMARY KEY,

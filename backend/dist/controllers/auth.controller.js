@@ -31,6 +31,7 @@ exports.authController = {
                 }
                 const hashedPassword = yield bcrypt_1.default.hash(password, 10);
                 yield dataMapper_1.dataMapper.userCreate(firstname, lastname, email, hashedPassword);
+                yield dataMapper_1.dataMapper.createFlightLogId(email);
                 const newUser = yield dataMapper_1.dataMapper.findUserPerEmail(email);
                 req.login(newUser, (err) => {
                     if (err) {

@@ -1,15 +1,6 @@
 import { useState, useEffect } from "react";
 const FlightLog = ({ username = "Sloan" }) => {
-  // const [flightData, setFlightData] = useState({
-  //   id: null,
-  //   date: null,
-  //   flightNumber: null,
-  //   departure: null,
-  //   arrival: null,
-  //   alt : null,
-  //   duration: null,
-  //   aircraft: null,
-  // });
+  // const [flightData, setFlightData] = useState([]);
 
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const { name, value } = e.target;
@@ -33,7 +24,6 @@ const FlightLog = ({ username = "Sloan" }) => {
           },
           credentials: "include",
         });
-        console.log(res);
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }

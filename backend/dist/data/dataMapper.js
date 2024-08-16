@@ -32,5 +32,10 @@ exports.dataMapper = {
             yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *", [firstname, lastname, email, password]);
         });
     },
+    createFlightLogId(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield client_1.default.query("INSERT INTO flight_log (user_id) VALUES ((SELECT id FROM users WHERE email = $1))", [email]);
+        });
+    },
 };
 //# sourceMappingURL=dataMapper.js.map
