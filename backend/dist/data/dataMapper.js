@@ -37,5 +37,11 @@ exports.dataMapper = {
             yield client_1.default.query("INSERT INTO flight_log (user_id) VALUES ((SELECT id FROM users WHERE email = $1))", [email]);
         });
     },
+    getFlightData(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield client_1.default.query("SELECT flc.* FROM flight_log_content AS flc JOIN flight_log AS fl ON flc.flight_log_id = fl.id WHERE fl.user_id = $1;", [id]);
+            return result.rows;
+        });
+    },
 };
 //# sourceMappingURL=dataMapper.js.map
