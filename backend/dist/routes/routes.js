@@ -29,10 +29,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 const auth_routes_1 = __importDefault(require("./auth.routes"));
 const data_routes_1 = __importDefault(require("./data.routes"));
+const user_routes_1 = __importDefault(require("./user.routes"));
 const path_1 = require("path");
 const router = (0, express_1.Router)();
 router.use("/auth", auth_routes_1.default);
 router.use("/data", data_routes_1.default);
+router.use("/user", user_routes_1.default);
 if (process.env.NODE_ENV === "production") {
     router.use(express_1.default.static((0, path_1.join)(__dirname, "../frontend/build")));
     router.get("*", (_req, res) => {
