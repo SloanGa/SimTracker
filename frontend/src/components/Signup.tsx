@@ -1,9 +1,11 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
-import ButtonLog from "./ButtonLog";
+import { useNavigate } from "react-router-dom";
+import ButtonSubmit from "./ButtonSubmit";
 import ErrorMessage from "./ErrorMessage";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
   const [errorMessageSign, setErrorMessageSign] = useState("");
@@ -42,8 +44,8 @@ const Signup = () => {
         return;
       }
 
-      console.log("success");
-      setIsAuthenticated(true); //navigate("/");
+      setIsAuthenticated(true);
+      navigate("/");
     } catch (e) {
       console.log(e);
     }
@@ -137,7 +139,7 @@ const Signup = () => {
         />
       </label>
       <ErrorMessage errorMessage={errorMessageSign} />
-      <ButtonLog props="S'inscrire" />
+      <ButtonSubmit props="S'inscrire" />
     </form>
   );
 };

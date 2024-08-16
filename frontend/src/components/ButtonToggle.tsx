@@ -5,13 +5,14 @@ interface ButtonProps {
   props: React.ReactNode; // Type pour props
 }
 
-const ButtonLog: React.FC<ButtonProps> = ({ props, onClick }) => (
+const ButtonToggle: React.FC<ButtonProps> = ({ props, onClick }) => (
   <button
-    className="bg-btn py-2 px-4 w-max mx-auto my-2 rounded-lg font-medium text-textBtn"
+    type="button"
+    className="bg-primary text-white py-2 px-4 w-max mx-auto rounded-lg font-medium"
     onClick={onClick}
   >
     {props}
   </button>
 );
 
-export default ButtonLog;
+export default ButtonToggle;

@@ -1,9 +1,9 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
-import ButtonLog from "./ButtonLog";
-import Button from "./Button";
-import ErrorMessage from "./ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import ButtonSubmit from "./ButtonSubmit";
+import ButtonToggle from "./ButtonToggle";
+import ErrorMessage from "./ErrorMessage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -113,8 +113,8 @@ const Login = () => {
         />
       </label>
       <ErrorMessage errorMessage={errorMessageLog} />
-      <ButtonLog props="Se connecter" />
-      <Button props="Mot de passe oublié" />
+      <ButtonSubmit props="Se connecter" />
+      <ButtonToggle props="Mot de passe oublié" />
     </form>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
-import Button from "../components/Button";
+import ButtonToggle from "../components/ButtonToggle";
 
 const Log = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -17,7 +17,10 @@ const Log = () => {
       </header>
       <main className="w-11/12 lg:w-10/12 m-auto">
         <div className="lg:hidden text-center mb-12">
-          <Button onClick={toggleClick} props={isClicked ? "Se connecter" : "S'inscrire"}></Button>
+          <ButtonToggle
+            onClick={toggleClick}
+            props={isClicked ? "Se connecter" : "S'inscrire"}
+          ></ButtonToggle>
         </div>
         <div className="lg:hidden">{isClicked ? <Signup /> : <Login />}</div>
         <div className="hidden lg:flex lg:space-x-6 justify-center mt-12 ">
