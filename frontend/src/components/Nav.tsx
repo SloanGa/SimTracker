@@ -1,11 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
-import LogOut from "./Logout";
+import ButtonIcon from "./Button/ButtonIcon";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/settings");
+  };
+
   const { setIsAuthenticated } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
 
@@ -22,7 +27,8 @@ const Nav = () => {
       if (!res.ok) {
         return console.log("error");
       }
-      setIsAuthenticated(false); //navigate("/login");
+      setIsAuthenticated(false);
+      navigate("/login");
     } catch (e) {
       console.log(e);
     }
@@ -31,10 +37,8 @@ const Nav = () => {
   return (
     <nav className="pb-4">
       <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:w-screen lg:justify-between lg:items-center">
-        <li className="hidden lg:flex hover:text-btn ease-out duration-300">
-          <a href="settings" className="text-3xl">
-            <FontAwesomeIcon icon={faGear} size="lg" />
-          </a>
+        <li className="hidden lg:flex">
+          <ButtonIcon onClick={handleNavigate} icon={faGear} label="" />
         </li>
 
         <li className="lg:w-2/6 lg:flex lg:justify-center">
@@ -44,17 +48,15 @@ const Nav = () => {
         </li>
 
         <li className="hidden lg:flex ">
-          <LogOut onClick={logOut} />
+          <ButtonIcon onClick={logOut} icon={faSignOutAlt} label="" />
         </li>
 
         <li className="lg:hidden">
-          <FontAwesomeIcon
-            icon={faBars}
-            className="cursor-pointer text-3xl"
-            onClick={toggleClick}
-          />
+          <ButtonIcon onClick={toggleClick} icon={faBars} label="" />
         </li>
-        {isClicked ? <BurgerMenu onLogOut={logOut} onClose={toggleClick} /> : null}
+        {isClicked ? (
+          <BurgerMenu onLogOut={logOut} onClose={toggleClick} onNavigate={handleNavigate} />
+        ) : null}
       </ul>
     </nav>
   );

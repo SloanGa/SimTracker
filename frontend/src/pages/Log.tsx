@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
-import ButtonToggle from "../components/ButtonToggle";
+import ButtonToggle from "../components/Button/ButtonToggle";
 
 const Log = () => {
   const [isClicked, setIsClicked] = useState(false);

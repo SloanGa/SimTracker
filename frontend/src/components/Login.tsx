@@ -1,8 +1,8 @@
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ButtonSubmit from "./ButtonSubmit";
-import ButtonToggle from "./ButtonToggle";
+import ButtonSubmit from "./Button/ButtonSubmit";
+import ButtonToggle from "./Button/ButtonToggle";
 import ErrorMessage from "./ErrorMessage";
 
 const Login = () => {
