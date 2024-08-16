@@ -9,26 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userController = void 0;
+exports.apiControllers = void 0;
 const dataMapper_1 = require("../data/dataMapper");
-exports.userController = {
-    getUser(req, res) {
+exports.apiControllers = {
+    getFlightData(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (req.user) {
-                    const user = yield dataMapper_1.dataMapper.findUserPerEmail(req.user.email);
-                    if (user) {
-                        res.status(200).json({ firstname: user.firstname });
-                    }
+            if (req.user) {
+                try {
+                    const flightData = yield dataMapper_1.dataMapper.getFlightData(req.user.id);
+                    res.status(200).json(flightData);
                 }
-                else {
-                    res.status(401).json({ message: "Utilisateur non authentifié" });
+                catch (_a) {
+                    res.status(500).json({ message: "Une erreur est survenue" });
                 }
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
+            else {
+                res.status(401).json({ message: "Unauthorized" });
             }
         });
     },
 };
-//# sourceMappingURL=user.controller.js.map
+//# sourceMappingURL=api.controllers.js.map

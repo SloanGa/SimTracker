@@ -28,13 +28,15 @@ export const authController = {
       await dataMapper.createFlightLogId(email);
       const newUser = await dataMapper.findUserPerEmail(email);
 
-      req.login(newUser, (err) => {
-        if (err) {
-          next(err);
-        } else {
-          res.status(201).json({ message: "User created" });
-        }
-      });
+      if (newUser) {
+        req.login(newUser, (err) => {
+          if (err) {
+            next(err);
+          } else {
+            res.status(201).json({ message: "User created" });
+          }
+        });
+      }
     } catch (error) {
       res.status(500).json({ message: "Une erreur est survenue" });
     }

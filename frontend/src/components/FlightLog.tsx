@@ -1,6 +1,31 @@
 import { useState, useEffect } from "react";
-const FlightLog = ({ username = "Sloan" }) => {
-  // const [flightData, setFlightData] = useState([]);
+const FlightLog = () => {
+  const [flightData, setFlightData] = useState([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/flightdata", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        if (!res.ok) {
+          console.log("error de fetch");
+
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setFlightData(data);
+      } catch (error) {
+        console.error("Il y a eu un problème avec la requête fetch:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const { name, value } = e.target;
@@ -44,6 +69,9 @@ const FlightLog = ({ username = "Sloan" }) => {
       </h2>
       <div className="hidden lg:flex">
         <h1>Screen</h1>
+        {flightData.map((flight: any) => (
+          <div key={flight.id}>{flight.departure}</div>
+        ))}
       </div>
       <div className="flex flex-col space-y-4 lg:hidden">Mobile</div>
     </div>
