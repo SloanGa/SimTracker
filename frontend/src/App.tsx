@@ -13,19 +13,12 @@ const App = () => {
           <Route
             path="/"
             element={
-              <ProtectedRoute isProtected={true}>
+              <ProtectedRoute>
                 <Home />
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/login"
-            element={
-              <ProtectedRoute isProtected={false}>
-                <Log />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/login" element={<Log />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

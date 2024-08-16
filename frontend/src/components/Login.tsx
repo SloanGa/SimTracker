@@ -3,8 +3,10 @@ import { useState } from "react";
 import ButtonLog from "./ButtonLog";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
 
   const [errorMessageLog, setErrorMessageLog] = useState("");
@@ -56,7 +58,8 @@ const Login = () => {
         setFormData({ email: formData.email, password: "" });
         return;
       }
-      setIsAuthenticated(true); // navigate("/");
+      setIsAuthenticated(true);
+      navigate("/");
     } catch (e) {
       console.log(e);
     }

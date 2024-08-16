@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const useAuthCheck = (setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>) => {
+const useAuthCheck = (setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
