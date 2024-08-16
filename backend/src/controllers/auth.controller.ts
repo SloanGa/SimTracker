@@ -25,6 +25,7 @@ export const authController = {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       await dataMapper.userCreate(firstname, lastname, email, hashedPassword);
+      await dataMapper.createFlightLogId(email);
       const newUser = await dataMapper.findUserPerEmail(email);
 
       req.login(newUser, (err) => {

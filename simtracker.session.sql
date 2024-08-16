@@ -1,2 +1,2 @@
 SELECT *
-FROM users
+FROM flight_log
