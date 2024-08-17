@@ -1,11 +1,11 @@
 import Nav from "../components/Nav";
-import FlightLog from "../components/FlightLog";
+import FlightLogTable from "../components/FlightLogTable";
 
 const Home = () => {
   return (
     <div>
       <Nav />
-      <FlightLog />
+      <FlightLogTable />
     </div>
   );
 };
