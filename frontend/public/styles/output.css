@@ -1712,6 +1712,10 @@ html{
   width: 50%;
 }
 
+.w-2\/3{
+  width: 66.666667%;
+}
+
 .max-w-5xl{
   max-width: 64rem;
 }
@@ -2025,6 +2029,14 @@ html{
 
   .lg\:justify-between{
     justify-content: space-between;
+  }
+
+  .lg\:gap-10{
+    gap: 2.5rem;
+  }
+
+  .lg\:gap-4{
+    gap: 1rem;
   }
 
   .lg\:space-x-6 > :not([hidden]) ~ :not([hidden]){
