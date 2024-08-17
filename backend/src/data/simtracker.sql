@@ -19,11 +19,10 @@ CREATE TABLE "flight_log" (
 CREATE TABLE "flight_log_content" (
   "id" SERIAL PRIMARY KEY NOT NULL,
   "flight_log_id" integer REFERENCES "flight_log"("id") ON DELETE CASCADE,
-  "date" timestamp,
+  "date" varchar,
   "flight_number" varchar,
   "departure" varchar(4),
   "arrival" varchar(4),
-  "alt" varchar(4),
   "flight_time" integer,
   "aircraft_name" varchar
 );
