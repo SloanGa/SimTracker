@@ -3,6 +3,7 @@ import ButtonSubmit from "../Button/ButtonSubmit";
 import ButtonToggle from "../Button/ButtonToggle";
 import ErrorMessage from "../Messages/ErrorMessage";
 import SucessMessage from "../Messages/SucessMessage";
+import { useData } from "../../context/DataContext";
 
 const ModalAddFlight = () => {
   const [maxDate, setMaxDate] = useState("");
@@ -21,9 +22,9 @@ const ModalAddFlight = () => {
     aircraft: "",
   });
 
-  const [flightAdded, setFlightAdded] = useState(false);
-
   const [errorMessageSign, setErrorMessageSign] = useState("");
+
+  const { flightAdded, setFlightAdded } = useData();
 
   const flightDataSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +44,20 @@ const ModalAddFlight = () => {
         setErrorMessageSign(error.message);
         return;
       }
+
       setFlightAdded(true);
+      setTimeout(() => {
+        setFlightAdded(false);
+      }, 3000);
+
+      setFlightData({
+        date: "",
+        flight_number: "",
+        departure: "",
+        arrival: "",
+        flight_time: "",
+        aircraft: "",
+      });
     } catch (e) {
       console.log(e);
     }

@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import ButtonToggle from "./Button/ButtonToggle";
 import ModalAddFlight from "./Modal/ModalAddFlight";
+import { useData } from "../context/DataContext";
 
 const FlightLogTable = () => {
   const [flightData, setFlightData] = useState([]);
+
+  const { flightAdded } = useData();
 
   useEffect(() => {
     const fetchFlightData = async () => {
@@ -28,7 +31,7 @@ const FlightLogTable = () => {
     };
 
     fetchFlightData();
-  }, []);
+  }, [flightAdded]);
 
   const [userData, setUserData] = useState({
     firstname: "",
