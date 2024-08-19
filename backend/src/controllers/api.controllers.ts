@@ -28,6 +28,24 @@ export const apiControllers = {
       try {
         const email = req.user.email;
         const { date, flight_number, departure, arrival, flight_time, aircraft } = req.body;
+
+        if (isNaN(flight_time) || flight_time <= 0) {
+          res.status(400).json({ message: "Veuillez saisir un nombre en minutes" });
+          return;
+        }
+
+        if (!date) {
+          res.status(400).json({ message: "Veuillez saisir un vol valide" });
+          return;
+        }
+
+        if (arrival.length !== 4 || departure.length !== 4) {
+          res
+            .status(400)
+            .json({ message: "Veuillez saisir un aéroport au format ICAO (4 caractères)" });
+          return;
+        }
+
         await dataMapper.addFlightData(
           email,
           date,

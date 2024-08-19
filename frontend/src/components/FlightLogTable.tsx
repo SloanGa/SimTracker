@@ -11,7 +11,7 @@ const FlightLogTable = () => {
   useEffect(() => {
     const fetchFlightData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/flightdata", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/flightdata`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -19,14 +19,14 @@ const FlightLogTable = () => {
           credentials: "include",
         });
         if (!res.ok) {
-          console.log("error de fetch");
+          console.log("error de fetch"); //Inserer une vue d'erreur
 
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
         setFlightData(data);
       } catch (error) {
-        console.error("Il y a eu un problème avec la requête fetch:", error);
+        console.error(error);
       }
     };
 
@@ -88,12 +88,6 @@ const FlightLogTable = () => {
       flightTimeFormatted,
     };
   };
-
-  // const [isClicked, setIsClicked] = useState(false);
-
-  // const toggleClick = () => {
-  //   setIsClicked(!isClicked);
-  // };
 
   return (
     <div className="w-11/12 m-auto ">

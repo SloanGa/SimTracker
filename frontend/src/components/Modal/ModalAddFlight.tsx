@@ -23,8 +23,19 @@ const ModalAddFlight = () => {
   });
 
   const [errorMessageSign, setErrorMessageSign] = useState("");
-
+  const [errorHandling, setErrorHandling] = useState(false);
   const { flightAdded, setFlightAdded } = useData();
+
+  const clearFlightData = () => {
+    setFlightData({
+      date: "",
+      flight_number: "",
+      departure: "",
+      arrival: "",
+      flight_time: "",
+      aircraft: "",
+    });
+  };
 
   const flightDataSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,6 +52,12 @@ const ModalAddFlight = () => {
 
       if (!res.ok) {
         const error = await res.json();
+
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 4000);
+
         setErrorMessageSign(error.message);
         return;
       }
@@ -50,16 +67,9 @@ const ModalAddFlight = () => {
         setFlightAdded(false);
       }, 3000);
 
-      setFlightData({
-        date: "",
-        flight_number: "",
-        departure: "",
-        arrival: "",
-        flight_time: "",
-        aircraft: "",
-      });
-    } catch (e) {
-      console.log(e);
+      clearFlightData();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -168,13 +178,18 @@ const ModalAddFlight = () => {
             </div>
           </div>
           {flightAdded ? <SucessMessage sucessMessage={"Vol ajouté avec succés"} /> : null}
-          {flightAdded ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
+          {errorHandling ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
           <ButtonSubmit props="Ajouter un vol" />
           <ButtonToggle props="Importer avec SimBrief" />
         </form>
         <form method="dialog">
           {/* if there is a button, it will close the modal */}
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          <button
+            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            onClick={clearFlightData}
+          >
+            ✕
+          </button>
         </form>
       </div>
     </dialog>

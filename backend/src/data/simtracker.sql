@@ -24,7 +24,7 @@ CREATE TABLE "flight_log_content" (
   "arrival" varchar(4),
   "flight_time" integer,
   "aircraft_name" varchar,
-  "flight_log_id" integer REFERENCES "flight_log"("id") ON DELETE CASCADE,
+  "flight_log_id" integer REFERENCES "flight_log"("id") ON DELETE CASCADE
 );
 CREATE TABLE "sessions" (
   "sid" varchar PRIMARY KEY,
