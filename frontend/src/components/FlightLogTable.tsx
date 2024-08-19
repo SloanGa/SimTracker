@@ -30,14 +30,6 @@ const FlightLogTable = () => {
     fetchFlightData();
   }, []);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setFlightData({
-  //     ...flightData,
-  //     [name]: value,
-  //   });
-  // };
-
   const [userData, setUserData] = useState({
     firstname: "",
   });

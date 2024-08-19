@@ -35,7 +35,7 @@ export const dataMapper = {
     password: string
   ): Promise<void> {
     await client.query(
-      "INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *",
+      "INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4)",
       [firstname, lastname, email, password]
     );
   },
@@ -63,5 +63,30 @@ export const dataMapper = {
       [id]
     );
     return result.rows;
+  },
+
+  /**
+   * Adds flight data for a user based on their email.
+   *
+   * This function inserts a new record into the `flight_log_content` table. It first retrieves the `flight_log_id` by joining the `flight_log` and `users` tables using the provided email. The retrieved `flight_log_id` is then used to insert the flight data.
+   */
+  async addFlightData(
+    email: string,
+    date: Date,
+    flight_number: string,
+    departure: string,
+    arrival: string,
+    flight_time: number,
+    aircraft_name: string
+  ): Promise<void> {
+    await client.query(
+      `INSERT INTO flight_log_content (flight_log_id, date, flight_number, departure, arrival, flight_time, aircraft_name)
+       VALUES (
+         (SELECT fl.id FROM flight_log AS fl
+          JOIN users AS u ON fl.user_id = u.id
+          WHERE u.email = $1),
+         $2, $3, $4, $5, $6, $7)`,
+      [email, date, flight_number, departure, arrival, flight_time, aircraft_name]
+    );
   },
 };

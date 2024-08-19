@@ -22,4 +22,27 @@ export const apiControllers = {
       res.status(401).json({ message: "Unauthorized" });
     }
   },
+
+  async postFlightData(req: Request, res: Response) {
+    if (req.user) {
+      try {
+        const email = req.user.email;
+        const { date, flight_number, departure, arrival, flight_time, aircraft } = req.body;
+        await dataMapper.addFlightData(
+          email,
+          date,
+          flight_number,
+          departure,
+          arrival,
+          flight_time,
+          aircraft
+        );
+        res.status(200).json("Flight data added successfully");
+      } catch (e) {
+        res.status(500).json({ message: "Une erreur est survenue" });
+      }
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
+  },
 };

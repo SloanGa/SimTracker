@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonSubmit from "./Button/ButtonSubmit";
 import ButtonToggle from "./Button/ButtonToggle";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "./Messages/ErrorMessage";
 
 const Login = () => {
   const navigate = useNavigate();

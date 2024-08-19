@@ -1,6 +1,6 @@
 -- Supprimer les tables si elles existent
-DROP TABLE IF EXISTS "flight_log_content";
 DROP TABLE IF EXISTS "flight_log";
+DROP TABLE IF EXISTS "flight_log_content";
 DROP TABLE IF EXISTS "sessions";
 DROP TABLE IF EXISTS "users";
 -- Créer les tables
@@ -18,13 +18,13 @@ CREATE TABLE "flight_log" (
 );
 CREATE TABLE "flight_log_content" (
   "id" SERIAL PRIMARY KEY NOT NULL,
-  "flight_log_id" integer REFERENCES "flight_log"("id") ON DELETE CASCADE,
   "date" varchar,
   "flight_number" varchar,
   "departure" varchar(4),
   "arrival" varchar(4),
   "flight_time" integer,
-  "aircraft_name" varchar
+  "aircraft_name" varchar,
+  "flight_log_id" integer REFERENCES "flight_log"("id") ON DELETE CASCADE,
 );
 CREATE TABLE "sessions" (
   "sid" varchar PRIMARY KEY,

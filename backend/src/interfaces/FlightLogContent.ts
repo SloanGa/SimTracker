@@ -1,10 +1,9 @@
 export interface FlightLogContent {
   flight_log_id: number;
-  date: Date;
+  date: string;
   flight_number: string;
   departure: string;
   arrival: string;
-  alt: string;
   flight_time: number;
   aircraft_name: string;
 }

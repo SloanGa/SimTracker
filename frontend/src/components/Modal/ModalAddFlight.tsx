@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import ButtonSubmit from "../Button/ButtonSubmit";
 import ButtonToggle from "../Button/ButtonToggle";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../Messages/ErrorMessage";
+import SucessMessage from "../Messages/SucessMessage";
 
 const ModalAddFlight = () => {
   const [maxDate, setMaxDate] = useState("");
@@ -11,10 +12,59 @@ const ModalAddFlight = () => {
     setMaxDate(max.toISOString().split("T")[0]);
   }, []);
 
+  const [flightData, setFlightData] = useState({
+    date: "",
+    flight_number: "",
+    departure: "",
+    arrival: "",
+    flight_time: "",
+    aircraft: "",
+  });
+
+  const [flightAdded, setFlightAdded] = useState(false);
+
+  const [errorMessageSign, setErrorMessageSign] = useState("");
+
+  const flightDataSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/flightdata`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(flightData),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        setErrorMessageSign(error.message);
+        return;
+      }
+      setFlightAdded(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFlightData({
+      ...flightData,
+      [name]: value,
+    });
+  };
+
   return (
     <dialog id="my_modal_3" className="modal">
       <div className="modal-box w-11/12 max-w-5xl">
-        <form className="dialog flex flex-col gap-2 w-full lg:gap-4 ">
+        <form
+          className="dialog flex flex-col gap-2 w-full lg:gap-4"
+          onSubmit={flightDataSubmit}
+          method="POST"
+        >
           <div className="flex flex-wrap gap-4 justify-center lg:gap-10">
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
               <label htmlFor="date" className="self-start font-bold">
@@ -27,8 +77,8 @@ const ModalAddFlight = () => {
                 placeholder="17/08/2024"
                 name="date"
                 id="date"
-                // value={formData.firstname}
-                // onChange={handleChange}
+                value={flightData.date}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
@@ -41,8 +91,8 @@ const ModalAddFlight = () => {
                 placeholder="AF68KA"
                 name="flight_number"
                 id="flight_number"
-                // value={formData.firstname}
-                // onChange={handleChange}
+                value={flightData.flight_number}
+                onChange={handleChange}
               />
             </div>
 
@@ -56,8 +106,8 @@ const ModalAddFlight = () => {
                 placeholder="LFMN"
                 name="departure"
                 id="departure"
-                // value={formData.firstname}
-                // onChange={handleChange}
+                value={flightData.departure}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
@@ -70,8 +120,8 @@ const ModalAddFlight = () => {
                 placeholder="LFPO"
                 name="arrival"
                 id="arrival"
-                // value={formData.firstname}
-                // onChange={handleChange}
+                value={flightData.arrival}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
@@ -84,8 +134,8 @@ const ModalAddFlight = () => {
                 placeholder="75"
                 name="flight_time"
                 id="flight_time"
-                // value={formData.firstname}
-                // onChange={handleChange}
+                value={flightData.flight_time}
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
@@ -98,13 +148,13 @@ const ModalAddFlight = () => {
                 placeholder="A320 - F-GKXZ"
                 name="aircraft"
                 id="aircraft"
-                // value={formData.firstname}
-                // onChange={handleChange}
+                value={flightData.aircraft}
+                onChange={handleChange}
               />
             </div>
           </div>
-
-          {/* <ErrorMessage errorMessage={errorMessageSign} /> */}
+          {flightAdded ? <SucessMessage sucessMessage={"Vol ajouté avec succés"} /> : null}
+          {flightAdded ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
           <ButtonSubmit props="Ajouter un vol" />
           <ButtonToggle props="Importer avec SimBrief" />
         </form>

@@ -29,7 +29,7 @@ exports.dataMapper = {
     },
     userCreate(firstname, lastname, email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4) RETURNING *", [firstname, lastname, email, password]);
+            yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4)", [firstname, lastname, email, password]);
         });
     },
     createFlightLogId(email) {
@@ -41,6 +41,16 @@ exports.dataMapper = {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield client_1.default.query("SELECT flc.* FROM flight_log_content AS flc JOIN flight_log AS fl ON flc.flight_log_id = fl.id WHERE fl.user_id = $1;", [id]);
             return result.rows;
+        });
+    },
+    addFlightData(email, date, flight_number, departure, arrival, flight_time, aircraft_name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield client_1.default.query(`INSERT INTO flight_log_content (flight_log_id, date, flight_number, departure, arrival, flight_time, aircraft_name)
+       VALUES (
+         (SELECT fl.id FROM flight_log AS fl
+          JOIN users AS u ON fl.user_id = u.id
+          WHERE u.email = $1),
+         $2, $3, $4, $5, $6, $7)`, [email, date, flight_number, departure, arrival, flight_time, aircraft_name]);
         });
     },
 };
