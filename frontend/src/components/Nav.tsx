@@ -20,7 +20,7 @@ const Nav = () => {
 
   const logOut = async () => {
     try {
-      const res = await fetch("http://localhost:5000/auth/logout", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
         method: "GET",
         credentials: "include",
       });

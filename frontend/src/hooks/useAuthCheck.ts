@@ -4,7 +4,7 @@ const useAuthCheck = (setIsAuthenticated: React.Dispatch<React.SetStateAction<bo
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("http://localhost:5000/auth/user", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
