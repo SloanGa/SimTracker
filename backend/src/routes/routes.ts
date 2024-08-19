@@ -3,7 +3,6 @@ import authRoutes from "./auth.routes";
 import dataRoutes from "./data.routes";
 import userRoutes from "./user.routes";
 import apiRoutes from "./api.routes";
-import { join } from "path";
 
 const router = Router();
 
