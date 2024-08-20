@@ -57,10 +57,10 @@ export const dataMapper = {
    *
    * This function joins the `flight_log_content` and `flight_log` tables to fetch records where the `user_id` matches the user associated with the provided id.
    */
-  async getFlightData(id: number): Promise<FlightLogContent[]> {
+  async getFlightData(id: number, offset: number): Promise<FlightLogContent[]> {
     const result = await client.query(
-      "SELECT flc.* FROM flight_log_content AS flc JOIN flight_log AS fl ON flc.flight_log_id = fl.id WHERE fl.user_id = $1;",
-      [id]
+      `SELECT flc.* FROM flight_log_content AS flc JOIN flight_log AS fl ON flc.flight_log_id = fl.id WHERE fl.user_id = $1 ORDER BY flc.id DESC LIMIT 10 OFFSET $2;`,
+      [id, offset]
     );
     return result.rows;
   },

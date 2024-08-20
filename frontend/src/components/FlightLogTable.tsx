@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { useData } from "../context/DataContext";
+
 import ButtonToggle from "./Button/ButtonToggle";
 import ModalAddFlight from "./Modal/ModalAddFlight";
-import { useData } from "../context/DataContext";
+import { Pagination } from "./Pagination";
 
 const FlightLogTable = () => {
   const [flightData, setFlightData] = useState([]);
@@ -32,6 +34,71 @@ const FlightLogTable = () => {
 
     fetchFlightData();
   }, [flightAdded]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(Number);
+
+  const fetchNextFlightData = async () => {
+    try {
+      const page = currentPage + 1;
+
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/nextflightdata?currentPage=${page}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        if (res.status === 403) {
+          setMaxPage(currentPage);
+          return;
+        }
+        console.log("error"); //Inserer une vue d'erreur
+        return;
+      }
+
+      const data = await res.json();
+      setFlightData(data);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchPreviousFlightData = async () => {
+    if (currentPage > 1) {
+      try {
+        const page = currentPage - 1;
+        setCurrentPage(page);
+
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/nextflightdata?currentPage=${page}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+
+        if (!res.ok) {
+          console.log("error"); //Inserer une vue d'erreur
+          return;
+        }
+
+        const data = await res.json();
+        setFlightData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   const [userData, setUserData] = useState({
     firstname: "",
@@ -134,6 +201,7 @@ const FlightLogTable = () => {
             </tbody>
           </table>
         </div>
+
         <div className="flex flex-col gap-4 lg:hidden">
           {flightData.map((flight: any, index: number) => {
             const formattedFlight = formatFlightData(flight);
@@ -171,6 +239,13 @@ const FlightLogTable = () => {
             );
           })}
         </div>
+        <Pagination
+          currentPage={currentPage}
+          onNext={fetchNextFlightData}
+          onPrevious={fetchPreviousFlightData}
+          disabledPrevious={currentPage === 1}
+          disabledNext={currentPage === maxPage}
+        />
       </div>
     </div>
   );
