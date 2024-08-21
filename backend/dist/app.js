@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+dotenv_1.default.config({
+    path: `.env.${process.env.NODE_ENV}`,
+});
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./routes/routes"));
@@ -25,6 +27,9 @@ if (process.env.NODE_ENV === "production") {
     app.use(express_1.default.static(process.env.REACT_APP_FRONTEND_BUILD_PATH || ""));
     console.log(process.env.REACT_APP_FRONTEND_BUILD_PATH);
     app.get("*", (_req, res) => {
+        res.sendFile(process.env.REACT_APP_FRONTEND_BUILD_PATH || "");
+    });
+    app.get("/login", (_req, res) => {
         res.sendFile(process.env.REACT_APP_FRONTEND_BUILD_PATH || "");
     });
 }

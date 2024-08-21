@@ -1,12 +1,14 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
 const pg_1 = require("pg");
-const client = new pg_1.Client(process.env.PG_URL);
+const client = new pg_1.Client({
+    host: process.env.HOST_DB,
+    database: process.env.NAME_DB,
+    user: process.env.USER_DB,
+    password: process.env.PASSWORD_DB,
+    port: 5432,
+    ssl: true,
+});
 client.connect((err) => {
     if (err) {
         console.log(err);
