@@ -66,5 +66,19 @@ exports.apiControllers = {
             }
         });
     },
+    deleteFlight(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = Number(req.params.id);
+            try {
+                yield dataMapper_1.dataMapper.deleteFlightData(id);
+                res.status(200).json("Flight data has deleted");
+            }
+            catch (e) {
+                res
+                    .status(500)
+                    .json({ message: "Une erreur est survenue lors de la suppression. Veuillez réesayer" });
+            }
+        });
+    },
 };
 //# sourceMappingURL=api.controllers.js.map

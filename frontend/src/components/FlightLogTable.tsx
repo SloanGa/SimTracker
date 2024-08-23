@@ -168,15 +168,6 @@ const FlightLogTable = () => {
     setSelectedFlight(flight);
   };
 
-  useEffect(() => {
-    if (selectedFlight) {
-      const modalElement = document.getElementById("showFlight") as HTMLDialogElement;
-      if (modalElement) {
-        modalElement.showModal();
-      }
-    }
-  }, [selectedFlight]);
-
   return (
     <div className="w-11/12 m-auto ">
       <h2 className="p-6 text-center font-medium text-xl ">
@@ -225,20 +216,31 @@ const FlightLogTable = () => {
             </tbody>
           </table>
         </div>
+
+        {/*}
+        Modal show flight
+        {*/}
+
         <dialog id="showFlight" className="modal">
-          <div className="modal-box w-11/12 max-w-5xl">
-            <FlightLogBox flight={selectedFlight} formatFlightData={formatFlightData} />;
+          <div className="modal-box w-full">
+            <FlightLogBox flight={selectedFlight} formatFlightData={formatFlightData} />
             <form method="dialog">
               {/* if there is a button, it will close the modal */}
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-1 top-1">✕</button>
             </form>
           </div>
         </dialog>
+
+        {/*}
+        Mobile view
+        {*/}
+
         <div className="flex flex-col gap-4 lg:hidden">
-          {flightData.map((flight) => (
-            <FlightLogBox flight={flight} formatFlightData={formatFlightData} />
+          {flightData.map((flight: FlightData) => (
+            <FlightLogBox flight={flight} formatFlightData={formatFlightData} key={flight.id} />
           ))}
         </div>
+
         <Pagination
           currentPage={currentPage}
           onNext={fetchNextFlightData}

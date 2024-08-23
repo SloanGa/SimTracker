@@ -89,4 +89,8 @@ export const dataMapper = {
       [email, date, flight_number, departure, arrival, flight_time, aircraft_name]
     );
   },
+
+  async deleteFlightData(id: number): Promise<void> {
+    await client.query(`DELETE FROM flight_log_content WHERE id=$1 `, [id]);
+  },
 };

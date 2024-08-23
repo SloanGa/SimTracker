@@ -71,4 +71,16 @@ export const apiControllers = {
       res.status(401).json({ message: "Unauthorized" });
     }
   },
+
+  async deleteFlight(req: Request, res: Response) {
+    const id = Number(req.params.id);
+    try {
+      await dataMapper.deleteFlightData(id);
+      res.status(200).json("Flight data has deleted");
+    } catch (e) {
+      res
+        .status(500)
+        .json({ message: "Une erreur est survenue lors de la suppression. Veuillez réesayer" });
+    }
+  },
 };

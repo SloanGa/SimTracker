@@ -53,5 +53,10 @@ exports.dataMapper = {
          $2, $3, $4, $5, $6, $7)`, [email, date, flight_number, departure, arrival, flight_time, aircraft_name]);
         });
     },
+    deleteFlightData(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield client_1.default.query(`DELETE FROM flight_log_content WHERE id=$1 `, [id]);
+        });
+    },
 };
 //# sourceMappingURL=dataMapper.js.map

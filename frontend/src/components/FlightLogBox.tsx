@@ -1,4 +1,7 @@
+import ButtonIcon from "./Button/ButtonIcon";
+import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FlightData } from "./FlightLogTable";
+import ModalConfirm from "./Modal/ModalConfirm";
 
 interface FlightLogBoxProps {
   onClick?: () => void;
@@ -10,13 +13,27 @@ interface FlightLogBoxProps {
 }
 
 const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData }) => {
+  // const [flightId, setFlightId] = useState(null)
+
+  //     const  deleteFlight = async (flight_id) => {
+  //   setFlightId(key)
+  //         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/deleteflight/${flight_id}`,
+
+  //         )
+  //       closeModal();
+  //     };
+
+  //     const closeModal = () => {
+  //       (document.getElementById("confirm") as HTMLDialogElement).close();
+  //     };
+
   const formattedFlight = formatFlightData(flight);
   if (!flight) {
     return null;
   }
+
   return (
     <div
-      key={flight.id}
       className={`flex flex-col gap-2 p-4 rounded-lg text-center text-lg 
           ${flight.id % 2 === 0 ? "bg-customZebraEven" : "bg-customZebraOdd"} shadow-lg`}
     >
@@ -43,6 +60,23 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
       <div className="flex justify-between">
         <span className="font-bold">Avion:</span>
         <span>{flight.aircraft_name}</span>
+      </div>
+      <div className="flex gap-10 justify-center">
+        <ButtonIcon
+          onClick={() => {
+            console.log("update");
+          }}
+          icon={faPenToSquare}
+          label=""
+          fontSize=""
+        />
+        <ModalConfirm flightId={flight.id} />
+        <ButtonIcon
+          onClick={() => (document.getElementById("confirm") as HTMLDialogElement)?.showModal()}
+          icon={faTrash}
+          label=""
+          fontSize=""
+        />
       </div>
     </div>
   );

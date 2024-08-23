@@ -1,8 +1,8 @@
-interface sucessMessageProps {
+interface SucessMessageProps {
   sucessMessage: string | null;
 }
 
-const sucessMessage: React.FC<sucessMessageProps> = ({ sucessMessage }) => {
+const SucessMessage: React.FC<SucessMessageProps> = ({ sucessMessage }) => {
   if (!sucessMessage) return null;
   return (
     <div>
@@ -11,4 +11,4 @@ const sucessMessage: React.FC<sucessMessageProps> = ({ sucessMessage }) => {
   );
 };
 
-export default sucessMessage;
+export default SucessMessage;

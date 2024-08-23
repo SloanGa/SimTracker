@@ -56,7 +56,7 @@ const ModalAddFlight = () => {
         setErrorHandling(true);
         setTimeout(() => {
           setErrorHandling(false);
-        }, 4000);
+        }, 5000);
 
         setErrorMessageSign(error.message);
         return;
@@ -65,7 +65,7 @@ const ModalAddFlight = () => {
       setFlightAdded(true);
       setTimeout(() => {
         setFlightAdded(false);
-      }, 3000);
+      }, 5000);
 
       clearFlightData();
     } catch (error) {
