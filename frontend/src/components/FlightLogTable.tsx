@@ -3,7 +3,17 @@ import { useData } from "../context/DataContext";
 
 import ButtonToggle from "./Button/ButtonToggle";
 import ModalAddFlight from "./Modal/ModalAddFlight";
+import FlightLogBox from "./FlightLogBox";
 import { Pagination } from "./Pagination";
+export interface FlightData {
+  id: number;
+  date: string;
+  flight_number: string;
+  departure: string;
+  arrival: string;
+  flight_time: number;
+  aircraft_name: string;
+}
 
 const FlightLogTable = () => {
   const [flightData, setFlightData] = useState([]);
@@ -107,7 +117,7 @@ const FlightLogTable = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/user/getuser", {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/user/getuser`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -127,17 +137,13 @@ const FlightLogTable = () => {
     fetchUserData();
   }, []);
 
-  interface FlightData {
-    id: number;
-    date: string;
-    flight_number: string;
-    departure: string;
-    arrival: string;
-    flight_time: number;
-    aircraft_name: string;
-  }
-
   const formatFlightData = (flight: any) => {
+    if (!flight || !flight.date) {
+      return {
+        formattedDate: "Date non disponible",
+        flightTimeFormatted: "Temps de vol non disponible",
+      };
+    }
     const date = new Date(flight.date);
     const formattedDate = date.toLocaleDateString("fr-FR", {
       day: "2-digit",
@@ -156,6 +162,21 @@ const FlightLogTable = () => {
     };
   };
 
+  const [selectedFlight, setSelectedFlight] = useState<FlightData | null>(null);
+
+  const selectFlight = (flight: FlightData) => {
+    setSelectedFlight(flight);
+  };
+
+  useEffect(() => {
+    if (selectedFlight) {
+      const modalElement = document.getElementById("showFlight") as HTMLDialogElement;
+      if (modalElement) {
+        modalElement.showModal();
+      }
+    }
+  }, [selectedFlight]);
+
   return (
     <div className="w-11/12 m-auto ">
       <h2 className="p-6 text-center font-medium text-xl ">
@@ -165,10 +186,9 @@ const FlightLogTable = () => {
       <div className="flex flex-col gap-6">
         <ButtonToggle
           props="Ajouter un vol"
-          onClick={() => (document.getElementById("my_modal_3") as HTMLDialogElement)?.showModal()}
+          onClick={() => (document.getElementById("addFlight") as HTMLDialogElement)?.showModal()}
         />
         <ModalAddFlight />
-
         <div className="hidden lg:flex lg:overflow-x-auto">
           <table className="table table-zebra table-fixed p-8 m-auto text-center">
             <thead>
@@ -187,7 +207,11 @@ const FlightLogTable = () => {
                 return (
                   <tr
                     key={flight.id}
-                    className="text-lg even:bg-customZebraEven odd:bg-customZebraOdd"
+                    className="text-lg even:bg-customZebraEven odd:bg-customZebraOdd cursor-pointer"
+                    onClick={() => {
+                      selectFlight(flight);
+                      (document.getElementById("showFlight") as HTMLDialogElement)?.showModal();
+                    }}
                   >
                     <td>{formattedFlight.formattedDate}</td>
                     <td>{flight.flight_number}</td>
@@ -201,43 +225,19 @@ const FlightLogTable = () => {
             </tbody>
           </table>
         </div>
-
+        <dialog id="showFlight" className="modal">
+          <div className="modal-box w-11/12 max-w-5xl">
+            <FlightLogBox flight={selectedFlight} formatFlightData={formatFlightData} />;
+            <form method="dialog">
+              {/* if there is a button, it will close the modal */}
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+          </div>
+        </dialog>
         <div className="flex flex-col gap-4 lg:hidden">
-          {flightData.map((flight: any, index: number) => {
-            const formattedFlight = formatFlightData(flight);
-            return (
-              <div
-                key={flight.id}
-                className={`flex flex-col gap-2 p-4 rounded-lg text-center text-lg 
-          ${index % 2 === 0 ? "bg-customZebraEven" : "bg-customZebraOdd"} shadow-lg`}
-              >
-                <div className="flex justify-between">
-                  <span className="font-bold">Date:</span>
-                  <span>{formattedFlight.formattedDate}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-bold">Numéro de vol:</span>
-                  <span>{flight.flight_number}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-bold">Départ:</span>
-                  <span>{flight.departure}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-bold">Arrivée:</span>
-                  <span>{flight.arrival}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-bold">Temps de vol:</span>
-                  <span>{formattedFlight.flightTimeFormatted}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-bold">Avion:</span>
-                  <span>{flight.aircraft_name}</span>
-                </div>
-              </div>
-            );
-          })}
+          {flightData.map((flight) => (
+            <FlightLogBox flight={flight} formatFlightData={formatFlightData} />
+          ))}
         </div>
         <Pagination
           currentPage={currentPage}

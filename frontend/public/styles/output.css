@@ -1872,6 +1872,10 @@ html{
   table-layout: fixed;
 }
 
+.cursor-pointer{
+  cursor: pointer;
+}
+
 .flex-col{
   flex-direction: column;
 }

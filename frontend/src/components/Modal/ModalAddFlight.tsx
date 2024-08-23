@@ -82,7 +82,7 @@ const ModalAddFlight = () => {
   };
 
   return (
-    <dialog id="my_modal_3" className="modal">
+    <dialog id="addFlight" className="modal">
       <div className="modal-box w-11/12 max-w-5xl">
         <form
           className="dialog flex flex-col gap-2 w-full lg:gap-4"
