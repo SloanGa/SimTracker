@@ -1,15 +1,13 @@
-import { faBars, faGear, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSignOutAlt, faHome, faGear } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import ButtonIcon from "./Button/ButtonIcon";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Nav = () => {
   const navigate = useNavigate();
-  const handleNavigate = () => {
-    navigate("/settings");
-  };
 
   const { setIsAuthenticated } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
@@ -34,11 +32,19 @@ const Nav = () => {
     }
   };
 
+  const location = useLocation();
+  const icon = location.pathname === "/" ? faGear : faHome;
+  const path = location.pathname === "/" ? "/settings" : "/";
+
+  const handleNavigate = () => {
+    navigate(path);
+  };
+
   return (
     <nav className="pb-4">
       <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:justify-between lg:items-center">
         <li className="hidden lg:flex">
-          <ButtonIcon fontSize="fa-2xl" onClick={handleNavigate} icon={faGear} label="" />
+          <ButtonIcon fontSize="fa-2xl" onClick={handleNavigate} icon={icon} label="" />
         </li>
 
         <li className="lg:w-2/6 lg:flex lg:justify-center">

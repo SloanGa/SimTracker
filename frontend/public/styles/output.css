@@ -1840,6 +1840,10 @@ html{
   height: 1rem;
 }
 
+.h-1\/4{
+  height: 25%;
+}
+
 .w-1\/4{
   width: 25%;
 }
