@@ -36,9 +36,9 @@ const Nav = () => {
 
   return (
     <nav className="pb-4">
-      <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:w-screen lg:justify-between lg:items-center">
+      <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:justify-between lg:items-center">
         <li className="hidden lg:flex">
-          <ButtonIcon onClick={handleNavigate} icon={faGear} label="" />
+          <ButtonIcon fontSize="fa-2xl" onClick={handleNavigate} icon={faGear} label="" />
         </li>
 
         <li className="lg:w-2/6 lg:flex lg:justify-center">
@@ -48,11 +48,11 @@ const Nav = () => {
         </li>
 
         <li className="hidden lg:flex ">
-          <ButtonIcon onClick={logOut} icon={faSignOutAlt} label="" />
+          <ButtonIcon fontSize="fa-2xl" onClick={logOut} icon={faSignOutAlt} label="" />
         </li>
 
         <li className="lg:hidden">
-          <ButtonIcon onClick={toggleClick} icon={faBars} label="" />
+          <ButtonIcon fontSize="fa-2xl" onClick={toggleClick} icon={faBars} label="" />
         </li>
         {isClicked ? (
           <BurgerMenu onLogOut={logOut} onClose={toggleClick} onNavigate={handleNavigate} />

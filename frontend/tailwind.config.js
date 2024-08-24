@@ -10,6 +10,8 @@ module.exports = {
         textBtn: "#fff",
         primary: "#1F2937",
         btnHover: "#8BD9D9",
+        customZebraOdd: "#d1d5db", // Couleur des lignes impaires
+        customZebraEven: "#9ca3af", // Couleur des lignes paires
       },
       boxShadow: {
         custom: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",

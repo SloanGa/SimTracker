@@ -2,7 +2,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonSubmit from "./Button/ButtonSubmit";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "./Messages/ErrorMessage";
 
 const Signup = () => {
   const navigate = useNavigate();

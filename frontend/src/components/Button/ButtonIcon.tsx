@@ -5,12 +5,13 @@ interface ButtonProps {
   onClick: () => void;
   icon: IconDefinition;
   label: string;
+  fontSize: string;
 }
 
-const ButtonIcon: React.FC<ButtonProps> = ({ onClick, icon, label }) => {
+const ButtonIcon: React.FC<ButtonProps> = ({ onClick, icon, label, fontSize }) => {
   return (
     <button
-      className="text-3xl hover:text-btn ease-out duration-300"
+      className={`hover:text-btn ease-out duration-300 ${fontSize}`}
       onClick={onClick}
       aria-label={label}
     >

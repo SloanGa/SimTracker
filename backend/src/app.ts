@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`, // Cela charge automatiquement le bon fichier selon NODE_ENV
+});
 
 import express, { Request, Response } from "express";
 import cors from "cors";
@@ -31,6 +33,10 @@ if (process.env.NODE_ENV === "production") {
   console.log(process.env.REACT_APP_FRONTEND_BUILD_PATH);
 
   app.get("*", (_req: Request, res: Response) => {
+    res.sendFile(process.env.REACT_APP_FRONTEND_BUILD_PATH || "");
+  });
+
+  app.get("/login", (_req: Request, res: Response) => {
     res.sendFile(process.env.REACT_APP_FRONTEND_BUILD_PATH || "");
   });
 }

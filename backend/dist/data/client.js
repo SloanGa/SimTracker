@@ -4,7 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+dotenv_1.default.config({
+    path: `.env.${process.env.NODE_ENV}`,
+});
 const pg_1 = require("pg");
 const client = new pg_1.Client(process.env.PG_URL);
 client.connect((err) => {
