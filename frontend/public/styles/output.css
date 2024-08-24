@@ -2139,10 +2139,6 @@ html{
     width: 33.333333%;
   }
 
-  .lg\:w-screen{
-    width: 100vw;
-  }
-
   .lg\:items-center{
     align-items: center;
   }
