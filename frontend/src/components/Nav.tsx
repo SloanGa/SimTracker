@@ -36,7 +36,7 @@ const Nav = () => {
 
   return (
     <nav className="pb-4">
-      <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:w-screen lg:justify-between lg:items-center">
+      <ul className="  bg-primary text-white p-8 flex justify-between items-center lg:justify-between lg:items-center">
         <li className="hidden lg:flex">
           <ButtonIcon fontSize="fa-2xl" onClick={handleNavigate} icon={faGear} label="" />
         </li>

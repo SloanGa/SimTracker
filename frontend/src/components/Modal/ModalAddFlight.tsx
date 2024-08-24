@@ -179,7 +179,7 @@ const ModalAddFlight = () => {
           </div>
           {flightAdded ? <SucessMessage sucessMessage={"Vol ajouté avec succés"} /> : null}
           {errorHandling ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
-          <ButtonSubmit props="Ajouter un vol" />
+          <ButtonSubmit props={"Ajouter un vol"} />
           <ButtonToggle props="Importer avec SimBrief" />
         </form>
         <form method="dialog">

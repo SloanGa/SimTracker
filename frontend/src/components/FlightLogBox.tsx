@@ -1,5 +1,5 @@
 import ButtonIcon from "./Button/ButtonIcon";
-import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FlightData } from "./FlightLogTable";
 import ModalConfirm from "./Modal/ModalConfirm";
 
@@ -13,20 +13,6 @@ interface FlightLogBoxProps {
 }
 
 const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData }) => {
-  // const [flightId, setFlightId] = useState(null)
-
-  //     const  deleteFlight = async (flight_id) => {
-  //   setFlightId(key)
-  //         const response = await fetch(`${process.env.REACT_APP_API_URL}/api/deleteflight/${flight_id}`,
-
-  //         )
-  //       closeModal();
-  //     };
-
-  //     const closeModal = () => {
-  //       (document.getElementById("confirm") as HTMLDialogElement).close();
-  //     };
-
   const formattedFlight = formatFlightData(flight);
   if (!flight) {
     return null;
@@ -62,14 +48,6 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
         <span>{flight.aircraft_name}</span>
       </div>
       <div className="flex gap-10 justify-center">
-        <ButtonIcon
-          onClick={() => {
-            console.log("update");
-          }}
-          icon={faPenToSquare}
-          label=""
-          fontSize=""
-        />
         <ModalConfirm flightId={flight.id} />
         <ButtonIcon
           onClick={() => (document.getElementById("confirm") as HTMLDialogElement)?.showModal()}
