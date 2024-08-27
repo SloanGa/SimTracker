@@ -112,14 +112,13 @@ const FlightLogTable = () => {
         }
         const data = await res.json();
         setUserData(data);
-        console.log(data);
       } catch (error) {
         console.error("Il y a eu un problème avec la requête fetch:", error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [setUserData]);
 
   const formatFlightData = (flight: any) => {
     if (!flight || !flight.date) {

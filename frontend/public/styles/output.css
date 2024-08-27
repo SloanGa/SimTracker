@@ -751,6 +751,23 @@ html{
   --tw-contain-style:  ;
 }
 
+.avatar{
+  position: relative;
+  display: inline-flex;
+}
+
+.avatar > div{
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.avatar img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
 .avatar.placeholder > div{
   display: flex;
   align-items: center;
@@ -1138,6 +1155,14 @@ html{
 .table-zebra tbody tr:nth-child(even) :where(.table-pin-cols tr th){
   --tw-bg-opacity: 1;
   background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity)));
+}
+
+.avatar-group :where(.avatar){
+  overflow: hidden;
+  border-radius: 9999px;
+  border-width: 4px;
+  --tw-border-opacity: 1;
+  border-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-border-opacity)));
 }
 
 .btm-nav > *.disabled,
@@ -1652,6 +1677,40 @@ html{
   grid-template-rows: repeat(1, minmax(0, 1fr));
 }
 
+.avatar.online:before{
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-su,oklch(var(--su)/var(--tw-bg-opacity)));
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: var(--fallback-b1,oklch(var(--b1)/1));
+  width: 15%;
+  height: 15%;
+  top: 7%;
+  right: 7%;
+}
+
+.avatar.offline:before{
+  content: "";
+  position: absolute;
+  z-index: 10;
+  display: block;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b3,oklch(var(--b3)/var(--tw-bg-opacity)));
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: var(--fallback-b1,oklch(var(--b1)/1));
+  width: 15%;
+  height: 15%;
+  top: 7%;
+  right: 7%;
+}
+
 .join.join-vertical > :where(*:not(:first-child)){
   margin-left: 0px;
   margin-right: 0px;
@@ -1794,6 +1853,14 @@ html{
   margin: auto;
 }
 
+.m-2{
+  margin: 0.5rem;
+}
+
+.m-6{
+  margin: 1.5rem;
+}
+
 .mx-auto{
   margin-left: auto;
   margin-right: auto;
@@ -1868,6 +1935,10 @@ html{
   width: max-content;
 }
 
+.w-1\/6{
+  width: 16.666667%;
+}
+
 .max-w-5xl{
   max-width: 64rem;
 }
@@ -1932,6 +2003,10 @@ html{
   border-radius: 0.5rem;
 }
 
+.rounded-full{
+  border-radius: 9999px;
+}
+
 .rounded-tl-xl{
   border-top-left-radius: 0.75rem;
 }
@@ -1968,6 +2043,11 @@ html{
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-slate-700{
+  --tw-bg-opacity: 1;
+  background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
 .p-4{
