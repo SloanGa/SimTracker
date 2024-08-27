@@ -4,21 +4,13 @@ import { useData } from "../context/DataContext";
 import ButtonToggle from "./Button/ButtonToggle";
 import ModalAddFlight from "./Modal/ModalAddFlight";
 import FlightLogBox from "./FlightLogBox";
-import { Pagination } from "./Pagination";
-export interface FlightData {
-  id: number;
-  date: string;
-  flight_number: string;
-  departure: string;
-  arrival: string;
-  flight_time: number;
-  aircraft_name: string;
-}
+import Pagination from "./Pagination";
+import { FlightData } from "../interfaces/FlightData.interface";
 
 const FlightLogTable = () => {
   const [flightData, setFlightData] = useState([]);
 
-  const { flightAdded } = useData();
+  const { flightAdded, userData, setUserData } = useData();
 
   useEffect(() => {
     const fetchFlightData = async () => {
@@ -46,7 +38,6 @@ const FlightLogTable = () => {
   }, [flightAdded]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(Number);
 
   const fetchNextFlightData = async () => {
     try {
@@ -64,10 +55,6 @@ const FlightLogTable = () => {
       );
 
       if (!res.ok) {
-        if (res.status === 403) {
-          setMaxPage(currentPage);
-          return;
-        }
         console.log("error"); //Inserer une vue d'erreur
         return;
       }
@@ -110,10 +97,6 @@ const FlightLogTable = () => {
     }
   };
 
-  const [userData, setUserData] = useState({
-    firstname: "",
-  });
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -128,7 +111,8 @@ const FlightLogTable = () => {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setUserData({ firstname: data.firstname });
+        setUserData(data);
+        console.log(data);
       } catch (error) {
         console.error("Il y a eu un problème avec la requête fetch:", error);
       }
@@ -246,7 +230,7 @@ const FlightLogTable = () => {
           onNext={fetchNextFlightData}
           onPrevious={fetchPreviousFlightData}
           disabledPrevious={currentPage === 1}
-          disabledNext={currentPage === maxPage}
+          disabledNext={flightData.length < 10}
         />
       </div>
     </div>

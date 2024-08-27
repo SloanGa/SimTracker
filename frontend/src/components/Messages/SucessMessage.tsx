@@ -1,8 +1,4 @@
-interface SucessMessageProps {
-  sucessMessage: string | null;
-}
-
-const SucessMessage: React.FC<SucessMessageProps> = ({ sucessMessage }) => {
+const SucessMessage = ({ sucessMessage }: { sucessMessage: string }) => {
   if (!sucessMessage) return null;
   return (
     <div>

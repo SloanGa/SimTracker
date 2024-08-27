@@ -1,16 +1,7 @@
 import ButtonIcon from "./Button/ButtonIcon";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FlightData } from "./FlightLogTable";
 import ModalConfirm from "./Modal/ModalConfirm";
-
-interface FlightLogBoxProps {
-  onClick?: () => void;
-  flight: FlightData | null;
-  formatFlightData: (flight: any) => {
-    formattedDate: string;
-    flightTimeFormatted: string;
-  };
-}
+import { FlightLogBoxProps } from "../interfaces/FlightLogBoxPRops.interface";
 
 const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData }) => {
   const formattedFlight = formatFlightData(flight);

@@ -18,7 +18,7 @@ exports.userController = {
                 if (req.user) {
                     const user = yield dataMapper_1.dataMapper.findUserPerEmail(req.user.email);
                     if (user) {
-                        res.status(200).json({ firstname: user.firstname });
+                        res.status(200).json(user);
                     }
                 }
                 else {

@@ -7,7 +7,7 @@ export const userController = {
       if (req.user) {
         const user = await dataMapper.findUserPerEmail(req.user.email);
         if (user) {
-          res.status(200).json({ firstname: user.firstname });
+          res.status(200).json(user);
         }
       } else {
         res.status(401).json({ message: "Utilisateur non authentifié" });

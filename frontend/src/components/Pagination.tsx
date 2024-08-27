@@ -1,12 +1,6 @@
-interface PaginationProps {
-  onPrevious: () => void;
-  onNext: () => void;
-  currentPage: number;
-  disabledPrevious: boolean;
-  disabledNext: boolean;
-}
+import { PaginationProps } from "../interfaces/PaginationProps.interface";
 
-export const Pagination: React.FC<PaginationProps> = ({
+const Pagination: React.FC<PaginationProps> = ({
   onPrevious,
   onNext,
   currentPage,
@@ -33,3 +27,5 @@ export const Pagination: React.FC<PaginationProps> = ({
     </div>
   );
 };
+
+export default Pagination;

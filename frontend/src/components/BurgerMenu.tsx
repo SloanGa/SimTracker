@@ -1,12 +1,7 @@
 import { faGear, faXmark, faSignOutAlt, faHome } from "@fortawesome/free-solid-svg-icons";
 import ButtonIcon from "./Button/ButtonIcon";
 import { useLocation } from "react-router-dom";
-
-interface BurgerProps {
-  onClose: () => void;
-  onLogOut: () => void;
-  onNavigate: () => void;
-}
+import { BurgerProps } from "../interfaces/BurgerProps.interface";
 
 const BurgerMenu: React.FC<BurgerProps> = ({ onClose, onLogOut, onNavigate }) => {
   const location = useLocation();

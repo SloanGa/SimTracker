@@ -17,11 +17,6 @@ export const apiControllers = {
         const offset = (Number(currentPage) - 1) * 10;
         const flightData = await dataMapper.getFlightData(req.user.id, offset);
 
-        if (flightData.length === 0) {
-          res.status(403).json("No data left");
-          return;
-        }
-
         res.status(200).json(flightData);
       } catch {
         res.status(500).json({ message: "Une erreur est survenue" });
