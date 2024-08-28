@@ -4,19 +4,18 @@ import ErrorMessage from "../Messages/ErrorMessage";
 import { ModalConfirmProps } from "../../interfaces/ModalConfirmProps";
 
 const ModalConfirm: React.FC<ModalConfirmProps> = ({
-  onDeleteFlight,
+  onDelete,
   onCloseModals,
   errorHandling,
   errorMessageDelete,
+  text,
 }) => {
   return (
     <dialog id="confirm" className="modal ">
-      <div className="modal-box">
-        <p className="py-4 font-bold ">
-          Etes-vous sûr de vouloir supprimer les données de ce vol ?
-        </p>
+      <div className="modal-box flex flex-col items-center">
+        <p className="py-4 font-bold text-center ">{text}</p>
         <div>
-          <ButtonSubmit props={"Supprimer"} onClick={onDeleteFlight} />
+          <ButtonSubmit props={"Supprimer"} onClick={onDelete} />
         </div>
         <ButtonToggle props={"Fermer"} onClick={onCloseModals} />
         {errorHandling ? <ErrorMessage errorMessage={errorMessageDelete} /> : null}

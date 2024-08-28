@@ -1,6 +1,7 @@
 export interface ModalConfirmProps {
-  onDeleteFlight: () => Promise<void>;
+  onDelete: () => Promise<void>;
   onCloseModals: () => void;
   errorHandling: boolean;
   errorMessageDelete: string;
+  text: string;
 }

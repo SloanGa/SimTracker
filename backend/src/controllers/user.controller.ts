@@ -16,4 +16,18 @@ export const userController = {
       res.status(500).json({ message: "Une erreur est survenue" });
     }
   },
+
+  async deleteUser(req: Request, res: Response) {
+    try {
+      if (req.user) {
+        await dataMapper.deleteUser(Number(req.user.id));
+        req.logout(() => {
+          res.status(200).json("User has deleted");
+          return;
+        });
+      }
+    } catch {
+      res.status(500).json({ message: "Une erreur est survenue" });
+    }
+  },
 };

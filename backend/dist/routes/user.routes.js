@@ -4,5 +4,6 @@ const express_1 = require("express");
 const user_controller_1 = require("../controllers/user.controller");
 const router = (0, express_1.Router)();
 router.get("/getuser", user_controller_1.userController.getUser);
+router.delete("/deleteuser/:id(\\d+)", user_controller_1.userController.deleteUser);
 exports.default = router;
 //# sourceMappingURL=user.routes.js.map

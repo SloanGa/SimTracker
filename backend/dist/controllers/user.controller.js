@@ -30,5 +30,21 @@ exports.userController = {
             }
         });
     },
+    deleteUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (req.user) {
+                    yield dataMapper_1.dataMapper.deleteUser(Number(req.user.id));
+                    req.logout(() => {
+                        res.status(200).json("User has deleted");
+                        return;
+                    });
+                }
+            }
+            catch (_a) {
+                res.status(500).json({ message: "Une erreur est survenue" });
+            }
+        });
+    },
 };
 //# sourceMappingURL=user.controller.js.map

@@ -41,6 +41,15 @@ export const dataMapper = {
   },
 
   /**
+   * Deletes a user from the database by their ID.
+   *
+   * This function removes a user from the `users` table based on the provided user ID.
+   */
+  async deleteUser(id: number): Promise<void> {
+    await client.query("DELETE FROM users WHERE id = $1", [id]);
+  },
+
+  /**
    * Creates a new flight log entry for the user with the specified email.
    *
    * This function inserts a record into the flight_log table using the user's ID on signup.,

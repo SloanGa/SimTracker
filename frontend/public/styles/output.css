@@ -1931,6 +1931,14 @@ html{
   width: max-content;
 }
 
+.w-1\/2{
+  width: 50%;
+}
+
+.w-1\/3{
+  width: 33.333333%;
+}
+
 .max-w-5xl{
   max-width: 64rem;
 }
@@ -2095,6 +2103,10 @@ html{
   text-align: center;
 }
 
+.text-justify{
+  text-align: justify;
+}
+
 .font-main{
   font-family: Open Sans, sans-serif;
 }
@@ -2186,6 +2198,12 @@ html{
   color: rgb(245 158 11 / var(--tw-text-opacity));
 }
 
+@media (min-width: 768px){
+  .md\:w-1\/4{
+    width: 25%;
+  }
+}
+
 @media (min-width: 1024px){
   .lg\:flex{
     display: flex;
@@ -2209,6 +2227,10 @@ html{
 
   .lg\:w-2\/6{
     width: 33.333333%;
+  }
+
+  .lg\:w-1\/6{
+    width: 16.666667%;
   }
 
   .lg\:flex-row{

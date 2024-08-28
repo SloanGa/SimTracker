@@ -17,7 +17,7 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
 
   const deleteFlight = async () => {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/api/deleteflight/${flight.id}`, {
-      method: "GET",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -82,12 +82,6 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
         <span>{flight.aircraft_name}</span>
       </div>
       <div className="flex gap-10 justify-center">
-        <ModalConfirm
-          onCloseModals={closeModals}
-          onDeleteFlight={deleteFlight}
-          errorHandling={errorHandling}
-          errorMessageDelete={errorMessageDelete}
-        />
         <ButtonIcon
           onClick={() => (document.getElementById("confirm") as HTMLDialogElement)?.showModal()}
           icon={faTrash}
@@ -95,6 +89,13 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
           fontSize=""
         />
       </div>
+      <ModalConfirm
+        onCloseModals={closeModals}
+        onDelete={deleteFlight}
+        errorHandling={errorHandling}
+        errorMessageDelete={errorMessageDelete}
+        text="Êtes-vous sûr de vouloir supprimer ce vol ?"
+      />
     </div>
   );
 };
