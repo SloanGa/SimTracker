@@ -23,7 +23,7 @@ const Profil = () => {
       )}
 
       <p>{userData.firstname}</p>
-      <h1>{userData.lastname}</h1>
+      <p>{userData.lastname}</p>
       <ButtonToggle props={"Modifier le profil"} />
       <ButtonSubmit props={"Supprimer le compte"} />
     </div>
