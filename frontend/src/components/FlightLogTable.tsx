@@ -8,9 +8,7 @@ import Pagination from "./Pagination";
 import { FlightData } from "../interfaces/FlightData.interface";
 
 const FlightLogTable = () => {
-  const [flightData, setFlightData] = useState([]);
-
-  const { flightAdded, userData, setUserData } = useData();
+  const { flightAdded, userData, setUserData, flightData, setFlightData } = useData();
 
   useEffect(() => {
     const fetchFlightData = async () => {
@@ -35,7 +33,7 @@ const FlightLogTable = () => {
     };
 
     fetchFlightData();
-  }, [flightAdded]);
+  }, [flightAdded, setFlightData]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
