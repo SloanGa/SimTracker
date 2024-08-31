@@ -19,10 +19,22 @@ exports.apiControllers = {
                     const currentPage = req.query.currentPage || 1;
                     const offset = (Number(currentPage) - 1) * 10;
                     const flightData = yield dataMapper_1.dataMapper.getFlightData(req.user.id, offset);
-                    if (flightData.length === 0) {
-                        res.status(403).json("No data left");
-                        return;
-                    }
+                    res.status(200).json(flightData);
+                }
+                catch (_a) {
+                    res.status(500).json({ message: "Une erreur est survenue" });
+                }
+            }
+            else {
+                res.status(401).json({ message: "Unauthorized" });
+            }
+        });
+    },
+    getAllFlightData(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (req.user) {
+                try {
+                    const flightData = yield dataMapper_1.dataMapper.getAllFlightData(req.user.id);
                     res.status(200).json(flightData);
                 }
                 catch (_a) {

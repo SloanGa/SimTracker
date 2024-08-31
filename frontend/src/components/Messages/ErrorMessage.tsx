@@ -1,8 +1,4 @@
-interface ErrorMessageProps {
-  errorMessage: string | null;
-}
-
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ errorMessage }) => {
+const ErrorMessage = ({ errorMessage }: { errorMessage: string }) => {
   if (!errorMessage) return null;
   return (
     <div>

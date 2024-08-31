@@ -32,6 +32,43 @@ exports.dataMapper = {
             yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4)", [firstname, lastname, email, password]);
         });
     },
+    deleteUser(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield client_1.default.query("DELETE FROM users WHERE id = $1", [id]);
+        });
+    },
+    updateUser(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { firstname, lastname, email, password } = data;
+            const updates = [];
+            const values = [];
+            if (firstname && firstname !== "") {
+                updates.push(`firstname = $${updates.length + 1}`);
+                values.push(firstname);
+            }
+            if (lastname && lastname !== "") {
+                updates.push(`lastname = $${updates.length + 1}`);
+                values.push(lastname);
+            }
+            if (email && email !== "") {
+                updates.push(`email = $${updates.length + 1}`);
+                values.push(email);
+            }
+            if (password && password !== "") {
+                updates.push(`password = $${updates.length + 1}`);
+                values.push(password);
+            }
+            if (updates.length === 0) {
+                throw new Error("Aucune donnée à mettre à jour");
+            }
+            values.push(id);
+            yield client_1.default.query(`
+      UPDATE users
+      SET ${updates.join(", ")}
+      WHERE id = $${updates.length + 1}
+    `, values);
+        });
+    },
     createFlightLogId(email) {
         return __awaiter(this, void 0, void 0, function* () {
             yield client_1.default.query("INSERT INTO flight_log (user_id) VALUES ((SELECT id FROM users WHERE email = $1))", [email]);
@@ -40,6 +77,16 @@ exports.dataMapper = {
     getFlightData(id, offset) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield client_1.default.query(`SELECT flc.* FROM flight_log_content AS flc JOIN flight_log AS fl ON flc.flight_log_id = fl.id WHERE fl.user_id = $1 ORDER BY flc.id DESC LIMIT 10 OFFSET $2;`, [id, offset]);
+            return result.rows;
+        });
+    },
+    getAllFlightData(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield client_1.default.query(`SELECT flc.* 
+       FROM flight_log_content AS flc 
+       JOIN flight_log AS fl 
+       ON flc.flight_log_id = fl.id 
+       WHERE fl.user_id = $1`, [id]);
             return result.rows;
         });
     },

@@ -4,21 +4,12 @@ import { useData } from "../context/DataContext";
 import ButtonToggle from "./Button/ButtonToggle";
 import ModalAddFlight from "./Modal/ModalAddFlight";
 import FlightLogBox from "./FlightLogBox";
-import { Pagination } from "./Pagination";
-export interface FlightData {
-  id: number;
-  date: string;
-  flight_number: string;
-  departure: string;
-  arrival: string;
-  flight_time: number;
-  aircraft_name: string;
-}
+import Pagination from "./Pagination";
+import { FlightData } from "../interfaces/FlightData.interface";
 
 const FlightLogTable = () => {
-  const [flightData, setFlightData] = useState([]);
-
-  const { flightAdded } = useData();
+  const { flightAdded, userData } = useData();
+  const [homeFlightData, setHomeFlightData] = useState([]);
 
   useEffect(() => {
     const fetchFlightData = async () => {
@@ -36,17 +27,16 @@ const FlightLogTable = () => {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setFlightData(data);
+        setHomeFlightData(data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchFlightData();
-  }, [flightAdded]);
+  }, [flightAdded, setHomeFlightData]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(Number);
 
   const fetchNextFlightData = async () => {
     try {
@@ -64,16 +54,12 @@ const FlightLogTable = () => {
       );
 
       if (!res.ok) {
-        if (res.status === 403) {
-          setMaxPage(currentPage);
-          return;
-        }
         console.log("error"); //Inserer une vue d'erreur
         return;
       }
 
       const data = await res.json();
-      setFlightData(data);
+      setHomeFlightData(data);
       setCurrentPage(page);
     } catch (error) {
       console.error(error);
@@ -103,39 +89,12 @@ const FlightLogTable = () => {
         }
 
         const data = await res.json();
-        setFlightData(data);
+        setHomeFlightData(data);
       } catch (error) {
         console.error(error);
       }
     }
   };
-
-  const [userData, setUserData] = useState({
-    firstname: "",
-  });
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/user/getuser`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await res.json();
-        setUserData({ firstname: data.firstname });
-      } catch (error) {
-        console.error("Il y a eu un problème avec la requête fetch:", error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
 
   const formatFlightData = (flight: any) => {
     if (!flight || !flight.date) {
@@ -193,7 +152,7 @@ const FlightLogTable = () => {
               </tr>
             </thead>
             <tbody>
-              {flightData.map((flight: FlightData) => {
+              {homeFlightData.map((flight: FlightData) => {
                 const formattedFlight = formatFlightData(flight);
                 return (
                   <tr
@@ -236,7 +195,7 @@ const FlightLogTable = () => {
         {*/}
 
         <div className="flex flex-col gap-4 lg:hidden">
-          {flightData.map((flight: FlightData) => (
+          {homeFlightData.map((flight: FlightData) => (
             <FlightLogBox flight={flight} formatFlightData={formatFlightData} key={flight.id} />
           ))}
         </div>
@@ -246,7 +205,7 @@ const FlightLogTable = () => {
           onNext={fetchNextFlightData}
           onPrevious={fetchPreviousFlightData}
           disabledPrevious={currentPage === 1}
-          disabledNext={currentPage === maxPage}
+          disabledNext={homeFlightData.length < 10}
         />
       </div>
     </div>

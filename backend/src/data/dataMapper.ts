@@ -41,6 +41,61 @@ export const dataMapper = {
   },
 
   /**
+   * Deletes a user from the database by their ID.
+   *
+   * This function removes a user from the `users` table based on the provided user ID.
+   */
+  async deleteUser(id: number): Promise<void> {
+    await client.query("DELETE FROM users WHERE id = $1", [id]);
+  },
+
+  async updateUser(
+    id: number,
+    data: { firstname?: string; lastname?: string; email?: string; password?: string }
+  ): Promise<void> {
+    const { firstname, lastname, email, password } = data;
+
+    // Créer un tableau pour les parties SET et les valeurs associées
+    const updates = [];
+    const values = [];
+
+    if (firstname && firstname !== "") {
+      updates.push(`firstname = $${updates.length + 1}`);
+      values.push(firstname);
+    }
+
+    if (lastname && lastname !== "") {
+      updates.push(`lastname = $${updates.length + 1}`);
+      values.push(lastname);
+    }
+
+    if (email && email !== "") {
+      updates.push(`email = $${updates.length + 1}`);
+      values.push(email);
+    }
+    if (password && password !== "") {
+      updates.push(`password = $${updates.length + 1}`);
+      values.push(password);
+    }
+
+    if (updates.length === 0) {
+      throw new Error("Aucune donnée à mettre à jour");
+    }
+
+    values.push(id);
+
+    // Exécuter la requête
+    await client.query(
+      `
+      UPDATE users
+      SET ${updates.join(", ")}
+      WHERE id = $${updates.length + 1}
+    `,
+      values
+    );
+  },
+
+  /**
    * Creates a new flight log entry for the user with the specified email.
    *
    * This function inserts a record into the flight_log table using the user's ID on signup.,
@@ -61,6 +116,18 @@ export const dataMapper = {
     const result = await client.query(
       `SELECT flc.* FROM flight_log_content AS flc JOIN flight_log AS fl ON flc.flight_log_id = fl.id WHERE fl.user_id = $1 ORDER BY flc.id DESC LIMIT 10 OFFSET $2;`,
       [id, offset]
+    );
+    return result.rows;
+  },
+
+  async getAllFlightData(id: number): Promise<FlightLogContent[]> {
+    const result = await client.query(
+      `SELECT flc.* 
+       FROM flight_log_content AS flc 
+       JOIN flight_log AS fl 
+       ON flc.flight_log_id = fl.id 
+       WHERE fl.user_id = $1`,
+      [id]
     );
     return result.rows;
   },
