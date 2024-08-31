@@ -1,7 +1,9 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 import { UserData } from "../interfaces/UserData.interface";
 import { FlightData } from "../interfaces/FlightData.interface";
+import { useAuth } from "./AuthContext";
+
 interface DataContextType {
   flightAdded: boolean;
   setFlightAdded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,6 +36,7 @@ interface DataProviderProps {
 }
 
 export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
   const [flightAdded, setFlightAdded] = useState(false);
   const [userData, setUserData] = useState({
     id: 0,
@@ -44,6 +47,41 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     picture_url: "",
   });
   const [flightData, setFlightData] = useState<FlightData[]>([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/user/getuser`, {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const data: UserData = await res.json();
+        setUserData(data);
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
+    };
+
+    const fetchFlightData = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/allflightsdata`, {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          throw new Error("Failed to fetch flight data");
+        }
+        const data: FlightData[] = await res.json();
+        setFlightData(data);
+      } catch (error) {
+        console.error("Failed to fetch flight data", error);
+      }
+    };
+
+    fetchUserData();
+    fetchFlightData();
+  }, [isAuthenticated]);
 
   return (
     <DataContext.Provider

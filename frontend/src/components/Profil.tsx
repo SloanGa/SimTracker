@@ -4,6 +4,7 @@ import ButtonSubmit from "./Button/ButtonSubmit";
 import ButtonToggle from "./Button/ButtonToggle";
 import ModalConfirm from "./Modal/ModalConfirm";
 import { useNavigate } from "react-router-dom";
+import ModalUpdateProfil from "./Modal/ModalUpdateProfil";
 
 const Profil = () => {
   const { userData } = useData();
@@ -14,7 +15,7 @@ const Profil = () => {
   const deleteProfil = async () => {
     console.log(userData.id);
 
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/user/deleteuser/${userData.id}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/user/deleteuser`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const Profil = () => {
       <h1 className="font-bold text-lg">Profil</h1>
       {userData.picture_url ? (
         <img
-          className="w-1/3  rounded-full p-4 md:w-1/4"
+          className="w-1/3  rounded-full p-4 md:w-1/6"
           src={`/upload/${userData.picture_url}`}
           alt="avatar"
         />
@@ -61,7 +62,10 @@ const Profil = () => {
 
       <p>{userData.firstname}</p>
       <p>{userData.lastname}</p>
-      <ButtonToggle props={"Modifier le profil"} />
+      <ButtonToggle
+        props={"Modifier le profil"}
+        onClick={() => (document.getElementById("updateProfil") as HTMLDialogElement)?.showModal()}
+      />
       <ButtonSubmit
         props={"Supprimer le compte"}
         onClick={() => (document.getElementById("confirm") as HTMLDialogElement)?.showModal()}
@@ -73,6 +77,7 @@ const Profil = () => {
         errorMessageDelete={errorMessageDelete}
         text="Êtes-vous sur de vouloir supprimer votre compte ?"
       />
+      <ModalUpdateProfil />
     </div>
   );
 };

@@ -25,6 +25,7 @@ const Nav = () => {
       if (!res.ok) {
         return console.log("error");
       }
+
       setIsAuthenticated(false);
       navigate("/login");
     } catch (e) {

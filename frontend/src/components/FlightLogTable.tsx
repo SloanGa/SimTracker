@@ -8,7 +8,8 @@ import Pagination from "./Pagination";
 import { FlightData } from "../interfaces/FlightData.interface";
 
 const FlightLogTable = () => {
-  const { flightAdded, userData, setUserData, flightData, setFlightData } = useData();
+  const { flightAdded, userData } = useData();
+  const [homeFlightData, setHomeFlightData] = useState([]);
 
   useEffect(() => {
     const fetchFlightData = async () => {
@@ -26,14 +27,14 @@ const FlightLogTable = () => {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setFlightData(data);
+        setHomeFlightData(data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchFlightData();
-  }, [flightAdded, setFlightData]);
+  }, [flightAdded, setHomeFlightData]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -58,7 +59,7 @@ const FlightLogTable = () => {
       }
 
       const data = await res.json();
-      setFlightData(data);
+      setHomeFlightData(data);
       setCurrentPage(page);
     } catch (error) {
       console.error(error);
@@ -88,35 +89,12 @@ const FlightLogTable = () => {
         }
 
         const data = await res.json();
-        setFlightData(data);
+        setHomeFlightData(data);
       } catch (error) {
         console.error(error);
       }
     }
   };
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/user/getuser`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await res.json();
-        setUserData(data);
-      } catch (error) {
-        console.error("Il y a eu un problème avec la requête fetch:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [setUserData]);
 
   const formatFlightData = (flight: any) => {
     if (!flight || !flight.date) {
@@ -174,7 +152,7 @@ const FlightLogTable = () => {
               </tr>
             </thead>
             <tbody>
-              {flightData.map((flight: FlightData) => {
+              {homeFlightData.map((flight: FlightData) => {
                 const formattedFlight = formatFlightData(flight);
                 return (
                   <tr
@@ -217,7 +195,7 @@ const FlightLogTable = () => {
         {*/}
 
         <div className="flex flex-col gap-4 lg:hidden">
-          {flightData.map((flight: FlightData) => (
+          {homeFlightData.map((flight: FlightData) => (
             <FlightLogBox flight={flight} formatFlightData={formatFlightData} key={flight.id} />
           ))}
         </div>
@@ -227,7 +205,7 @@ const FlightLogTable = () => {
           onNext={fetchNextFlightData}
           onPrevious={fetchPreviousFlightData}
           disabledPrevious={currentPage === 1}
-          disabledNext={flightData.length < 10}
+          disabledNext={homeFlightData.length < 10}
         />
       </div>
     </div>

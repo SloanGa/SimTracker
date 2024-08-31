@@ -30,6 +30,22 @@ exports.apiControllers = {
             }
         });
     },
+    getAllFlightData(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (req.user) {
+                try {
+                    const flightData = yield dataMapper_1.dataMapper.getAllFlightData(req.user.id);
+                    res.status(200).json(flightData);
+                }
+                catch (_a) {
+                    res.status(500).json({ message: "Une erreur est survenue" });
+                }
+            }
+            else {
+                res.status(401).json({ message: "Unauthorized" });
+            }
+        });
+    },
     postFlightData(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             if (req.user) {

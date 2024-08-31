@@ -77,7 +77,7 @@ const AboutProfil = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 px-12 py-4 rounded-lg shadow-custom bg-white w-11/12 m-auto">
+    <div className="flex flex-col items-center gap-4 px-6 py-4 rounded-lg shadow-custom bg-white w-11/12 m-auto lg:m-0 lg:justify-center lg:min-h-full lg:gap-12">
       <h1 className="font-bold text-lg">A Propos</h1>
       <p>
         Total d'heures de vol : <span className="font-bold">{totalFlightHour(flightData)} </span>

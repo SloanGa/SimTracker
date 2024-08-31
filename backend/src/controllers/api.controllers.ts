@@ -26,6 +26,20 @@ export const apiControllers = {
     }
   },
 
+  async getAllFlightData(req: Request, res: Response) {
+    if (req.user) {
+      try {
+        const flightData = await dataMapper.getAllFlightData(req.user.id);
+
+        res.status(200).json(flightData);
+      } catch {
+        res.status(500).json({ message: "Une erreur est survenue" });
+      }
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
+  },
+
   async postFlightData(req: Request, res: Response) {
     if (req.user) {
       try {
