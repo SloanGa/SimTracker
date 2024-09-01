@@ -20,10 +20,14 @@ exports.authController = {
     signup(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { firstname, lastname, email, password } = req.body;
+                const { firstname, lastname, email, password, passwordconfirm } = req.body;
                 const users = yield dataMapper_1.dataMapper.findAllUsers();
-                if (users.filter((user) => user.email === email)) {
+                if (users.some((user) => user.email === email)) {
                     res.status(400).json({ message: "Email non disponible" });
+                    return;
+                }
+                if (password !== passwordconfirm) {
+                    res.status(400).json({ message: "Les mots de passe sont différents" });
                     return;
                 }
                 if (!firstname || !lastname || !email || !password) {

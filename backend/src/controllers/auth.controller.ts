@@ -6,11 +6,16 @@ import passport from "passport";
 export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
     try {
-      const { firstname, lastname, email, password } = req.body;
+      const { firstname, lastname, email, password, passwordconfirm } = req.body;
       const users = await dataMapper.findAllUsers();
 
-      if (users.filter((user) => user.email === email)) {
+      if (users.some((user) => user.email === email)) {
         res.status(400).json({ message: "Email non disponible" });
+        return;
+      }
+
+      if (password !== passwordconfirm) {
+        res.status(400).json({ message: "Les mots de passe sont différents" });
         return;
       }
 
