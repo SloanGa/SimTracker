@@ -2,6 +2,7 @@ import { useState } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import ButtonToggle from "../components/Button/ButtonToggle";
+import ModalForgotPassword from "../components/Modal/ModalForgotPassword";
 
 const Log = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -27,6 +28,7 @@ const Log = () => {
           <Login />
           <Signup />
         </div>
+        <ModalForgotPassword />
       </main>
     </div>
   );

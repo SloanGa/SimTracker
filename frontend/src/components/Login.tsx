@@ -114,7 +114,10 @@ const Login = () => {
       </label>
       <ErrorMessage errorMessage={errorMessageLog} />
       <ButtonSubmit props="Se connecter" />
-      <ButtonToggle props="Mot de passe oublié" />
+      <ButtonToggle
+        props="Mot de passe oublié"
+        onClick={() => (document.getElementById("forgot") as HTMLDialogElement)?.showModal()}
+      />
     </form>
   );
 };

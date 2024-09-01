@@ -6,5 +6,6 @@ const router = (0, express_1.Router)();
 router.get("/getuser", user_controller_1.userController.getUser);
 router.post("/updateuser", user_controller_1.userController.updateUser);
 router.delete("/deleteuser", user_controller_1.userController.deleteUser);
+router.post("/resetpassword");
 exports.default = router;
 //# sourceMappingURL=user.routes.js.map

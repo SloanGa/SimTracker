@@ -10,7 +10,9 @@ CREATE TABLE "users" (
   "lastname" varchar NOT NULL,
   "email" varchar UNIQUE NOT NULL,
   "password" char(60) NOT NULL,
-  "picture_url" varchar
+  "picture_url" varchar,
+  "resetPasswordToker" varchar(255),
+  "resetPasswordExpires" TIMESTAMP
 );
 CREATE TABLE "flight_log" (
   "id" SERIAL PRIMARY KEY,
