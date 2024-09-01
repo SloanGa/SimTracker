@@ -15,6 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dataMapper = void 0;
 const client_1 = __importDefault(require("./client"));
 exports.dataMapper = {
+    findAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = yield client_1.default.query("SELECT * FROM users");
+            return result.rows;
+        });
+    },
     findUserPerEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield client_1.default.query("SELECT * FROM users WHERE email = $1", [email]);

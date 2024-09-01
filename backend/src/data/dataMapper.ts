@@ -3,6 +3,11 @@ import { User } from "../interfaces/User";
 import client from "./client";
 
 export const dataMapper = {
+  async findAllUsers() {
+    const result = await client.query("SELECT * FROM users");
+    return result.rows;
+  },
+
   /**
    * Retrieves user details based on their email address.
    *

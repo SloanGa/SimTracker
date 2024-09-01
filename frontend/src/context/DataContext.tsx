@@ -81,7 +81,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
     fetchUserData();
     fetchFlightData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, flightAdded]);
 
   return (
     <DataContext.Provider

@@ -21,6 +21,11 @@ exports.authController = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { firstname, lastname, email, password } = req.body;
+                const users = yield dataMapper_1.dataMapper.findAllUsers();
+                if (users.filter((user) => user.email === email)) {
+                    res.status(400).json({ message: "Email non disponible" });
+                    return;
+                }
                 if (!firstname || !lastname || !email || !password) {
                     res.status(400).json({ message: "Veuillez remplir tous les champs" });
                     return;
