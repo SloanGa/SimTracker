@@ -17,8 +17,8 @@ const useAuthCheck = (setIsAuthenticated: React.Dispatch<React.SetStateAction<bo
         } else {
           setIsAuthenticated(false);
         }
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        //Afficher vue erreur en prod
       }
     };
 

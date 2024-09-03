@@ -7,6 +7,7 @@ import SucessMessage from "../Messages/SucessMessage";
 const ModalUpdateProfil = () => {
   const [errorHandling, setErrorHandling] = useState(false);
   const [successHandling, setSuccessHandling] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { setUserData } = useData();
 
@@ -59,17 +60,21 @@ const ModalUpdateProfil = () => {
         setErrorMessage(error.message);
         return;
       }
-      const user = await res.json();
+      const data = await res.json();
 
-      setUserData(user);
+      setUserData(data.user);
 
       setSuccessHandling(true);
       setTimeout(() => {
         setSuccessHandling(false);
       }, 5000);
 
+      setSuccessMessage(data.message);
+
       clearUserData();
-    } catch (error) {}
+    } catch (error) {
+      //Afficher vue erreur en prod
+    }
   };
 
   return (
@@ -151,9 +156,7 @@ const ModalUpdateProfil = () => {
               />
             </div>
           </div>
-          {successHandling ? (
-            <SucessMessage sucessMessage={"Modifications prises en compte"} />
-          ) : null}
+          {successHandling ? <SucessMessage sucessMessage={successMessage} /> : null}
           {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
           <ButtonSubmit props={"Modifier"} />
         </form>

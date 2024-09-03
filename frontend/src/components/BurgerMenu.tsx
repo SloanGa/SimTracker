@@ -8,7 +8,7 @@ const BurgerMenu: React.FC<BurgerProps> = ({ onClose, onLogOut, onNavigate }) =>
   const icon = location.pathname === "/" ? faGear : faHome;
 
   return (
-    <div className="flex flex-col items-center bg-primary w-1/4 h-1/3 fixed top-0 right-0 z-50 lg:hidden">
+    <div className="flex flex-col items-center bg-primary w-1/4 h-64 fixed top-0 right-0 z-50 lg:hidden">
       <li className="mt-10">
         <ButtonIcon fontSize="fa-2xl" onClick={onNavigate} icon={icon} label="" />
       </li>

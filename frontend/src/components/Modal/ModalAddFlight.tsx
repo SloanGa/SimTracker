@@ -24,6 +24,7 @@ const ModalAddFlight = () => {
 
   const [errorMessageSign, setErrorMessageSign] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const { flightAdded, setFlightAdded } = useData();
 
   const clearFlightData = () => {
@@ -67,9 +68,12 @@ const ModalAddFlight = () => {
         setFlightAdded(false);
       }, 5000);
 
+      const success = await res.json();
+      setSuccessMessage(success.message);
+
       clearFlightData();
     } catch (error) {
-      console.log(error);
+      //Afficher vue erreur en prod
     }
   };
 
@@ -177,7 +181,7 @@ const ModalAddFlight = () => {
               />
             </div>
           </div>
-          {flightAdded ? <SucessMessage sucessMessage={"Vol ajouté avec succés"} /> : null}
+          {flightAdded ? <SucessMessage sucessMessage={successMessage} /> : null}
           {errorHandling ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
           <ButtonSubmit props={"Ajouter un vol"} />
           <ButtonToggle props="Importer avec SimBrief" />

@@ -72,7 +72,7 @@ export const apiControllers = {
           flight_time,
           aircraft
         );
-        res.status(200).json("Flight data added successfully");
+        res.status(200).json({ message: "Vol ajouté avec succés" });
       } catch (e) {
         res.status(500).json({ message: "Une erreur est survenue" });
       }

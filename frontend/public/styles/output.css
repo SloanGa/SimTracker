@@ -1879,14 +1879,6 @@ html{
   margin-top: 0.5rem;
 }
 
-.mb-4{
-  margin-bottom: 1rem;
-}
-
-.mb-6{
-  margin-bottom: 1.5rem;
-}
-
 .flex{
   display: flex;
 }
@@ -1905,6 +1897,14 @@ html{
 
 .h-4{
   height: 1rem;
+}
+
+.h-2\/5{
+  height: 40%;
+}
+
+.h-64{
+  height: 16rem;
 }
 
 .w-1\/3{

@@ -16,33 +16,37 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
   }
 
   const deleteFlight = async () => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/deleteflight/${flight.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    if (!res.ok) {
-      const error = await res.json();
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/deleteflight/${flight.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (!res.ok) {
+        const error = await res.json();
 
-      setErrorHandling(true);
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 5000);
+
+        setErrorMessageDelete(error.message);
+        return;
+      }
+
+      //    Re render the dom
+      // update name of the state
+      setFlightAdded(true);
       setTimeout(() => {
-        setErrorHandling(false);
-      }, 5000);
+        setFlightAdded(false);
+      }, 500);
 
-      setErrorMessageDelete(error.message);
-      return;
+      closeModals();
+    } catch (error) {
+      //Afficher vue erreur en prod
     }
-
-    //    Re render the dom
-    // update name of the state
-    setFlightAdded(true);
-    setTimeout(() => {
-      setFlightAdded(false);
-    }, 500);
-
-    closeModals();
   };
 
   const closeModals = () => {

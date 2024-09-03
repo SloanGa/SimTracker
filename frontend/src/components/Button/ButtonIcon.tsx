@@ -21,5 +21,3 @@ const ButtonIcon: React.FC<ButtonProps> = ({ onClick, icon, label, fontSize }) =
 };
 
 export default ButtonIcon;
-
-// definir les boutons de la nav en 1 seul bouton avec onclick, children (fontawesome)

@@ -28,8 +28,8 @@ const Nav = () => {
 
       setIsAuthenticated(false);
       navigate("/login");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      //Afficher vue erreur en prod
     }
   };
 

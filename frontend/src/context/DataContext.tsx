@@ -60,7 +60,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         const data: UserData = await res.json();
         setUserData(data);
       } catch (error) {
-        console.error("Failed to fetch user data", error);
+        //Afficher vue erreur en prod
       }
     };
 
@@ -75,7 +75,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         const data: FlightData[] = await res.json();
         setFlightData(data);
       } catch (error) {
-        console.error("Failed to fetch flight data", error);
+        //Afficher vue erreur en prod
       }
     };
 

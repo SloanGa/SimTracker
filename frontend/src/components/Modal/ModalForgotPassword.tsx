@@ -2,12 +2,14 @@ import { useState } from "react";
 import ButtonSubmit from "../Button/ButtonSubmit";
 import ButtonToggle from "../Button/ButtonToggle";
 import ErrorMessage from "../Messages/ErrorMessage";
+import SucessMessage from "../Messages/SucessMessage";
 
 const ModalForgotPassword = () => {
   const [userMail, setUserMail] = useState({
     email: "",
   });
 
+  const [emailSent, setEmailSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
@@ -46,9 +48,17 @@ const ModalForgotPassword = () => {
         setErrorMessage(error.message);
         return;
       }
-      setSuccessMessage("Email envoyé");
+
+      const success = await res.json();
+
+      setEmailSent(true);
+      setTimeout(() => {
+        setEmailSent(false);
+      }, 5000);
+
+      setSuccessMessage(success.message);
     } catch (error) {
-      console.log("error");
+      //Afficher vue erreur en prod
     }
   };
 
@@ -79,7 +89,7 @@ const ModalForgotPassword = () => {
           <ButtonSubmit props={"Envoyer le lien de reinitialisation"} onClick={resetPassword} />{" "}
         </div>
         <ButtonToggle props={"Fermer"} onClick={closeModals} />
-        {/* {flightAdded ? <SucessMessage sucessMessage={"Vol ajouté avec succés"} /> */}
+        {emailSent ? <SucessMessage sucessMessage={successMessage} /> : null}
         {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
       </div>
     </dialog>

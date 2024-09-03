@@ -91,7 +91,7 @@ const FlightLogTable = () => {
         const data = await res.json();
         setHomeFlightData(data);
       } catch (error) {
-        console.error(error);
+        //Afficher vue erreur en prod
       }
     }
   };

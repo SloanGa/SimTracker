@@ -1,8 +1,8 @@
 import React from "react";
 
 interface ButtonProps {
-  onClick?: () => void; // onClick est optionnel
-  props: React.ReactNode; // Type pour props
+  onClick?: () => void;
+  props: React.ReactNode;
 }
 
 const ButtonToggle: React.FC<ButtonProps> = ({ props, onClick }) => (

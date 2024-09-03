@@ -13,27 +13,29 @@ const Profil = () => {
   const navigate = useNavigate();
 
   const deleteProfil = async () => {
-    console.log(userData.id);
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/deleteuser`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (!res.ok) {
+        const error = await res.json();
 
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/user/deleteuser`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-    if (!res.ok) {
-      const error = await res.json();
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 5000);
 
-      setErrorHandling(true);
-      setTimeout(() => {
-        setErrorHandling(false);
-      }, 5000);
-
-      setErrorMessageDelete(error.message);
-      return;
+        setErrorMessageDelete(error.message);
+        return;
+      }
+      navigate("/login");
+    } catch (error) {
+      // Afficher vue erreur en prod
     }
-    navigate("/login");
   };
 
   const closeModals = () => {

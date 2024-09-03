@@ -47,8 +47,8 @@ const Signup = () => {
 
       setIsAuthenticated(true);
       navigate("/");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      //Afficher vue erreur en prod
     }
   };
 
