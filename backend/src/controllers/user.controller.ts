@@ -1,35 +1,36 @@
 import { dataMapper } from "../data/dataMapper";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 
 export const userController = {
-  async getUser(req: Request, res: Response) {
-    try {
-      if (req.user) {
-        const user = await dataMapper.findUserPerEmail(req.user.email);
-        if (user) {
-          res.status(200).json(user);
-        }
-      } else {
-        res.status(401).json({ message: "Utilisateur non authentifié" });
-      }
-    } catch {
-      res.status(500).json({ message: "Une erreur est survenue" });
+  async all(req: Request, res: Response, next: NextFunction) {
+    if (!req.user) {
+      return next();
     }
+    const users = await dataMapper.findAllUsers();
+
+    return res.json(users);
   },
 
-  async deleteUser(req: Request, res: Response) {
-    try {
-      if (req.user) {
-        await dataMapper.deleteUser(Number(req.user.id));
-        req.logout(() => {
-          res.status(200).json("L'utilisateur a été supprimé");
-          return;
-        });
-      }
-    } catch {
-      res.status(500).json({ message: "Une erreur est survenue" });
+  async getUser(req: Request, res: Response, next: NextFunction) {
+    if (!req.user) {
+      return next();
     }
+    const user = await dataMapper.findUserPerId(req.user.id);
+    if (!user) {
+      return next();
+    }
+    return res.json(user);
+  },
+
+  async deleteUser(req: Request, res: Response, next: NextFunction) {
+    if (!req.user) {
+      return next();
+    }
+    await dataMapper.deleteUser(Number(req.user.id));
+    req.logout(() => {
+      return res.status(204).json("L'utilisateur a été supprimé");
+    });
   },
 
   async updateUser(req: Request, res: Response) {

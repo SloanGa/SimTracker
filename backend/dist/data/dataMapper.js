@@ -17,7 +17,7 @@ const client_1 = __importDefault(require("./client"));
 exports.dataMapper = {
     findAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield client_1.default.query("SELECT * FROM users");
+            const result = yield client_1.default.query("SELECT id,firstname,lastname,email,picture_url FROM users");
             return result.rows;
         });
     },
@@ -29,7 +29,7 @@ exports.dataMapper = {
     },
     findUserPerId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield client_1.default.query("SELECT * FROM users WHERE id = $1", [id]);
+            const result = yield client_1.default.query("SELECT id,firstname,lastname,email,picture_url FROM users WHERE id = $1", [id]);
             return result.rows[0];
         });
     },

@@ -16,38 +16,36 @@ exports.userController = void 0;
 const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.userController = {
-    getUser(req, res) {
+    all(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (req.user) {
-                    const user = yield dataMapper_1.dataMapper.findUserPerEmail(req.user.email);
-                    if (user) {
-                        res.status(200).json(user);
-                    }
-                }
-                else {
-                    res.status(401).json({ message: "Utilisateur non authentifié" });
-                }
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
-            }
+            const users = yield dataMapper_1.dataMapper.findAllUsers();
+            return res.json(users);
         });
     },
-    deleteUser(req, res) {
+    getUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (req.user) {
-                    yield dataMapper_1.dataMapper.deleteUser(Number(req.user.id));
-                    req.logout(() => {
-                        res.status(200).json("L'utilisateur a été supprimé");
-                        return;
-                    });
-                }
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
+            const user = yield dataMapper_1.dataMapper.findUserPerId(req.user.id);
+            if (!user) {
+                return next();
             }
+            return res.json(user);
+        });
+    },
+    deleteUser(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!req.user) {
+                return next();
+            }
+            yield dataMapper_1.dataMapper.deleteUser(Number(req.user.id));
+            req.logout(() => {
+                return res.status(204).json("L'utilisateur a été supprimé");
+            });
         });
     },
     updateUser(req, res) {
