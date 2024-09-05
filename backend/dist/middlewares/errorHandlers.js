@@ -9,7 +9,7 @@ const notFound = (_req, _res, next) => {
 exports.notFound = notFound;
 const errorHandler = (err, _req, res, _next) => {
     const statusCode = err.statusCode || 500;
-    res.status(statusCode).json({ error: err.message });
+    res.status(statusCode).json({ message: err.message });
 };
 exports.errorHandler = errorHandler;
 //# sourceMappingURL=errorHandlers.js.map

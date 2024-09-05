@@ -33,44 +33,26 @@ export const userController = {
     });
   },
 
-  async updateUser(req: Request, res: Response) {
-    try {
-      const { firstname, lastname, email, password, confirm } = req.body;
-      if (req.user) {
-        if (
-          email &&
-          email.match(
-            // eslint-disable-next-line no-useless-escape
-            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-          ) === null
-        ) {
-          res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
-          return;
-        }
-
-        if (password && password !== confirm) {
-          res.status(400).json({ message: "Les mots de passe ne sont pas identiques" });
-          return;
-        }
-
-        let hashedPassword = "";
-        if (password) {
-          hashedPassword = await bcrypt.hash(password, 10);
-        }
-
-        await dataMapper.updateUser(Number(req.user.id), {
-          firstname,
-          lastname,
-          email,
-          password: hashedPassword,
-        });
-
-        const user = await dataMapper.findUserPerId(Number(req.user.id));
-        res.status(200).json({ user: user, message: "Modifications prises en compte" });
-      }
-    } catch {
-      res.status(500).json({ message: "Une erreur est survenue" });
+  async updateUser(req: Request, res: Response, next: NextFunction) {
+    const { firstname, lastname, email, password } = req.body;
+    if (!req.user) {
+      return next();
     }
+
+    let hashedPassword = "";
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    await dataMapper.updateUser(Number(req.user.id), {
+      firstname,
+      lastname,
+      email,
+      password: hashedPassword,
+    });
+
+    const user = await dataMapper.findUserPerId(Number(req.user.id));
+    return res.json({ user: user, message: "Modifications prises en compte" });
   },
 
   async resetPassword(req: Request, res: Response) {

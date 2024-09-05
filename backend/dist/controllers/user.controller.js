@@ -48,37 +48,24 @@ exports.userController = {
             });
         });
     },
-    updateUser(req, res) {
+    updateUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { firstname, lastname, email, password, confirm } = req.body;
-                if (req.user) {
-                    if (email &&
-                        email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/) === null) {
-                        res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
-                        return;
-                    }
-                    if (password && password !== confirm) {
-                        res.status(400).json({ message: "Les mots de passe ne sont pas identiques" });
-                        return;
-                    }
-                    let hashedPassword = "";
-                    if (password) {
-                        hashedPassword = yield bcrypt_1.default.hash(password, 10);
-                    }
-                    yield dataMapper_1.dataMapper.updateUser(Number(req.user.id), {
-                        firstname,
-                        lastname,
-                        email,
-                        password: hashedPassword,
-                    });
-                    const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));
-                    res.status(200).json({ user: user, message: "Modifications prises en compte" });
-                }
+            const { firstname, lastname, email, password } = req.body;
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
+            let hashedPassword = "";
+            if (password) {
+                hashedPassword = yield bcrypt_1.default.hash(password, 10);
             }
+            yield dataMapper_1.dataMapper.updateUser(Number(req.user.id), {
+                firstname,
+                lastname,
+                email,
+                password: hashedPassword,
+            });
+            const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));
+            return res.json({ user: user, message: "Modifications prises en compte" });
         });
     },
     resetPassword(req, res) {
