@@ -46,25 +46,6 @@ export const validateUpdateUser = (req: Request, _res: Response, next: NextFunct
   return next();
 };
 
-export const validateEmailResetPassword = (req: Request, _res: Response, next: NextFunction) => {
-  const { email } = req.body;
-
-  const schema = Joi.object({
-    email: Joi.string().email().allow("").messages({
-      "string.base": "L'email doit être une chaîne de caractères.",
-      "string.email": "Veuillez entrer un email valide : exemple@exemple.fr",
-    }),
-  });
-
-  const { error } = schema.validate({ email });
-
-  if (error) {
-    return next(error);
-  }
-
-  return next();
-};
-
 export const validateCreateUser = (req: Request, _res: Response, next: NextFunction) => {
   const { firstname, lastname, email, password, confirm } = req.body;
 
@@ -107,6 +88,57 @@ export const validateCreateUser = (req: Request, _res: Response, next: NextFunct
   });
 
   const { error } = schema.validate({ firstname, lastname, email, password, confirm });
+
+  if (error) {
+    return next(error);
+  }
+
+  return next();
+};
+
+export const validateEmailResetPassword = (req: Request, _res: Response, next: NextFunction) => {
+  const { email } = req.body;
+
+  const schema = Joi.object({
+    email: Joi.string().email().allow("").messages({
+      "string.base": "L'email doit être une chaîne de caractères.",
+      "string.email": "Veuillez entrer un email valide : exemple@exemple.fr",
+    }),
+  });
+
+  const { error } = schema.validate({ email });
+
+  if (error) {
+    return next(error);
+  }
+
+  return next();
+};
+
+export const validateUpdatePassword = (req: Request, _res: Response, next: NextFunction) => {
+  const { password, confirm } = req.body;
+
+  const schema = Joi.object({
+    password: Joi.string().required().messages({
+      "string.base": "Le mot de passe doit être une chaîne de caractères.",
+      "string.empty": "Le mot de passe est requis.",
+    }),
+    confirm: Joi.string()
+      .valid(Joi.ref("password"))
+      .when("password", {
+        is: Joi.exist(),
+        then: Joi.required(),
+        otherwise: Joi.forbidden(),
+      })
+      .messages({
+        "string.base": "La confirmation du mot de passe doit être une chaîne de caractères.",
+        "any.only": "La confirmation du mot de passe doit correspondre au mot de passe.",
+        "any.required": "La confirmation du mot de passe est requise.",
+        "any.unknown": "Le mot de passe est requis.",
+      }),
+  });
+
+  const { error } = schema.validate({ password, confirm });
 
   if (error) {
     return next(error);

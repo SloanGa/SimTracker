@@ -2,13 +2,22 @@ import Nav from "./Nav";
 import { useState } from "react";
 import ErrorMessage from "./Messages/ErrorMessage";
 import ButtonSubmit from "./Button/ButtonSubmit";
+import SucessMessage from "./Messages/SucessMessage";
 
-const FormUpdatePassword = () => {
-  const [errorMessageLog, setErrorMessageLog] = useState("");
+interface ResetPasswordFormProps {
+  userId: string;
+}
+
+const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
+  const [errorHandling, setErrorHandling] = useState(false);
+  const [successHandling, setSuccessHandling] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     password: "",
     confirm: "",
+    userId: userId,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +32,8 @@ const FormUpdatePassword = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
-        method: "POST",
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/updatepassword`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,10 +43,23 @@ const FormUpdatePassword = () => {
 
       if (!res.ok) {
         const error = await res.json();
-        setErrorMessageLog(error.message);
+        setErrorMessage(error.message);
+
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 5000);
         return;
       }
-      console.log(formData);
+
+      const data = await res.json();
+      setSuccessHandling(true);
+      setTimeout(() => {
+        setSuccessHandling(false);
+      }, 5000);
+
+      setSuccessMessage(data.message);
+      setFormData({ password: "", confirm: "", userId: userId });
     } catch (error) {
       //Afficher vue erreur en prod
     }
@@ -47,7 +69,7 @@ const FormUpdatePassword = () => {
     <div>
       <Nav />
       <form
-        className="login flex flex-col gap-4 px-12 py-4 rounded-lg shadow-custom bg-white lg:w-1/3"
+        className="login flex flex-col gap-4 px-12 py-4 rounded-lg shadow-custom bg-white w-11/12 m-auto md:w-10/12"
         onSubmit={passwordSubmit}
       >
         <h2 className="text-center text-lg">Modifier votre mot de passe</h2>
@@ -65,7 +87,7 @@ const FormUpdatePassword = () => {
             />
           </svg>
           <input
-            type="text"
+            type="password"
             className="grow"
             placeholder="Mot de passe"
             name="password"
@@ -95,7 +117,8 @@ const FormUpdatePassword = () => {
             onChange={handleChange}
           />
         </label>
-        <ErrorMessage errorMessage={errorMessageLog} />
+        {successHandling ? <SucessMessage sucessMessage={successMessage} /> : null}
+        {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
         <ButtonSubmit props="Modifier le mot de passe" />
       </form>
     </div>

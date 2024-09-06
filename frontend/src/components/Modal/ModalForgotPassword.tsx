@@ -26,7 +26,8 @@ const ModalForgotPassword = () => {
     (document.getElementById("forgot") as HTMLDialogElement).close();
   };
 
-  const resetPassword = async () => {
+  const resetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/user/resetpassword`, {
         method: "POST",
@@ -57,6 +58,7 @@ const ModalForgotPassword = () => {
       }, 5000);
 
       setSuccessMessage(success.message);
+      setUserMail({ email: "" });
     } catch (error) {
       //Afficher vue erreur en prod
     }
@@ -64,7 +66,7 @@ const ModalForgotPassword = () => {
 
   return (
     <dialog id="forgot" className="modal ">
-      <div className="modal-box flex flex-col items-center gap-4">
+      <form onSubmit={resetPassword} className="modal-box flex flex-col items-center gap-4">
         <h2 className="text-center text-lg">Veuillez saisir votre email</h2>
         <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -86,12 +88,12 @@ const ModalForgotPassword = () => {
           />
         </label>
         <div>
-          <ButtonSubmit props={"Envoyer le lien de reinitialisation"} onClick={resetPassword} />{" "}
+          <ButtonSubmit props={"Envoyer le lien de reinitialisation"} />{" "}
         </div>
         <ButtonToggle props={"Fermer"} onClick={closeModals} />
         {emailSent ? <SucessMessage sucessMessage={successMessage} /> : null}
         {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
-      </div>
+      </form>
     </dialog>
   );
 };

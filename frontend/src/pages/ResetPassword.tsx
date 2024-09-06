@@ -4,16 +4,16 @@ import NotFound from "../components/NotFound";
 import FormUpdatePassword from "../components/FormUpdatePassword";
 
 function ResetPassword() {
-  const [isValidToken, setIsValidToken] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [errorHendling, setErrorHandling] = useState(false);
+  const [isValidToken, setIsValidToken] = useState(true);
+  const [userId, setUserId] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
 
   useEffect(() => {
-    const fetchResetPassword = async () => {
-      setIsValidToken(true);
+    const fetchConfirmToken = async () => {
       if (token) {
         try {
           const res = await fetch(
@@ -28,32 +28,32 @@ function ResetPassword() {
           );
 
           if (!res.ok) {
-            const error = await res.json();
-            if (error.message === "Ce lien est expiré") {
-              setIsValidToken(false);
-              console.log(error.message);
-            }
+            setIsValidToken(false);
+            setLoading(false);
+            return;
           }
-
-          // Gérer les données de réponse si nécessaire
           const data = await res.json();
-          console.log("Réponse:", data);
+          setUserId(data.userId);
         } catch (error) {
-          console.log("Erreur de fetch:", error);
+          setLoading(false);
+        } finally {
+          setLoading(false);
         }
       } else {
-        return;
+        setIsValidToken(false);
+        setLoading(false);
       }
     };
 
-    fetchResetPassword();
+    fetchConfirmToken();
   }, [token]);
 
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
+
   return (
-    <div>
-      {isValidToken ? <FormUpdatePassword /> : <NotFound />}
-      {errorHendling ? errorMessage : null}
-    </div>
+    <div>{isValidToken ? userId && <FormUpdatePassword userId={userId} /> : <NotFound />}</div>
   );
 }
 

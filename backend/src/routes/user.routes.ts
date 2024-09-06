@@ -3,6 +3,7 @@ import { userController } from "../controllers/user.controller";
 import { catchErrors } from "../middlewares/catchErrors";
 import {
   validateEmailResetPassword,
+  validateUpdatePassword,
   validateUpdateUser,
 } from "../middlewares/validateSchemas/userValidateSchema";
 
@@ -18,5 +19,7 @@ router.post(
   catchErrors(userController.resetPassword)
 );
 router.get("/resetpassword/confirm", catchErrors(userController.resetPasswordConfirm));
+
+router.patch("/updatepassword", validateUpdatePassword, catchErrors(userController.updatePassword));
 
 export default router;

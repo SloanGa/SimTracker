@@ -84,7 +84,7 @@ export const userController = {
       throw new Error("JWT_SECRET n'est pas défini.");
     }
 
-    const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "2s" });
+    const resetToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "30m" });
 
     async function sendResetPasswordEmail(resetToken: string) {
       const resetLink = `${process.env.REACT_URL}/resetpassword/confirm?token=${resetToken}`;
@@ -99,14 +99,17 @@ export const userController = {
     Vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :
     
     ${resetLink}
+
+    Ce lien a une validité limitée.
     
     Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.
     
     Cordialement,
-    L'équipe SimTracker`, // Corps du texte en clair
+    L'équipe SimTracker`,
           html: `<p>Bonjour,</p>
                  <p>Vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :</p>
                  <p><a href="${resetLink}">Réinitialiser mon mot de passe</a></p>
+                 <p>Ce lien a une validité limitée.</p>
                  <p>Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.</p>
                  <p>Cordialement,<br/>L'équipe SimTracker</p>`, // Corps du texte en HTML
         });
@@ -133,6 +136,25 @@ export const userController = {
       const error = { message: "Ce lien est expiré" };
       return next(error);
     }
-    return res.json("ok");
+
+    return res.json(decoded);
+  },
+
+  async updatePassword(req: Request, res: Response, next: NextFunction) {
+    const { userId, password } = req.body;
+
+    const user = await dataMapper.findUserPerId(Number(userId));
+
+    if (!user) {
+      const error = { message: "Une erreur est survenu. Veuillez réesaeyer." };
+      return next(error);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await dataMapper.updateUser(Number(userId), {
+      password: hashedPassword,
+    });
+    res.json({ message: "Modification prise en compte" });
   },
 };
