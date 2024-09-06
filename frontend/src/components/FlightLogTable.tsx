@@ -14,7 +14,7 @@ const FlightLogTable = () => {
   useEffect(() => {
     const fetchFlightData = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/flightdata`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/flightdata`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const FlightLogTable = () => {
       const page = currentPage + 1;
 
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/nextflightdata?currentPage=${page}`,
+        `${process.env.REACT_APP_API_URL}/flightdata/nextflightdata?currentPage=${page}`,
         {
           method: "GET",
           headers: {
@@ -73,7 +73,7 @@ const FlightLogTable = () => {
         setCurrentPage(page);
 
         const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/nextflightdata?currentPage=${page}`,
+          `${process.env.REACT_APP_API_URL}/flightdata/previousflightdata?currentPage=${page}`,
           {
             method: "GET",
             headers: {

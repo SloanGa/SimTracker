@@ -15,7 +15,7 @@ const Signup = () => {
     lastname: "",
     email: "",
     password: "",
-    passwordconfirm: "",
+    confirm: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,8 +157,8 @@ const Signup = () => {
           type="password"
           className="grow"
           placeholder="Confirmer mot de passe"
-          name="passwordconfirm"
-          value={formData.passwordconfirm}
+          name="confirm"
+          value={formData.confirm}
           onChange={handleChange}
         />
       </label>

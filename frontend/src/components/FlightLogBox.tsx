@@ -17,13 +17,16 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
 
   const deleteFlight = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/deleteflight/${flight.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/flightdata/deleteflight/${flight.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
       if (!res.ok) {
         const error = await res.json();
 
