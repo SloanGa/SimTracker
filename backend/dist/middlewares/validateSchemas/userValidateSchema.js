@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateCreateUser = exports.validateResetPassword = exports.validateUpdateUser = void 0;
+exports.validateCreateUser = exports.validateEmailResetPassword = exports.validateUpdateUser = void 0;
 const joi_1 = __importDefault(require("joi"));
 const validateUpdateUser = (req, _res, next) => {
     const { firstname, lastname, email, password, confirm } = req.body;
@@ -46,7 +46,7 @@ const validateUpdateUser = (req, _res, next) => {
     return next();
 };
 exports.validateUpdateUser = validateUpdateUser;
-const validateResetPassword = (req, _res, next) => {
+const validateEmailResetPassword = (req, _res, next) => {
     const { email } = req.body;
     const schema = joi_1.default.object({
         email: joi_1.default.string().email().allow("").messages({
@@ -60,7 +60,7 @@ const validateResetPassword = (req, _res, next) => {
     }
     return next();
 };
-exports.validateResetPassword = validateResetPassword;
+exports.validateEmailResetPassword = validateEmailResetPassword;
 const validateCreateUser = (req, _res, next) => {
     const { firstname, lastname, email, password, confirm } = req.body;
     const schema = joi_1.default.object({

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { userController } from "../controllers/user.controller";
 import { catchErrors } from "../middlewares/catchErrors";
 import {
-  validateResetPassword,
+  validateEmailResetPassword,
   validateUpdateUser,
 } from "../middlewares/validateSchemas/userValidateSchema";
 
@@ -12,6 +12,11 @@ router.get("/", catchErrors(userController.all));
 router.get("/getuser", catchErrors(userController.getUser));
 router.patch("/updateuser", validateUpdateUser, catchErrors(userController.updateUser));
 router.delete("/deleteuser", catchErrors(userController.deleteUser));
-router.post("/resetpassword", validateResetPassword, catchErrors(userController.resetPassword));
+router.post(
+  "/resetpassword",
+  validateEmailResetPassword,
+  catchErrors(userController.resetPassword)
+);
+router.get("/resetpassword/confirm", catchErrors(userController.resetPasswordConfirm));
 
 export default router;

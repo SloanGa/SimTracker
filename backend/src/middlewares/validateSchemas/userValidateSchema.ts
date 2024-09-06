@@ -46,7 +46,7 @@ export const validateUpdateUser = (req: Request, _res: Response, next: NextFunct
   return next();
 };
 
-export const validateResetPassword = (req: Request, _res: Response, next: NextFunction) => {
+export const validateEmailResetPassword = (req: Request, _res: Response, next: NextFunction) => {
   const { email } = req.body;
 
   const schema = Joi.object({

@@ -9,6 +9,7 @@ router.get("/", (0, catchErrors_1.catchErrors)(user_controller_1.userController.
 router.get("/getuser", (0, catchErrors_1.catchErrors)(user_controller_1.userController.getUser));
 router.patch("/updateuser", userValidateSchema_1.validateUpdateUser, (0, catchErrors_1.catchErrors)(user_controller_1.userController.updateUser));
 router.delete("/deleteuser", (0, catchErrors_1.catchErrors)(user_controller_1.userController.deleteUser));
-router.post("/resetpassword", userValidateSchema_1.validateResetPassword, (0, catchErrors_1.catchErrors)(user_controller_1.userController.resetPassword));
+router.post("/resetpassword", userValidateSchema_1.validateEmailResetPassword, (0, catchErrors_1.catchErrors)(user_controller_1.userController.resetPassword));
+router.get("/resetpassword/confirm", (0, catchErrors_1.catchErrors)(user_controller_1.userController.resetPasswordConfirm));
 exports.default = router;
 //# sourceMappingURL=user.routes.js.map
