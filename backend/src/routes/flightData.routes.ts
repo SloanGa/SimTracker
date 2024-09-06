@@ -7,7 +7,7 @@ router.get("/", flightDataControllers.getFlightData);
 router.get("/allflightsdata", flightDataControllers.getAllFlightData);
 router.get("/nextflightdata", flightDataControllers.getFlightData);
 router.get("/previousflightdata", flightDataControllers.getFlightData);
-router.post("/flightdata", flightDataControllers.postFlightData);
+router.post("/", flightDataControllers.postFlightData);
 router.delete("/deleteflight/:id(\\d+)", flightDataControllers.deleteFlight);
 
 export default router;

@@ -55,32 +55,16 @@ export const userController = {
     return res.json({ user: user, message: "Modifications prises en compte" });
   },
 
-  async resetPassword(req: Request, res: Response) {
-    try {
-      const { email } = req.body;
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    const { email } = req.body;
 
-      const user = await dataMapper.findUserPerEmail(email);
+    const user = await dataMapper.findUserPerEmail(email);
 
-      if (!user) {
-        res.status(400).json({ message: "Email non reconnu" });
-        return;
-      }
-
-      if (
-        email &&
-        email.match(
-          // eslint-disable-next-line no-useless-escape
-          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-        ) === null
-      ) {
-        res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
-        return;
-      }
-
-      // envoyer le mail ici
-      res.status(200).json({ message: "Email envoyé" });
-    } catch {
-      res.status(500).json({ message: "Une erreur est survenue" });
+    if (!user) {
+      const error = { message: "Email non reconnu" };
+      return next(error);
     }
+    // envoyer le mail ici
+    res.json({ message: "Email envoyé" });
   },
 };

@@ -23,23 +23,18 @@ passport_1.default.use("local", new passport_local_1.Strategy({
     usernameField: "email",
     passwordField: "password",
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
-        if (user) {
-            const match = yield bcrypt_1.default.compare(password, user.password);
-            if (match) {
-                done(null, user);
-            }
-            else {
-                done(null, false, { message: "Email ou mot de passe incorrect" });
-            }
+    const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+    if (user) {
+        const match = yield bcrypt_1.default.compare(password, user.password);
+        if (match) {
+            done(null, user);
         }
         else {
             done(null, false, { message: "Email ou mot de passe incorrect" });
         }
     }
-    catch (err) {
-        console.log(err);
+    else {
+        done(null, false, { message: "Email ou mot de passe incorrect" });
     }
 })));
 passport_1.default.serializeUser((user, done) => {

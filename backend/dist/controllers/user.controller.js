@@ -68,25 +68,15 @@ exports.userController = {
             return res.json({ user: user, message: "Modifications prises en compte" });
         });
     },
-    resetPassword(req, res) {
+    resetPassword(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { email } = req.body;
-                const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
-                if (!user) {
-                    res.status(400).json({ message: "Email non reconnu" });
-                    return;
-                }
-                if (email &&
-                    email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/) === null) {
-                    res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
-                    return;
-                }
-                res.status(200).json({ message: "Email envoyé" });
+            const { email } = req.body;
+            const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+            if (!user) {
+                const error = { message: "Email non reconnu" };
+                return next(error);
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
-            }
+            res.json({ message: "Email envoyé" });
         });
     },
 };
