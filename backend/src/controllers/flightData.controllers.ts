@@ -1,7 +1,7 @@
 import { dataMapper } from "../data/dataMapper";
 import { Request, Response } from "express";
 
-export const apiControllers = {
+export const flightDataControllers = {
   /**
    * Retrieves flight data for the authenticated user and sends it to the client.
    *

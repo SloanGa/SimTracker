@@ -5,7 +5,7 @@ import { validateUpdateUser } from "../middlewares/validateSchemas/userValidateS
 
 const router = Router();
 
-router.get("/all", catchErrors(userController.all));
+router.get("/", catchErrors(userController.all));
 router.get("/getuser", catchErrors(userController.getUser));
 router.patch("/updateuser", validateUpdateUser, catchErrors(userController.updateUser));
 router.delete("/deleteuser", catchErrors(userController.deleteUser));
