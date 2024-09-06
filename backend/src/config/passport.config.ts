@@ -16,20 +16,16 @@ passport.use(
       passwordField: "password",
     },
     async (email, password, done) => {
-      try {
-        const user = await dataMapper.findUserPerEmail(email);
-        if (user) {
-          const match = await bcrypt.compare(password, user.password);
-          if (match) {
-            done(null, user);
-          } else {
-            done(null, false, { message: "Email ou mot de passe incorrect" });
-          }
+      const user = await dataMapper.findUserPerEmail(email);
+      if (user) {
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+          done(null, user);
         } else {
           done(null, false, { message: "Email ou mot de passe incorrect" });
         }
-      } catch (err) {
-        console.log(err);
+      } else {
+        done(null, false, { message: "Email ou mot de passe incorrect" });
       }
     }
   )

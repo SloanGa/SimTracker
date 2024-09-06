@@ -5,6 +5,7 @@ dotenv.config({
 
 import express, { Request, Response } from "express";
 import cors from "cors";
+import { errorHandler, notFound } from "./middlewares/errorHandlers";
 
 import router from "./routes/routes";
 import "./data/client";
@@ -27,6 +28,9 @@ if (process.env.NODE_ENV !== "production") {
 app.use(express.json());
 
 app.use(router);
+
+app.use(notFound);
+app.use(errorHandler);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(process.env.REACT_APP_FRONTEND_BUILD_PATH || ""));

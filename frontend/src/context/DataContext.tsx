@@ -66,7 +66,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
     const fetchFlightData = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/allflightsdata`, {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/flightdata/allflightsdata`, {
           credentials: "include",
         });
         if (!res.ok) {

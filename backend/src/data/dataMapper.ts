@@ -4,7 +4,7 @@ import client from "./client";
 
 export const dataMapper = {
   async findAllUsers() {
-    const result = await client.query("SELECT * FROM users");
+    const result = await client.query("SELECT id,firstname,lastname,email,picture_url FROM users");
     return result.rows;
   },
 
@@ -24,7 +24,10 @@ export const dataMapper = {
    * This function queries the `users` table to find and return the user record where the id matches the provided value.
    */
   async findUserPerId(id: number): Promise<User | undefined> {
-    const result = await client.query("SELECT * FROM users WHERE id = $1", [id]);
+    const result = await client.query(
+      "SELECT id,firstname,lastname,email,picture_url FROM users WHERE id = $1",
+      [id]
+    );
     return result.rows[0];
   },
 

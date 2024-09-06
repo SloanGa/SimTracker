@@ -42,7 +42,7 @@ const ModalAddFlight = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/flightdata`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/flightdata`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

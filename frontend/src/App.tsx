@@ -6,6 +6,7 @@ import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthContext";
 import { DataProvider } from "./context/DataContext";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
               }
             />
             <Route path="*" element={<NotFound />} />
+            <Route path="/resetpassword/confirm" element={<ResetPassword />} />
           </Routes>
         </BrowserRouter>
       </DataProvider>

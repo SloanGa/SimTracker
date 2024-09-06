@@ -13,95 +13,150 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
 exports.userController = {
-    getUser(req, res) {
+    all(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (req.user) {
-                    const user = yield dataMapper_1.dataMapper.findUserPerEmail(req.user.email);
-                    if (user) {
-                        res.status(200).json(user);
-                    }
-                }
-                else {
-                    res.status(401).json({ message: "Utilisateur non authentifié" });
-                }
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
-            }
+            const users = yield dataMapper_1.dataMapper.findAllUsers();
+            return res.json(users);
         });
     },
-    deleteUser(req, res) {
+    getUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (req.user) {
-                    yield dataMapper_1.dataMapper.deleteUser(Number(req.user.id));
-                    req.logout(() => {
-                        res.status(200).json("L'utilisateur a été supprimé");
-                        return;
-                    });
-                }
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
+            const user = yield dataMapper_1.dataMapper.findUserPerId(req.user.id);
+            if (!user) {
+                return next();
             }
+            return res.json(user);
         });
     },
-    updateUser(req, res) {
+    deleteUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { firstname, lastname, email, password, confirm } = req.body;
-                if (req.user) {
-                    if (email &&
-                        email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/) === null) {
-                        res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
-                        return;
-                    }
-                    if (password && password !== confirm) {
-                        res.status(400).json({ message: "Les mots de passe ne sont pas identiques" });
-                        return;
-                    }
-                    let hashedPassword = "";
-                    if (password) {
-                        hashedPassword = yield bcrypt_1.default.hash(password, 10);
-                    }
-                    yield dataMapper_1.dataMapper.updateUser(Number(req.user.id), {
-                        firstname,
-                        lastname,
-                        email,
-                        password: hashedPassword,
-                    });
-                    const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));
-                    res.status(200).json({ user: user, message: "Modifications prises en compte" });
-                }
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
-            }
+            yield dataMapper_1.dataMapper.deleteUser(Number(req.user.id));
+            req.logout(() => {
+                return res.status(204).json("L'utilisateur a été supprimé");
+            });
         });
     },
-    resetPassword(req, res) {
+    updateUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { email } = req.body;
-                const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
-                if (!user) {
-                    res.status(400).json({ message: "Email non reconnu" });
-                    return;
-                }
-                if (email &&
-                    email.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/) === null) {
-                    res.status(400).json({ message: "Veuillez entrer un email valide : exemple@exemple.fr" });
-                    return;
-                }
-                res.status(200).json({ message: "Email envoyé" });
+            const { firstname, lastname, email, password } = req.body;
+            if (!req.user) {
+                return next();
             }
-            catch (_a) {
-                res.status(500).json({ message: "Une erreur est survenue" });
+            let hashedPassword = "";
+            if (password) {
+                hashedPassword = yield bcrypt_1.default.hash(password, 10);
             }
+            yield dataMapper_1.dataMapper.updateUser(Number(req.user.id), {
+                firstname,
+                lastname,
+                email,
+                password: hashedPassword,
+            });
+            const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));
+            return res.json({ user: user, message: "Modifications prises en compte" });
+        });
+    },
+    resetPassword(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email } = req.body;
+            const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+            if (!user) {
+                const error = { message: "Email non reconnu" };
+                return next(error);
+            }
+            const transporter = nodemailer_1.default.createTransport({
+                host: "sandbox.smtp.mailtrap.io",
+                port: 2525,
+                secure: false,
+                auth: {
+                    user: process.env.MAILTRAP_USER,
+                    pass: process.env.MAILTRAP_PASSWORD,
+                },
+            });
+            if (!process.env.JWT_SECRET) {
+                throw new Error("JWT_SECRET n'est pas défini.");
+            }
+            const resetToken = jsonwebtoken_1.default.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "30m" });
+            function sendResetPasswordEmail(resetToken) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    const resetLink = `${process.env.REACT_URL}/resetpassword/confirm?token=${resetToken}`;
+                    try {
+                        yield transporter.sendMail({
+                            from: '"SimTracker" <noreply@sim.tracker>',
+                            to: user === null || user === void 0 ? void 0 : user.email,
+                            subject: "Réinitialisation de votre mot de passe",
+                            text: `Bonjour,
+    
+    Vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :
+    
+    ${resetLink}
+
+    Ce lien a une validité limitée.
+    
+    Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.
+    
+    Cordialement,
+    L'équipe SimTracker`,
+                            html: `<p>Bonjour,</p>
+                 <p>Vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :</p>
+                 <p><a href="${resetLink}">Réinitialiser mon mot de passe</a></p>
+                 <p>Ce lien a une validité limitée.</p>
+                 <p>Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.</p>
+                 <p>Cordialement,<br/>L'équipe SimTracker</p>`,
+                        });
+                    }
+                    catch (error) {
+                        console.error("Error sending email:", error);
+                    }
+                });
+            }
+            sendResetPasswordEmail(resetToken);
+            res.json({ message: "Email envoyé" });
+        });
+    },
+    resetPasswordConfirm(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const token = req.query.token;
+            if (!token) {
+                return next();
+            }
+            const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+            if (!decoded) {
+                const error = { message: "Ce lien est expiré" };
+                return next(error);
+            }
+            return res.json(decoded);
+        });
+    },
+    updatePassword(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { userId, password } = req.body;
+            const user = yield dataMapper_1.dataMapper.findUserPerId(Number(userId));
+            if (!user) {
+                const error = { message: "Une erreur est survenu. Veuillez réesaeyer." };
+                return next(error);
+            }
+            const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+            yield dataMapper_1.dataMapper.updateUser(Number(userId), {
+                password: hashedPassword,
+            });
+            res.json({ message: "Modification prise en compte" });
         });
     },
 };

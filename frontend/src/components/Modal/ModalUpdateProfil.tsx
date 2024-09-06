@@ -31,17 +31,19 @@ const ModalUpdateProfil = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (formData) {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const userDataSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/user/updateuser`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -95,7 +97,7 @@ const ModalUpdateProfil = () => {
                 name="lastname"
                 id="lastname"
                 type="text"
-                value={formData.lastname}
+                value={formData?.lastname}
                 onChange={handleChange}
               />
             </div>
@@ -109,7 +111,7 @@ const ModalUpdateProfil = () => {
                 name="firstname"
                 id="firstname"
                 type="text"
-                value={formData.firstname}
+                value={formData?.firstname}
                 onChange={handleChange}
               />
             </div>
@@ -123,21 +125,21 @@ const ModalUpdateProfil = () => {
                 name="email"
                 id="email"
                 type="text"
-                value={formData.email}
+                value={formData?.email}
                 onChange={handleChange}
               />
             </div>
 
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
               <label htmlFor="password" className="self-start font-bold">
-                Mot de passe
+                Mot de passe (8 caractères)
               </label>
               <input
                 className="input input-bordered flex items-center gap-2 justify-center"
                 name="password"
                 id="password"
                 type="password"
-                value={formData.password}
+                value={formData?.password}
                 onChange={handleChange}
               />
             </div>
@@ -151,7 +153,7 @@ const ModalUpdateProfil = () => {
                 name="confirm"
                 id="confirm"
                 type="password"
-                value={formData.confirm}
+                value={formData?.confirm}
                 onChange={handleChange}
               />
             </div>

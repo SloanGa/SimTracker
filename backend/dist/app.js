@@ -9,6 +9,7 @@ dotenv_1.default.config({
 });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const errorHandlers_1 = require("./middlewares/errorHandlers");
 const routes_1 = __importDefault(require("./routes/routes"));
 require("./data/client");
 const app = (0, express_1.default)();
@@ -23,6 +24,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 app.use(express_1.default.json());
 app.use(routes_1.default);
+app.use(errorHandlers_1.notFound);
+app.use(errorHandlers_1.errorHandler);
 if (process.env.NODE_ENV === "production") {
     app.use(express_1.default.static(process.env.REACT_APP_FRONTEND_BUILD_PATH || ""));
     console.log(process.env.REACT_APP_FRONTEND_BUILD_PATH);
