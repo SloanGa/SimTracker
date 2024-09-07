@@ -71,7 +71,8 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
 
 #### Additional Notes / Notes supplémentaires
  - Ensure your PostgreSQL server is running and properly configured before starting the backend server.
- Assurez-vous que votre serveur PostgreSQL est en cours d'exécution et correctement configuré avant de démarrer le serveur backend.
+  
+     Assurez-vous que votre serveur PostgreSQL est en cours d'exécution et correctement configuré avant de démarrer le serveur backend.
 
  - You can adjust the PORT and other environment variables based on your development setup.
 
