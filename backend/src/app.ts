@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config({
-  path: `.env.${process.env.NODE_ENV}`, // Cela charge automatiquement le bon fichier selon NODE_ENV
+  path: `.env.${process.env.NODE_ENV}`,
 });
 
 import express, { Request, Response } from "express";
@@ -19,7 +19,7 @@ import "./config/passport.config";
 if (process.env.NODE_ENV !== "production") {
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: process.env.REACT_URL,
       credentials: true,
     })
   );
