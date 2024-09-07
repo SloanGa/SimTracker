@@ -1,4 +1,4 @@
-# SimTracker 
+# SimTracker ✈️
 
 *SimTracker est une application qui vous permet d'avoir un suivi sur tout vos vols virtuel comme dans un veritable carnet de vol.*
 
