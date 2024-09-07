@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import NotFound from "../components/NotFound";
+import Error from "../components/Error";
 import FormUpdatePassword from "../components/FormUpdatePassword";
 
 function ResetPassword() {
@@ -52,9 +52,7 @@ function ResetPassword() {
     return <div>Chargement...</div>;
   }
 
-  return (
-    <div>{isValidToken ? userId && <FormUpdatePassword userId={userId} /> : <NotFound />}</div>
-  );
+  return <div>{isValidToken ? userId && <FormUpdatePassword userId={userId} /> : <Error />}</div>;
 }
 
 export default ResetPassword;

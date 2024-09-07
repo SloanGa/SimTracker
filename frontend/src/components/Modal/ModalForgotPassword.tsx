@@ -59,9 +59,7 @@ const ModalForgotPassword = () => {
 
       setSuccessMessage(success.message);
       setUserMail({ email: "" });
-    } catch (error) {
-      //Afficher vue erreur en prod
-    }
+    } catch (error) {}
   };
 
   return (

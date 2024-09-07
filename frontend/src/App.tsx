@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Log from "./pages/Log";
 import Settings from "./pages/Settings";
-import NotFound from "./components/NotFound";
+import Error from "./components/Error";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthContext";
 import { DataProvider } from "./context/DataContext";
@@ -31,7 +31,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<Error />} />
             <Route path="/resetpassword/confirm" element={<ResetPassword />} />
           </Routes>
         </BrowserRouter>

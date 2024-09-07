@@ -74,9 +74,7 @@ const ModalUpdateProfil = () => {
       setSuccessMessage(data.message);
 
       clearUserData();
-    } catch (error) {
-      //Afficher vue erreur en prod
-    }
+    } catch (error) {}
   };
 
   return (

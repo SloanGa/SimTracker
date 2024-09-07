@@ -72,9 +72,7 @@ const ModalAddFlight = () => {
       setSuccessMessage(success.message);
 
       clearFlightData();
-    } catch (error) {
-      //Afficher vue erreur en prod
-    }
+    } catch (error) {}
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

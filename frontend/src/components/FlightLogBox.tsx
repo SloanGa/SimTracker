@@ -39,8 +39,6 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
         return;
       }
 
-      //    Re render the dom
-      // update name of the state
       setFlightAdded(true);
       setTimeout(() => {
         setFlightAdded(false);
