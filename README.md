@@ -74,15 +74,15 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
   
      Assurez-vous que votre serveur PostgreSQL est en cours d'exécution et correctement configuré avant de démarrer le serveur backend.
 
- - You can adjust the PORT and other environment variables based on your development setup.
+ - You can adjust the ``PORT`` and other environment variables based on your development setup.
 
-    Vous pouvez ajuster le PORT et les autres variables d'environnement en fonction de votre configuration de développement.
+    Vous pouvez ajuster le ``PORT`` et les autres variables d'environnement en fonction de votre configuration de développement.
 
-- Make sure the REACT_APP_API_URL in the frontend .env matches the running backend's API_URL.
+- Make sure the ``REACT_APP_API_URL`` in the frontend ``.env.development`` matches the running backend's URL.
  
-     Assurez-vous que le REACT_APP_API_URL dans le fichier .env du frontend correspond à l'API_URL du backend en cours d'exécution.
+     Assurez-vous que le REACT_APP_API_URL dans le fichier ``.env.development`` du frontend correspond à l'URL du backend en cours d'exécution.
 
- - To handle email sending in a development environment, Mailtrap credentials (MAILTRAP_USER and MAILTRAP_PASSWORD) are required. Ensure you have a valid Mailtrap account and the correct credentials in your .env file.
+ - To handle email sending in a development environment, Mailtrap credentials (``MAILTRAP_USER`` and ``MAILTRAP_PASSWORD``) are required. Ensure you have a valid Mailtrap account and the correct credentials in your .env file.
 
-    Pour gérer l'envoi d'emails en environnement de développement, les identifiants Mailtrap (MAILTRAP_USER et MAILTRAP_PASSWORD) sont requis. Assurez-vous d'avoir un compte Mailtrap valide et les bons identifiants dans votre fichier .env.
+    Pour gérer l'envoi d'emails en environnement de développement, les identifiants Mailtrap (``MAILTRAP_USER`` et ``MAILTRAP_PASSWORD``) sont requis. Assurez-vous d'avoir un compte Mailtrap valide et les bons identifiants dans votre fichier ``.env.development``
 
