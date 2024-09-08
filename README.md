@@ -25,8 +25,8 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
    npm install
 2. **Configure environment variables / Configurer les variables d'environnement :**
 
-   - Create a ``.env.development`` file at the root of the `backtend` directory. Make sure to set the following variables:
-   - Créez un fichier ``.env.development`` à la racine du répertoire `backtend`. Assurez-vous de définir les variables suivantes :
+   - Create a ``.env.development`` file at the root of the `backend` directory. Make sure to set the following variables:
+   - Créez un fichier ``.env.development`` à la racine du répertoire `backend`. Assurez-vous de définir les variables suivantes :
   
     ```env
     PG_URL=<Votre URL de connexion PostgreSQL>
