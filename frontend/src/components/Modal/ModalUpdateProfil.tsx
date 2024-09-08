@@ -9,6 +9,7 @@ const ModalUpdateProfil = () => {
   const [successHandling, setSuccessHandling] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { setUserData } = useData();
 
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ const ModalUpdateProfil = () => {
 
   const userDataSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/user/updateuser`, {
         method: "PATCH",
@@ -60,10 +62,10 @@ const ModalUpdateProfil = () => {
         }, 5000);
 
         setErrorMessage(error.message);
-        return;
+        return setIsLoading(false);
       }
-      const data = await res.json();
 
+      const data = await res.json();
       setUserData(data.user);
 
       setSuccessHandling(true);
@@ -74,7 +76,17 @@ const ModalUpdateProfil = () => {
       setSuccessMessage(data.message);
 
       clearUserData();
-    } catch (error) {}
+
+      return setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessage("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -158,6 +170,11 @@ const ModalUpdateProfil = () => {
           </div>
           {successHandling ? <SucessMessage sucessMessage={successMessage} /> : null}
           {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
+          {isLoading ? (
+            <div className="w-full flex justify-center mt-5">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          ) : null}
           <ButtonSubmit props={"Modifier"} />
         </form>
         <form method="dialog">

@@ -22,9 +22,10 @@ const ModalAddFlight = () => {
     aircraft: "",
   });
 
-  const [errorMessageSign, setErrorMessageSign] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { flightAdded, setFlightAdded } = useData();
 
   const clearFlightData = () => {
@@ -40,7 +41,7 @@ const ModalAddFlight = () => {
 
   const flightDataSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/flightdata`, {
         method: "POST",
@@ -59,8 +60,8 @@ const ModalAddFlight = () => {
           setErrorHandling(false);
         }, 5000);
 
-        setErrorMessageSign(error.message);
-        return;
+        setErrorMessage(error.message);
+        return setIsLoading(false);
       }
 
       setFlightAdded(true);
@@ -72,7 +73,16 @@ const ModalAddFlight = () => {
       setSuccessMessage(success.message);
 
       clearFlightData();
-    } catch (error) {}
+      setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessage("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,7 +190,12 @@ const ModalAddFlight = () => {
             </div>
           </div>
           {flightAdded ? <SucessMessage sucessMessage={successMessage} /> : null}
-          {errorHandling ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
+          {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
+          {isLoading ? (
+            <div className="w-full flex justify-center mt-5">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          ) : null}
           <ButtonSubmit props={"Ajouter un vol"} />
           <ButtonToggle props="Importer avec SimBrief" />
         </form>

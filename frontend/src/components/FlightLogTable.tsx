@@ -61,9 +61,7 @@ const FlightLogTable = () => {
       const data = await res.json();
       setHomeFlightData(data);
       setCurrentPage(page);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch {}
   };
 
   const fetchPreviousFlightData = async () => {

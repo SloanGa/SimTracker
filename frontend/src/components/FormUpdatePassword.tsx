@@ -13,6 +13,7 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
   const [successHandling, setSuccessHandling] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     password: "",
@@ -30,7 +31,7 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
 
   const passwordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/user/updatepassword`, {
         method: "PATCH",
@@ -49,7 +50,7 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
         setTimeout(() => {
           setErrorHandling(false);
         }, 5000);
-        return;
+        return setIsLoading(false);
       }
 
       const data = await res.json();
@@ -60,8 +61,15 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
 
       setSuccessMessage(data.message);
       setFormData({ password: "", confirm: "", userId: userId });
-    } catch (error) {
-      //Afficher vue erreur en prod
+      return setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessage("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,6 +127,11 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
         </label>
         {successHandling ? <SucessMessage sucessMessage={successMessage} /> : null}
         {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
+        {isLoading ? (
+          <div className="w-full flex justify-center mt-5">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : null}
         <ButtonSubmit props="Modifier le mot de passe" />
       </form>
     </div>

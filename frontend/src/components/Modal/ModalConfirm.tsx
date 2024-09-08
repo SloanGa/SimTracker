@@ -8,6 +8,7 @@ const ModalConfirm: React.FC<ModalConfirmProps> = ({
   onCloseModals,
   errorHandling,
   errorMessageDelete,
+  isLoading,
   text,
 }) => {
   return (
@@ -19,6 +20,11 @@ const ModalConfirm: React.FC<ModalConfirmProps> = ({
         </div>
         <ButtonToggle props={"Fermer"} onClick={onCloseModals} />
         {errorHandling ? <ErrorMessage errorMessage={errorMessageDelete} /> : null}
+        {isLoading ? (
+          <div className="w-full flex justify-center mt-5">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : null}
       </div>
     </dialog>
   );

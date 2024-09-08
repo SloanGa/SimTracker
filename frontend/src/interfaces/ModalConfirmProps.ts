@@ -3,5 +3,6 @@ export interface ModalConfirmProps {
   onCloseModals: () => void;
   errorHandling: boolean;
   errorMessageDelete: string;
+  isLoading: boolean;
   text: string;
 }

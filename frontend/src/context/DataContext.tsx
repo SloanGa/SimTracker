@@ -59,9 +59,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         }
         const data: UserData = await res.json();
         setUserData(data);
-      } catch (error) {
-        //Afficher vue erreur en prod
-      }
+      } catch {}
     };
 
     const fetchFlightData = async () => {

@@ -10,6 +10,8 @@ const Login = () => {
   const { setIsAuthenticated } = useAuth();
 
   const [errorMessageLog, setErrorMessageLog] = useState("");
+  const [errorHandling, setErrorHandling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -26,7 +28,7 @@ const Login = () => {
 
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
         method: "POST",
@@ -38,9 +40,13 @@ const Login = () => {
       });
 
       if (!res.ok) {
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 5000);
+
         if (!formData.email || !formData.password) {
-          setErrorMessageLog("Veuillez remplir tous les champs");
-          return;
+          return setErrorMessageLog("Veuillez remplir tous les champs");
         }
 
         if (
@@ -49,19 +55,26 @@ const Login = () => {
             /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
           ) === null
         ) {
-          setErrorMessageLog("Veuillez entrer un email valide");
-          return;
+          return setErrorMessageLog("Veuillez entrer un email valide");
         }
 
         const error = await res.json();
         setErrorMessageLog(error.message);
         setFormData({ email: formData.email, password: "" });
-        return;
+        return setIsLoading(false);
       }
+
       setIsAuthenticated(true);
       navigate("/");
-    } catch (error) {
-      //Afficher vue erreur en prod
+      return setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessageLog("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -112,7 +125,12 @@ const Login = () => {
           onChange={handleChange}
         />
       </label>
-      <ErrorMessage errorMessage={errorMessageLog} />
+      {errorHandling ? <ErrorMessage errorMessage={errorMessageLog} /> : null}
+      {isLoading ? (
+        <div className="w-full flex justify-center mt-5">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      ) : null}
       <ButtonSubmit props="Se connecter" />
       <ButtonToggle
         props="Mot de passe oublié"

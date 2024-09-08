@@ -9,6 +9,8 @@ const Signup = () => {
   const { setIsAuthenticated } = useAuth();
 
   const [errorMessageSign, setErrorMessageSign] = useState("");
+  const [errorHandling, setErrorHandling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -28,7 +30,7 @@ const Signup = () => {
 
   const signupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, {
         method: "POST",
@@ -40,15 +42,28 @@ const Signup = () => {
       });
 
       if (!res.ok) {
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 5000);
+
         const error = await res.json();
         setErrorMessageSign(error.message);
-        return;
+
+        return setIsLoading(false);
       }
 
       setIsAuthenticated(true);
       navigate("/");
-    } catch (error) {
-      //Afficher vue erreur en prod
+      return setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessageSign("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -162,7 +177,12 @@ const Signup = () => {
           onChange={handleChange}
         />
       </label>
-      <ErrorMessage errorMessage={errorMessageSign} />
+      {errorHandling ? <ErrorMessage errorMessage={errorMessageSign} /> : null}
+      {isLoading ? (
+        <div className="w-full flex justify-center mt-5">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      ) : null}
       <ButtonSubmit props="S'inscrire" />
     </form>
   );

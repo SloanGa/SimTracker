@@ -13,6 +13,7 @@ const ModalForgotPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,6 +29,7 @@ const ModalForgotPassword = () => {
 
   const resetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/user/resetpassword`, {
         method: "POST",
@@ -47,7 +49,7 @@ const ModalForgotPassword = () => {
         }, 5000);
 
         setErrorMessage(error.message);
-        return;
+        return setIsLoading(false);
       }
 
       const success = await res.json();
@@ -59,7 +61,16 @@ const ModalForgotPassword = () => {
 
       setSuccessMessage(success.message);
       setUserMail({ email: "" });
-    } catch (error) {}
+      return setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessage("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -91,6 +102,11 @@ const ModalForgotPassword = () => {
         <ButtonToggle props={"Fermer"} onClick={closeModals} />
         {emailSent ? <SucessMessage sucessMessage={successMessage} /> : null}
         {errorHandling ? <ErrorMessage errorMessage={errorMessage} /> : null}
+        {isLoading ? (
+          <div className="w-full flex justify-center mt-5">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : null}
       </form>
     </dialog>
   );

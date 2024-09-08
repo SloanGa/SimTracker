@@ -10,6 +10,7 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
   const { setFlightAdded } = useData();
   const [errorMessageDelete, setErrorMessageDelete] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!flight) {
     return null;
@@ -17,6 +18,7 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
 
   const deleteFlight = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch(
         `${process.env.REACT_APP_API_URL}/flightdata/deleteflight/${flight.id}`,
         {
@@ -36,7 +38,7 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
         }, 5000);
 
         setErrorMessageDelete(error.message);
-        return;
+        return setIsLoading(false);
       }
 
       setFlightAdded(true);
@@ -45,8 +47,15 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
       }, 500);
 
       closeModals();
-    } catch (error) {
-      //Afficher vue erreur en prod
+      return setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessageDelete("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -100,6 +109,7 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
         errorHandling={errorHandling}
         errorMessageDelete={errorMessageDelete}
         text="Êtes-vous sûr de vouloir supprimer ce vol ?"
+        isLoading={isLoading}
       />
     </div>
   );

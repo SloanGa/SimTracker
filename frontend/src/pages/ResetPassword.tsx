@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Error from "../components/Error";
 import FormUpdatePassword from "../components/FormUpdatePassword";
+import Spinner from "../components/Spinner";
 
 function ResetPassword() {
   const [isValidToken, setIsValidToken] = useState(true);
   const [userId, setUserId] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [loading, setLoading] = useState(true);
+  const [isloading, setIsLoading] = useState(true);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
@@ -29,27 +29,27 @@ function ResetPassword() {
 
           if (!res.ok) {
             setIsValidToken(false);
-            setLoading(false);
+            setIsLoading(false);
             return;
           }
           const data = await res.json();
           setUserId(data.userId);
         } catch (error) {
-          setLoading(false);
+          setIsLoading(false);
         } finally {
-          setLoading(false);
+          setIsLoading(false);
         }
       } else {
         setIsValidToken(false);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchConfirmToken();
   }, [token]);
 
-  if (loading) {
-    return <div>Chargement...</div>;
+  if (isloading) {
+    return <Spinner />;
   }
 
   return <div>{isValidToken ? userId && <FormUpdatePassword userId={userId} /> : <Error />}</div>;

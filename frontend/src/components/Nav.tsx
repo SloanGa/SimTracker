@@ -23,13 +23,13 @@ const Nav = () => {
         credentials: "include",
       });
       if (!res.ok) {
-        return console.log("error");
+        return navigate("/error");
       }
 
       setIsAuthenticated(false);
       navigate("/login");
-    } catch (error) {
-      //Afficher vue erreur en prod
+    } catch {
+      navigate("/error");
     }
   };
 

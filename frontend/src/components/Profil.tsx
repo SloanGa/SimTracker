@@ -10,10 +10,12 @@ const Profil = () => {
   const { userData } = useData();
   const [errorMessageDelete, setErrorMessageDelete] = useState("");
   const [errorHandling, setErrorHandling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const deleteProfil = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch(`${process.env.REACT_APP_API_URL}/user/deleteuser`, {
         method: "DELETE",
         headers: {
@@ -30,11 +32,17 @@ const Profil = () => {
         }, 5000);
 
         setErrorMessageDelete(error.message);
-        return;
+        return setIsLoading(false);
       }
       navigate("/login");
-    } catch (error) {
-      // Afficher vue erreur en prod
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessageDelete("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -78,6 +86,7 @@ const Profil = () => {
         errorHandling={errorHandling}
         errorMessageDelete={errorMessageDelete}
         text="Êtes-vous sur de vouloir supprimer votre compte ?"
+        isLoading={isLoading}
       />
       <ModalUpdateProfil />
     </div>
