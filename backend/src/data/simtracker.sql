@@ -1,6 +1,6 @@
 -- Supprimer les tables si elles existent
-DROP TABLE IF EXISTS "flight_log";
 DROP TABLE IF EXISTS "flight_log_content";
+DROP TABLE IF EXISTS "flight_log";
 DROP TABLE IF EXISTS "sessions";
 DROP TABLE IF EXISTS "users";
 -- Créer les tables
@@ -10,9 +10,7 @@ CREATE TABLE "users" (
   "lastname" varchar NOT NULL,
   "email" varchar UNIQUE NOT NULL,
   "password" char(60) NOT NULL,
-  "picture_url" varchar,
-  "resetPasswordToker" varchar(255),
-  "resetPasswordExpires" TIMESTAMP
+  "picture_url" varchar
 );
 CREATE TABLE "flight_log" (
   "id" SERIAL PRIMARY KEY,
