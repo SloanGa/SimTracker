@@ -37,7 +37,32 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
     JWT_SECRET=<Votre secret JWT>
     MAILTRAP_USER=<Votre utilisateur Mailtrap>
     MAILTRAP_PASSWORD=<Votre mot de passe Mailtrap>
-3. **Run the server / Lancer le serveur :**
+3. **Configure the database / Configurer la base de données**
+- Create the database / Créer la base de données :
+
+   - Run PostgreSQL and create a database for the project, for example, ``simtracker_db``.
+
+   - Exécutez PostgreSQL et créez une base de données pour le projet, par exemple ``simtracker_db``.
+
+   - You can use the following command in your PostgreSQL terminal:
+
+   - Vous pouvez utiliser la commande suivante dans votre terminal PostgreSQL :
+
+    ```sql
+    CREATE DATABASE simtracker_db;
+- Import the database schema / Importer le schéma de la base de données :
+
+   - Navigate to the ``backend`` directory where the ``simtracker.sql`` file is located, and run the following command in your terminal to create the tables:
+
+   - Naviguez vers le répertoire ``backend``, où se trouve le fichier ``simtracker.sql`` et exécutez la commande suivante dans le terminal pour créer les tables :
+
+    ```bash
+    psql -U <your_user> -d simtracker_db -f src/data/simtracker.sql
+ - This will automatically create the necessary tables and structures for the project in your database.
+
+ - Cela créera automatiquement les tables et structures nécessaires pour le projet dans votre base de données.
+
+4. **Run the server / Lancer le serveur :**
 
    - Start the development server with the following command:
    - Démarrez le serveur de développement avec la commande suivante :
