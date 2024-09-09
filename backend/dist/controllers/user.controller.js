@@ -19,6 +19,7 @@ const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const resetPassword_1 = require("../email/resetPassword");
+const sanitize_html_1 = __importDefault(require("sanitize-html"));
 exports.userController = {
     all(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -63,9 +64,9 @@ exports.userController = {
                 hashedPassword = yield bcrypt_1.default.hash(password, 10);
             }
             yield dataMapper_1.dataMapper.updateUser(Number(req.user.id), {
-                firstname,
-                lastname,
-                email,
+                firstname: (0, sanitize_html_1.default)(firstname),
+                lastname: (0, sanitize_html_1.default)(lastname),
+                email: (0, sanitize_html_1.default)(email),
                 password: hashedPassword,
             });
             const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));

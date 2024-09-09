@@ -1,5 +1,6 @@
 import { dataMapper } from "../data/dataMapper";
 import { NextFunction, Request, Response } from "express";
+import sanitize from "sanitize-html";
 
 export const flightDataControllers = {
   async getFlightData(req: Request, res: Response, next: NextFunction) {
@@ -32,11 +33,11 @@ export const flightDataControllers = {
     await dataMapper.addFlightData(
       email,
       date,
-      flight_number,
-      departure,
-      arrival,
+      sanitize(flight_number),
+      sanitize(departure),
+      sanitize(arrival),
       flight_time,
-      aircraft
+      sanitize(aircraft)
     );
     res.json({ message: "Vol ajouté avec succés" });
   },

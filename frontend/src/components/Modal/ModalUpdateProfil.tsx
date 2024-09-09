@@ -142,7 +142,7 @@ const ModalUpdateProfil = () => {
 
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
               <label htmlFor="password" className="self-start font-bold">
-                Mot de passe (8 caractères)
+                Mot de passe (8 caractères min.)
               </label>
               <input
                 className="input input-bordered flex items-center gap-2 justify-center"

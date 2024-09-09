@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { dataMapper } from "../data/dataMapper";
 import bcrypt from "bcrypt";
 import passport from "passport";
+import sanitize from "sanitize-html";
 
 export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
@@ -14,7 +15,12 @@ export const authController = {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await dataMapper.userCreate(firstname, lastname, email, hashedPassword);
+    await dataMapper.userCreate(
+      sanitize(firstname),
+      sanitize(lastname),
+      sanitize(email),
+      hashedPassword
+    );
     await dataMapper.createFlightLogId(email);
     const newUser = await dataMapper.findUserPerEmail(email);
 

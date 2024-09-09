@@ -6,6 +6,7 @@ import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { sendMailResetPassword } from "../email/resetPassword";
+import sanitize from "sanitize-html";
 
 export const userController = {
   async all(req: Request, res: Response, next: NextFunction) {
@@ -50,9 +51,9 @@ export const userController = {
     }
 
     await dataMapper.updateUser(Number(req.user.id), {
-      firstname,
-      lastname,
-      email,
+      firstname: sanitize(firstname),
+      lastname: sanitize(lastname),
+      email: sanitize(email),
       password: hashedPassword,
     });
 

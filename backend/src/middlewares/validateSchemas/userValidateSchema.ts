@@ -19,8 +19,9 @@ export const validateUpdateUser = (req: Request, _res: Response, next: NextFunct
       "string.base": "L'email doit être une chaîne de caractères.",
       "string.email": "Veuillez entrer un email valide : exemple@exemple.fr",
     }),
-    password: Joi.string().allow("").messages({
+    password: Joi.string().min(8).allow("").messages({
       "string.base": "Le mot de passe doit être une chaîne de caractères.",
+      "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
     }),
     confirm: Joi.string()
       .valid(Joi.ref("password"))
@@ -68,8 +69,9 @@ export const validateCreateUser = (req: Request, _res: Response, next: NextFunct
       "string.email": "Veuillez entrer un email valide : exemple@exemple.fr",
       "any.required": "Tous les champs sont requis.",
     }),
-    password: Joi.string().required().messages({
+    password: Joi.string().min(8).required().messages({
       "string.base": "Le mot de passe doit être une chaîne de caractères.",
+      "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
       "any.required": "Tous les champs sont requis.",
     }),
     confirm: Joi.string()
@@ -119,8 +121,9 @@ export const validateUpdatePassword = (req: Request, _res: Response, next: NextF
   const { password, confirm } = req.body;
 
   const schema = Joi.object({
-    password: Joi.string().required().messages({
+    password: Joi.string().min(8).required().messages({
       "string.base": "Le mot de passe doit être une chaîne de caractères.",
+      "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
       "string.empty": "Le mot de passe est requis.",
     }),
     confirm: Joi.string()

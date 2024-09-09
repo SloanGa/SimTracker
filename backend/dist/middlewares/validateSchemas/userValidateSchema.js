@@ -22,8 +22,9 @@ const validateUpdateUser = (req, _res, next) => {
             "string.base": "L'email doit être une chaîne de caractères.",
             "string.email": "Veuillez entrer un email valide : exemple@exemple.fr",
         }),
-        password: joi_1.default.string().allow("").messages({
+        password: joi_1.default.string().min(8).allow("").messages({
             "string.base": "Le mot de passe doit être une chaîne de caractères.",
+            "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
         }),
         confirm: joi_1.default.string()
             .valid(joi_1.default.ref("password"))
@@ -67,8 +68,9 @@ const validateCreateUser = (req, _res, next) => {
             "string.email": "Veuillez entrer un email valide : exemple@exemple.fr",
             "any.required": "Tous les champs sont requis.",
         }),
-        password: joi_1.default.string().required().messages({
+        password: joi_1.default.string().min(8).required().messages({
             "string.base": "Le mot de passe doit être une chaîne de caractères.",
+            "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
             "any.required": "Tous les champs sont requis.",
         }),
         confirm: joi_1.default.string()
@@ -110,8 +112,9 @@ exports.validateEmailResetPassword = validateEmailResetPassword;
 const validateUpdatePassword = (req, _res, next) => {
     const { password, confirm } = req.body;
     const schema = joi_1.default.object({
-        password: joi_1.default.string().required().messages({
+        password: joi_1.default.string().min(8).required().messages({
             "string.base": "Le mot de passe doit être une chaîne de caractères.",
+            "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
             "string.empty": "Le mot de passe est requis.",
         }),
         confirm: joi_1.default.string()

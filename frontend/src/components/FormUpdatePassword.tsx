@@ -97,7 +97,7 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
           <input
             type="password"
             className="grow"
-            placeholder="Mot de passe"
+            placeholder="Mot de passe (8 caractères min.)"
             name="password"
             value={formData.password}
             onChange={handleChange}

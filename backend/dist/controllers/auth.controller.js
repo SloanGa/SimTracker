@@ -16,6 +16,7 @@ exports.authController = void 0;
 const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const passport_1 = __importDefault(require("passport"));
+const sanitize_html_1 = __importDefault(require("sanitize-html"));
 exports.authController = {
     signup(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -26,7 +27,7 @@ exports.authController = {
                 return next(error);
             }
             const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-            yield dataMapper_1.dataMapper.userCreate(firstname, lastname, email, hashedPassword);
+            yield dataMapper_1.dataMapper.userCreate((0, sanitize_html_1.default)(firstname), (0, sanitize_html_1.default)(lastname), (0, sanitize_html_1.default)(email), hashedPassword);
             yield dataMapper_1.dataMapper.createFlightLogId(email);
             const newUser = yield dataMapper_1.dataMapper.findUserPerEmail(email);
             if (newUser) {
