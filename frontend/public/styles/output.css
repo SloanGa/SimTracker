@@ -1960,10 +1960,6 @@ html{
   width: max-content;
 }
 
-.w-2\/4{
-  width: 50%;
-}
-
 .max-w-5xl{
   max-width: 64rem;
 }
@@ -2018,6 +2014,10 @@ html{
 
 .gap-6{
   gap: 1.5rem;
+}
+
+.gap-8{
+  gap: 2rem;
 }
 
 .self-start{
@@ -2129,6 +2129,14 @@ html{
   padding-bottom: 1.5rem;
 }
 
+.pt-14{
+  padding-top: 3.5rem;
+}
+
+.pt-10{
+  padding-top: 2.5rem;
+}
+
 .text-center{
   text-align: center;
 }
@@ -2183,6 +2191,11 @@ html{
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-btn{
+  --tw-text-opacity: 1;
+  color: rgb(245 158 11 / var(--tw-text-opacity));
 }
 
 .opacity-70{
