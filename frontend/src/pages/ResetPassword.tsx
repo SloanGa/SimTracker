@@ -17,7 +17,8 @@ function ResetPassword() {
       if (token) {
         try {
           const res = await fetch(
-            `${process.env.REACT_APP_API_URL}/user/resetpassword/confirm?token=${token}`,
+            // @ts-ignore
+            `${import.meta.env.VITE_APP_API_URL}/user/resetpassword/confirm?token=${token}`,
             {
               method: "GET",
               headers: {

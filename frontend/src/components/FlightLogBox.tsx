@@ -20,7 +20,8 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
     try {
       setIsLoading(true);
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/flightdata/deleteflight/${flight.id}`,
+        // @ts-ignore
+        `${import.meta.env.VITE_APP_API_URL}/flightdata/deleteflight/${flight.id}`,
         {
           method: "DELETE",
           headers: {

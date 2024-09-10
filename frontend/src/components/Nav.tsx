@@ -18,7 +18,8 @@ const Nav = () => {
 
   const logOut = async () => {
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+      // @ts-ignore
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/logout`, {
         method: "GET",
         credentials: "include",
       });

@@ -51,7 +51,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/user/getuser`, {
+        // @ts-ignore
+        const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/user/getuser`, {
           credentials: "include",
         });
         if (!res.ok) {
@@ -64,7 +65,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
 
     const fetchFlightData = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/flightdata/allflightsdata`, {
+        // @ts-ignore
+        const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/flightdata/allflightsdata`, {
           credentials: "include",
         });
         if (!res.ok) {

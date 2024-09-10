@@ -16,7 +16,8 @@ const Profil = () => {
   const deleteProfil = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/deleteuser`, {
+      // @ts-ignore
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/user/deleteuser`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

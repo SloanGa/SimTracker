@@ -44,7 +44,8 @@ const ModalUpdateProfil = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/updateuser`, {
+      // @ts-ignore
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/user/updateuser`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

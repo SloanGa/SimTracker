@@ -33,7 +33,8 @@ const FormUpdatePassword: React.FC<ResetPasswordFormProps> = ({ userId }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/updatepassword`, {
+      // @ts-ignore
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/user/updatepassword`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

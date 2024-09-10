@@ -31,7 +31,8 @@ const ModalForgotPassword = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/user/resetpassword`, {
+      // @ts-ignore
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/user/resetpassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
