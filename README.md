@@ -32,7 +32,7 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
     PG_URL=<Votre URL de connexion PostgreSQL>
     SESSION_SECRET=<Votre secret de session>
     PORT=<Port pour le serveur backend>
-    REACT_URL=http://localhost:3000
+    REACT_URL=http://localhost:5173
     JWT_SECRET=<Votre secret JWT>
     MAILTRAP_USER=<Votre utilisateur Mailtrap>
     MAILTRAP_PASSWORD=<Votre mot de passe Mailtrap>
@@ -83,15 +83,15 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
    - Create a ``.env.development`` file at the root of the `frontend` directory. Set the following variable:
    - Créez un fichier ``.env.development`` à la racine du répertoire `frontend`. Définissez la variable suivante :
     ```env
-    REACT_APP_API_URL=http://localhost:<PORT backend>
+    VITE_APP_API_URL=http://localhost:<PORT backend>
 3. **Run the frontend server / Lancer le serveur frontend :**
 
     - Start the frontend development server with the following command:
     - Démarrez le serveur de développement frontend avec la commande suivante :
     ```bash
     npm start
- - The frontend server should now be running and accessible via the default port (``3000``).
- - Le serveur frontend devrait maintenant fonctionner et être accessible via le port par défaut (``3000``).
+ - The frontend server should now be running and accessible via the default port (``5173``).
+ - Le serveur frontend devrait maintenant fonctionner et être accessible via le port par défaut (``5173``).
 
 #### Additional Notes / Notes supplémentaires
  - Ensure your PostgreSQL server is running and properly configured before starting the backend server.
