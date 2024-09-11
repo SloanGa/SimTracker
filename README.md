@@ -102,7 +102,7 @@ Suivez ces instructions pour configurer et exécuter l'application en local.
 
     Vous pouvez ajuster le ``PORT`` et les autres variables d'environnement en fonction de votre configuration de développement.
 
-- Make sure the ``REACT_APP_API_URL`` in the frontend ``.env.development`` matches the running backend's URL.
+- Make sure the ``VITE_APP_API_URL`` in the frontend ``.env.development`` matches the running backend's URL.
  
      Assurez-vous que le REACT_APP_API_URL dans le fichier ``.env.development`` du frontend correspond à l'URL du backend en cours d'exécution.
 
