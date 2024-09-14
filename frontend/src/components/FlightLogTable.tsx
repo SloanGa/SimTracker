@@ -16,10 +16,6 @@ const FlightLogTable = () => {
       try {
         // @ts-ignore
         const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/flightdata`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
         });
         if (!res.ok) {
