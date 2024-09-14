@@ -5,6 +5,7 @@ import ButtonToggle from "./Button/ButtonToggle";
 import ModalConfirm from "./Modal/ModalConfirm";
 import { useNavigate } from "react-router-dom";
 import ModalUpdateProfil from "./Modal/ModalUpdateProfil";
+import { useAuth } from "../context/AuthContext";
 
 const Profil = () => {
   const { userData } = useData();
@@ -12,6 +13,7 @@ const Profil = () => {
   const [errorHandling, setErrorHandling] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
 
   const deleteProfil = async () => {
     try {
@@ -32,6 +34,7 @@ const Profil = () => {
         setErrorMessageDelete(error.message);
         return setIsLoading(false);
       }
+      setIsAuthenticated(false);
       navigate("/login");
     } catch {
       setErrorHandling(true);
