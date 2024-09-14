@@ -72,10 +72,6 @@ const FlightLogTable = () => {
           // @ts-ignore
           `${import.meta.env.VITE_APP_API_URL}/flightdata/previousflightdata?currentPage=${page}`,
           {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
             credentials: "include",
           }
         );
