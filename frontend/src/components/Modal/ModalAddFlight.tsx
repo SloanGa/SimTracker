@@ -115,14 +115,16 @@ const ModalAddFlight = () => {
       );
 
       if (!res.ok) {
-        const error = await res.json();
+        const error = "Simbrief ID non reconnu";
+
+        console.log(error);
 
         setErrorHandling(true);
         setTimeout(() => {
           setErrorHandling(false);
         }, 5000);
 
-        setErrorMessage(error.message);
+        setErrorMessage(error);
         return setIsLoading(false);
       }
 
