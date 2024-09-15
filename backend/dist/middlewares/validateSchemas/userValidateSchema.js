@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateUpdatePassword = exports.validateEmailResetPassword = exports.validateCreateUser = exports.validateUpdateUser = void 0;
 const joi_1 = __importDefault(require("joi"));
 const validateUpdateUser = (req, _res, next) => {
-    const { firstname, lastname, email, password, confirm } = req.body;
+    const { firstname, lastname, email, password, confirm, simbrief_id } = req.body;
     const schema = joi_1.default.object({
         firstname: joi_1.default.string().min(2).allow("").pattern(/[\S]/).messages({
             "string.pattern.base": "Le champ prénom doit contenir au moins un caractère non-espace.",
@@ -39,8 +39,12 @@ const validateUpdateUser = (req, _res, next) => {
             "any.required": "La confirmation du mot de passe est requise.",
             "any.unknown": "Le mot de passe est requis.",
         }),
+        simbrief_id: joi_1.default.number().integer().allow("").messages({
+            "number.base": "Le Simbrief ID doit être un nombre",
+            "number.integer": "Le Simbrief ID doit être un nombre",
+        }),
     });
-    const { error } = schema.validate({ firstname, lastname, email, password, confirm });
+    const { error } = schema.validate({ firstname, lastname, email, password, confirm, simbrief_id });
     if (error) {
         return next(error);
     }
@@ -48,7 +52,7 @@ const validateUpdateUser = (req, _res, next) => {
 };
 exports.validateUpdateUser = validateUpdateUser;
 const validateCreateUser = (req, _res, next) => {
-    const { firstname, lastname, email, password, confirm } = req.body;
+    const { firstname, lastname, email, password, confirm, simbrief_id } = req.body;
     const schema = joi_1.default.object({
         firstname: joi_1.default.string().min(2).required().pattern(/[\S]/).messages({
             "string.empty": "Le champ prenom ne doit pas être vide.",
@@ -86,8 +90,12 @@ const validateCreateUser = (req, _res, next) => {
             "any.required": "La confirmation du mot de passe est requise.",
             "any.unknown": "Le mot de passe est requis.",
         }),
+        simbrief_id: joi_1.default.number().integer().allow("").messages({
+            "number.base": "Le Simbrief ID doit être un nombre",
+            "number.integer": "Le Simbrief ID doit être un nombre",
+        }),
     });
-    const { error } = schema.validate({ firstname, lastname, email, password, confirm });
+    const { error } = schema.validate({ firstname, lastname, email, password, confirm, simbrief_id });
     if (error) {
         return next(error);
     }

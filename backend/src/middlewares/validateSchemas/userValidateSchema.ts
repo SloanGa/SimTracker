@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 
 export const validateUpdateUser = (req: Request, _res: Response, next: NextFunction) => {
-  const { firstname, lastname, email, password, confirm } = req.body;
+  const { firstname, lastname, email, password, confirm, simbrief_id } = req.body;
 
   const schema = Joi.object({
     firstname: Joi.string().min(2).allow("").pattern(/[\S]/).messages({
@@ -36,9 +36,13 @@ export const validateUpdateUser = (req: Request, _res: Response, next: NextFunct
         "any.required": "La confirmation du mot de passe est requise.",
         "any.unknown": "Le mot de passe est requis.",
       }),
+    simbrief_id: Joi.number().integer().allow("").messages({
+      "number.base": "Le Simbrief ID doit être un nombre",
+      "number.integer": "Le Simbrief ID doit être un nombre",
+    }),
   });
 
-  const { error } = schema.validate({ firstname, lastname, email, password, confirm });
+  const { error } = schema.validate({ firstname, lastname, email, password, confirm, simbrief_id });
 
   if (error) {
     return next(error);
@@ -48,7 +52,7 @@ export const validateUpdateUser = (req: Request, _res: Response, next: NextFunct
 };
 
 export const validateCreateUser = (req: Request, _res: Response, next: NextFunction) => {
-  const { firstname, lastname, email, password, confirm } = req.body;
+  const { firstname, lastname, email, password, confirm, simbrief_id } = req.body;
 
   const schema = Joi.object({
     firstname: Joi.string().min(2).required().pattern(/[\S]/).messages({
@@ -87,9 +91,13 @@ export const validateCreateUser = (req: Request, _res: Response, next: NextFunct
         "any.required": "La confirmation du mot de passe est requise.",
         "any.unknown": "Le mot de passe est requis.",
       }),
+    simbrief_id: Joi.number().integer().allow("").messages({
+      "number.base": "Le Simbrief ID doit être un nombre",
+      "number.integer": "Le Simbrief ID doit être un nombre",
+    }),
   });
 
-  const { error } = schema.validate({ firstname, lastname, email, password, confirm });
+  const { error } = schema.validate({ firstname, lastname, email, password, confirm, simbrief_id });
 
   if (error) {
     return next(error);
