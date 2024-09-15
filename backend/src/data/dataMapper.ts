@@ -4,7 +4,9 @@ import client from "./client";
 
 export const dataMapper = {
   async findAllUsers() {
-    const result = await client.query("SELECT id,firstname,lastname,email,picture_url FROM users");
+    const result = await client.query(
+      "SELECT id,firstname,lastname,email,picture_url, simbrief_id FROM users"
+    );
     return result.rows;
   },
 
@@ -25,7 +27,7 @@ export const dataMapper = {
    */
   async findUserPerId(id: number): Promise<User | undefined> {
     const result = await client.query(
-      "SELECT id,firstname,lastname,email,picture_url FROM users WHERE id = $1",
+      "SELECT id,firstname,lastname,email,picture_url, simbrief_id FROM users WHERE id = $1",
       [id]
     );
     return result.rows[0];
@@ -40,11 +42,12 @@ export const dataMapper = {
     firstname: string,
     lastname: string,
     email: string,
-    password: string
+    password: string,
+    simbrief_id: string
   ): Promise<void> {
     await client.query(
-      "INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4)",
-      [firstname, lastname, email, password]
+      "INSERT INTO users (firstname,lastname,email,password, simbrief_id) VALUES ($1,$2,$3,$4, $5)",
+      [firstname, lastname, email, password, simbrief_id]
     );
   },
 
@@ -59,9 +62,15 @@ export const dataMapper = {
 
   async updateUser(
     id: number,
-    data: { firstname?: string; lastname?: string; email?: string; password?: string }
+    data: {
+      firstname?: string;
+      lastname?: string;
+      email?: string;
+      password?: string;
+      simbrief_id?: string;
+    }
   ): Promise<void> {
-    const { firstname, lastname, email, password } = data;
+    const { firstname, lastname, email, password, simbrief_id } = data;
 
     // Créer un tableau pour les parties SET et les valeurs associées
     const updates = [];
@@ -84,6 +93,11 @@ export const dataMapper = {
     if (password && password !== "") {
       updates.push(`password = $${updates.length + 1}`);
       values.push(password);
+    }
+
+    if (simbrief_id && simbrief_id !== "") {
+      updates.push(`simbrief_id = $${updates.length + 1}`);
+      values.push(simbrief_id);
     }
 
     if (updates.length === 0) {

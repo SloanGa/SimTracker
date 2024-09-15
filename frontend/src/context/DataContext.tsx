@@ -23,6 +23,7 @@ const defaultDataContext: DataContextType = {
     email: "",
     password: "",
     picture_url: "",
+    simbrief_id: "",
   },
   setUserData: () => {},
   flightData: [],
@@ -45,6 +46,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
     email: "",
     password: "",
     picture_url: "",
+    simbrief_id: "",
   });
   const [flightData, setFlightData] = useState<FlightData[]>([]);
 

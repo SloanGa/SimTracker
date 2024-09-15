@@ -17,7 +17,7 @@ const client_1 = __importDefault(require("./client"));
 exports.dataMapper = {
     findAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield client_1.default.query("SELECT id,firstname,lastname,email,picture_url FROM users");
+            const result = yield client_1.default.query("SELECT id,firstname,lastname,email,picture_url, simbrief_id FROM users");
             return result.rows;
         });
     },
@@ -29,13 +29,13 @@ exports.dataMapper = {
     },
     findUserPerId(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield client_1.default.query("SELECT id,firstname,lastname,email,picture_url FROM users WHERE id = $1", [id]);
+            const result = yield client_1.default.query("SELECT id,firstname,lastname,email,picture_url, simbrief_id FROM users WHERE id = $1", [id]);
             return result.rows[0];
         });
     },
-    userCreate(firstname, lastname, email, password) {
+    userCreate(firstname, lastname, email, password, simbrief_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password) VALUES ($1,$2,$3,$4)", [firstname, lastname, email, password]);
+            yield client_1.default.query("INSERT INTO users (firstname,lastname,email,password, simbrief_id) VALUES ($1,$2,$3,$4, $5)", [firstname, lastname, email, password, simbrief_id]);
         });
     },
     deleteUser(id) {
@@ -45,7 +45,7 @@ exports.dataMapper = {
     },
     updateUser(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { firstname, lastname, email, password } = data;
+            const { firstname, lastname, email, password, simbrief_id } = data;
             const updates = [];
             const values = [];
             if (firstname && firstname !== "") {
@@ -63,6 +63,10 @@ exports.dataMapper = {
             if (password && password !== "") {
                 updates.push(`password = $${updates.length + 1}`);
                 values.push(password);
+            }
+            if (simbrief_id && simbrief_id !== "") {
+                updates.push(`simbrief_id = $${updates.length + 1}`);
+                values.push(simbrief_id);
             }
             if (updates.length === 0) {
                 throw new Error("Aucune donnée à mettre à jour");

@@ -6,7 +6,8 @@ import sanitize from "sanitize-html";
 
 export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, simbrief_id } = req.body;
+
     const users = await dataMapper.findAllUsers();
 
     if (users.some((user) => user.email === email)) {
@@ -19,7 +20,8 @@ export const authController = {
       sanitize(firstname),
       sanitize(lastname),
       sanitize(email),
-      hashedPassword
+      hashedPassword,
+      simbrief_id
     );
     await dataMapper.createFlightLogId(email);
     const newUser = await dataMapper.findUserPerEmail(email);

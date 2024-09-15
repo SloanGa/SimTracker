@@ -26,6 +26,7 @@ export const userController = {
     if (!user) {
       return next();
     }
+
     return res.json(user);
   },
 
@@ -40,7 +41,7 @@ export const userController = {
   },
 
   async updateUser(req: Request, res: Response, next: NextFunction) {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, simbrief_id } = req.body;
     if (!req.user) {
       return next();
     }
@@ -55,6 +56,7 @@ export const userController = {
       lastname: sanitize(lastname),
       email: sanitize(email),
       password: hashedPassword,
+      simbrief_id: sanitize(simbrief_id),
     });
 
     const user = await dataMapper.findUserPerId(Number(req.user.id));

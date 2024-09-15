@@ -26,7 +26,7 @@ const ModalAddFlight = () => {
   const [errorHandling, setErrorHandling] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { flightAdded, setFlightAdded } = useData();
+  const { flightAdded, setFlightAdded, userData } = useData();
 
   const clearFlightData = () => {
     setFlightData({
@@ -92,6 +92,66 @@ const ModalAddFlight = () => {
       ...flightData,
       [name]: value,
     });
+  };
+
+  const addSimbrief = async () => {
+    const simbriefId = userData.simbrief_id;
+
+    if (!simbriefId) {
+      const error = "Veuillez ajouter votre ID SimBrief";
+
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+
+      return setErrorMessage(error);
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await fetch(
+        `https://www.simbrief.com/api/xml.fetcher.php?userid=${simbriefId}&json=1`
+      );
+
+      if (!res.ok) {
+        const error = await res.json();
+
+        setErrorHandling(true);
+        setTimeout(() => {
+          setErrorHandling(false);
+        }, 5000);
+
+        setErrorMessage(error.message);
+        return setIsLoading(false);
+      }
+
+      const data = await res.json();
+
+      const timestamp = data.api_params.date * 1000;
+      const date = new Date(timestamp);
+      const formattedDate = date.toISOString().split("T")[0];
+
+      const flightTime = Math.floor(data.times.est_time_enroute / 60);
+
+      setFlightData({
+        date: formattedDate,
+        flight_number: data.atc.callsign,
+        departure: data.origin.icao_code,
+        arrival: data.destination.icao_code,
+        flight_time: String(flightTime),
+        aircraft: `${data.aircraft.name} - ${data.aircraft.reg}`,
+      });
+      setIsLoading(false);
+    } catch {
+      setErrorHandling(true);
+      setTimeout(() => {
+        setErrorHandling(false);
+      }, 5000);
+      setErrorMessage("Une erreur s'est produite");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -198,7 +258,7 @@ const ModalAddFlight = () => {
             </div>
           ) : null}
           <ButtonSubmit props={"Ajouter un vol"} />
-          <ButtonToggle props="Importer avec SimBrief" />
+          <ButtonToggle props="Importer avec SimBrief" onClick={addSimbrief} />
         </form>
         <form method="dialog">
           {/* if there is a button, it will close the modal */}

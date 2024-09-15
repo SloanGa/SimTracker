@@ -18,6 +18,7 @@ const ModalUpdateProfil = () => {
     email: "",
     password: "",
     confirm: "",
+    simbrief_id: "",
   });
 
   const clearUserData = () => {
@@ -27,6 +28,7 @@ const ModalUpdateProfil = () => {
       email: "",
       password: "",
       confirm: "",
+      simbrief_id: "",
     });
   };
 
@@ -165,6 +167,20 @@ const ModalUpdateProfil = () => {
                 id="confirm"
                 type="password"
                 value={formData?.confirm}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
+              <label htmlFor="simbrief_id" className="self-start font-bold">
+                Simbrief ID
+              </label>
+              <input
+                className="input input-bordered flex items-center gap-2 justify-center"
+                name="simbrief_id"
+                id="simbrief_id"
+                type="text"
+                value={formData?.simbrief_id}
                 onChange={handleChange}
               />
             </div>

@@ -55,7 +55,7 @@ exports.userController = {
     },
     updateUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { firstname, lastname, email, password } = req.body;
+            const { firstname, lastname, email, password, simbrief_id } = req.body;
             if (!req.user) {
                 return next();
             }
@@ -68,6 +68,7 @@ exports.userController = {
                 lastname: (0, sanitize_html_1.default)(lastname),
                 email: (0, sanitize_html_1.default)(email),
                 password: hashedPassword,
+                simbrief_id: (0, sanitize_html_1.default)(simbrief_id),
             });
             const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));
             return res.json({ user: user, message: "Modifications prises en compte" });

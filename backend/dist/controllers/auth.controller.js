@@ -20,14 +20,14 @@ const sanitize_html_1 = __importDefault(require("sanitize-html"));
 exports.authController = {
     signup(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { firstname, lastname, email, password } = req.body;
+            const { firstname, lastname, email, password, simbrief_id } = req.body;
             const users = yield dataMapper_1.dataMapper.findAllUsers();
             if (users.some((user) => user.email === email)) {
                 const error = { message: "Email non disponible" };
                 return next(error);
             }
             const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-            yield dataMapper_1.dataMapper.userCreate((0, sanitize_html_1.default)(firstname), (0, sanitize_html_1.default)(lastname), (0, sanitize_html_1.default)(email), hashedPassword);
+            yield dataMapper_1.dataMapper.userCreate((0, sanitize_html_1.default)(firstname), (0, sanitize_html_1.default)(lastname), (0, sanitize_html_1.default)(email), hashedPassword, simbrief_id);
             yield dataMapper_1.dataMapper.createFlightLogId(email);
             const newUser = yield dataMapper_1.dataMapper.findUserPerEmail(email);
             if (newUser) {
