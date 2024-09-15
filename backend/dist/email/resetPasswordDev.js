@@ -65,4 +65,4 @@ const sendMailResetPassword = (user) => {
     sendResetPasswordEmail(resetToken);
 };
 exports.sendMailResetPassword = sendMailResetPassword;
-//# sourceMappingURL=resetPassword.js.map
+//# sourceMappingURL=resetPasswordDev.js.map

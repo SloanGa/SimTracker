@@ -18,7 +18,8 @@ dotenv_1.default.config();
 const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const resetPassword_1 = require("../email/resetPassword");
+const resetPasswordDev_1 = require("../email/resetPasswordDev");
+const resetPasswordProd_1 = require("../email/resetPasswordProd");
 const sanitize_html_1 = __importDefault(require("sanitize-html"));
 exports.userController = {
     all(req, res, next) {
@@ -82,7 +83,12 @@ exports.userController = {
                 const error = { message: "Email non reconnu" };
                 return next(error);
             }
-            (0, resetPassword_1.sendMailResetPassword)(user);
+            if (process.env.NODE_ENV === "development") {
+                (0, resetPasswordDev_1.sendMailResetPassword)(user);
+            }
+            else {
+                (0, resetPasswordProd_1.sendMailResetPasswordProd)();
+            }
             res.json({ message: "Email envoyé" });
         });
     },

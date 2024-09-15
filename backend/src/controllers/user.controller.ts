@@ -5,7 +5,8 @@ import { dataMapper } from "../data/dataMapper";
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { sendMailResetPassword } from "../email/resetPassword";
+import { sendMailResetPassword } from "../email/resetPasswordDev";
+import { sendMailResetPasswordProd } from "../email/resetPasswordProd";
 import sanitize from "sanitize-html";
 
 export const userController = {
@@ -72,8 +73,11 @@ export const userController = {
       const error = { message: "Email non reconnu" };
       return next(error);
     }
-
-    sendMailResetPassword(user);
+    if (process.env.NODE_ENV === "development") {
+      sendMailResetPassword(user);
+    } else {
+      sendMailResetPasswordProd();
+    }
 
     res.json({ message: "Email envoyé" });
   },
