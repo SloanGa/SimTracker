@@ -84,12 +84,12 @@ exports.userController = {
                 return next(error);
             }
             if (process.env.NODE_ENV === "development") {
-                (0, resetPasswordDev_1.sendMailResetPassword)(user);
+                (0, resetPasswordDev_1.sendMailResetPasswordDev)(user);
             }
             else {
-                (0, resetPasswordProd_1.sendMailResetPasswordProd)();
+                (0, resetPasswordProd_1.sendMailResetPasswordProd)(user);
             }
-            res.json({ message: "Email envoyé" });
+            res.json({ message: "Email envoyé. (Verifiez les mails indésirables)" });
         });
     },
     resetPasswordConfirm(req, res, next) {

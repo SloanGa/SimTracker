@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendMailResetPassword = void 0;
+exports.sendMailResetPasswordDev = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const sendMailResetPassword = (user) => {
+const sendMailResetPasswordDev = (user) => {
     const transporter = nodemailer_1.default.createTransport({
         host: "sandbox.smtp.mailtrap.io",
         port: 2525,
@@ -64,5 +64,5 @@ const sendMailResetPassword = (user) => {
     }
     sendResetPasswordEmail(resetToken);
 };
-exports.sendMailResetPassword = sendMailResetPassword;
+exports.sendMailResetPasswordDev = sendMailResetPasswordDev;
 //# sourceMappingURL=resetPasswordDev.js.map

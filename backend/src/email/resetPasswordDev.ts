@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 import { User } from "../interfaces/User";
 
-export const sendMailResetPassword = (user: User) => {
+export const sendMailResetPasswordDev = (user: User) => {
   const transporter = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
     port: 2525,
@@ -24,9 +24,9 @@ export const sendMailResetPassword = (user: User) => {
 
     try {
       await transporter.sendMail({
-        from: '"SimTracker" <noreply@sim.tracker>', // Adresse de l'expéditeur
+        from: '"SimTracker" <noreply@sim.tracker>',
         to: user?.email, // Liste des destinataires
-        subject: "Réinitialisation de votre mot de passe", // Ligne de sujet
+        subject: "Réinitialisation de votre mot de passe",
         text: `Bonjour,
       
       Vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe :
@@ -44,7 +44,7 @@ export const sendMailResetPassword = (user: User) => {
                    <p><a href="${resetLink}">Réinitialiser mon mot de passe</a></p>
                    <p>Ce lien a une validité limitée.</p>
                    <p>Si vous n'avez pas demandé cette réinitialisation, ignorez simplement ce message.</p>
-                   <p>Cordialement,<br/>L'équipe SimTracker</p>`, // Corps du texte en HTML
+                   <p>Cordialement,<br/>L'équipe SimTracker</p>`,
       });
     } catch (error) {
       console.error("Error sending email:", error);
