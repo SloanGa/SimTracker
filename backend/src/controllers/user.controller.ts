@@ -5,7 +5,7 @@ import { dataMapper } from "../data/dataMapper";
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { sendMailResetPassword } from "../email/resetPasswordDev";
+import { sendMailResetPasswordDev } from "../email/resetPasswordDev";
 import { sendMailResetPasswordProd } from "../email/resetPasswordProd";
 import sanitize from "sanitize-html";
 
@@ -74,12 +74,12 @@ export const userController = {
       return next(error);
     }
     if (process.env.NODE_ENV === "development") {
-      sendMailResetPassword(user);
+      sendMailResetPasswordDev(user);
     } else {
-      sendMailResetPasswordProd();
+      sendMailResetPasswordProd(user);
     }
 
-    res.json({ message: "Email envoyé" });
+    res.json({ message: "Email envoyé. (Verifiez les mails indésirables)" });
   },
 
   async resetPasswordConfirm(req: Request, res: Response, next: NextFunction) {
