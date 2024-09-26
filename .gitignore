@@ -1,3 +1,5 @@
 .vscode/
 .env.development
 .env.production
+.idea/
+.prettierrc

@@ -30,19 +30,6 @@ app.use(router);
 app.use(notFound);
 app.use(errorHandler);
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(process.env.REACT_APP_FRONTEND_BUILD_PATH || ""));
-//   console.log(process.env.REACT_APP_FRONTEND_BUILD_PATH);
-
-//   app.get("*", (_req: Request, res: Response) => {
-//     res.sendFile(process.env.REACT_APP_FRONTEND_BUILD_PATH || "");
-//   });
-
-//   app.get("/login", (_req: Request, res: Response) => {
-//     res.sendFile(process.env.REACT_APP_FRONTEND_BUILD_PATH || "");
-//   });
-// }
-
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
