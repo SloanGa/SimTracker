@@ -9,7 +9,7 @@ import { FlightData } from "../interfaces/FlightData.interface";
 
 const FlightLogTable = () => {
   const { flightAdded, userData } = useData();
-  const [homeFlightData, setHomeFlightData] = useState([]);
+  const [homeFlightData, setHomeFlightData] = useState<FlightData[]>([]);
 
   useEffect(() => {
     const fetchFlightData = async () => {
@@ -20,8 +20,6 @@ const FlightLogTable = () => {
         });
         if (!res.ok) {
           console.log("error de fetch"); //Inserer une vue d'erreur
-
-          throw new Error("Network response was not ok");
         }
         const data = await res.json();
         setHomeFlightData(data);
@@ -30,8 +28,8 @@ const FlightLogTable = () => {
       }
     };
 
-    fetchFlightData();
-  }, [flightAdded, setHomeFlightData]);
+    fetchFlightData().catch()
+  }, [flightAdded]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -89,7 +87,7 @@ const FlightLogTable = () => {
     }
   };
 
-  const formatFlightData = (flight: any) => {
+  const formatFlightData = (flight: FlightData) => {
     if (!flight || !flight.date) {
       return {
         formattedDate: "Date non disponible",

@@ -3,7 +3,7 @@ import { useState } from "react";
 import BurgerMenu from "./BurgerMenu";
 import ButtonIcon from "./Button/ButtonIcon";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 const Nav = () => {
@@ -50,7 +50,7 @@ const Nav = () => {
 
         <li className="lg:w-2/6 lg:flex lg:justify-center">
           <h1 className="font-bold text-2xl lg:text-4xl">
-            <a href="/">SimTracker</a>
+            <Link to="/">SimTracker</Link>
           </h1>
         </li>
 
