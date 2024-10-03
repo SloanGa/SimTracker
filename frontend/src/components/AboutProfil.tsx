@@ -9,10 +9,7 @@ const AboutProfil = () => {
   const formatFlightHour = (flight: any) => {
     const hours = Math.floor(flight / 60);
     const minutes = flight % 60;
-    const flightTimeFormatted =
-      hours > 0 ? `${hours}h${minutes.toString().padStart(2, "0")}` : `${minutes} minutes`;
-
-    return flightTimeFormatted;
+    return hours > 0 ? `${hours}h${minutes.toString().padStart(2, "0")}` : `${minutes} minutes`;
   };
 
   const totalFlightHour = (flightData: FlightData[]): string | undefined => {
@@ -26,7 +23,7 @@ const AboutProfil = () => {
 
   function mostFrequent(
     flightData: FlightData[],
-    choice: "departure" | "arrival"
+    choice: "departure" | "arrival",
   ): string | undefined {
     if (flightData?.length) {
       const allDepartures = flightData.map((flight) => flight[choice]);
@@ -37,7 +34,7 @@ const AboutProfil = () => {
           acc[airport] = (acc[airport] || 0) + 1;
           return acc;
         },
-        {}
+        {},
       );
 
       // Trouver la valeur avec le maximum de répétitions
@@ -67,7 +64,7 @@ const AboutProfil = () => {
           }
           return 0; // Provide an initial value for the accumulator
         },
-        type === "longest" ? 0 : flightsTimes[0]
+        type === "longest" ? 0 : flightsTimes[0],
       );
 
       return formatFlightHour(flight);

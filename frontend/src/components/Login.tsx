@@ -1,5 +1,5 @@
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonSubmit from "./Button/ButtonSubmit";
 import ButtonToggle from "./Button/ButtonToggle";
@@ -53,7 +53,7 @@ const Login = () => {
         if (
           formData.email.match(
             // eslint-disable-next-line no-useless-escape
-            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
           ) === null
         ) {
           return setErrorMessageLog("Veuillez entrer un email valide");

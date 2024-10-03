@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useData } from "../context/DataContext";
 
 import ButtonToggle from "./Button/ButtonToggle";
@@ -19,7 +19,7 @@ const FlightLogTable = () => {
           credentials: "include",
         });
         if (!res.ok) {
-          console.log("error de fetch"); //Inserer une vue d'erreur
+          console.log("error de fetch");
         }
         const data = await res.json();
         setHomeFlightData(data);
@@ -28,7 +28,7 @@ const FlightLogTable = () => {
       }
     };
 
-    fetchFlightData().catch()
+    fetchFlightData().catch();
   }, [flightAdded]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,16 +41,12 @@ const FlightLogTable = () => {
         // @ts-ignore
         `${import.meta.env.VITE_APP_API_URL}/flightdata/nextflightdata?currentPage=${page}`,
         {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
-        }
+        },
       );
 
       if (!res.ok) {
-        console.log("error"); //Inserer une vue d'erreur
+        console.log("error");
         return;
       }
 
@@ -71,11 +67,11 @@ const FlightLogTable = () => {
           `${import.meta.env.VITE_APP_API_URL}/flightdata/previousflightdata?currentPage=${page}`,
           {
             credentials: "include",
-          }
+          },
         );
 
         if (!res.ok) {
-          console.log("error"); //Inserer une vue d'erreur
+          console.log("error");
           return;
         }
 

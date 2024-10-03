@@ -1,4 +1,5 @@
 import { PaginationProps } from "../interfaces/PaginationProps.interface";
+import React from "react";
 
 const Pagination: React.FC<PaginationProps> = ({
   onPrevious,

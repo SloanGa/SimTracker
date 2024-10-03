@@ -2,6 +2,7 @@ import ButtonSubmit from "../Button/ButtonSubmit";
 import ButtonToggle from "../Button/ButtonToggle";
 import ErrorMessage from "../Messages/ErrorMessage";
 import { ModalConfirmProps } from "../../interfaces/ModalConfirmProps";
+import React from "react";
 
 const ModalConfirm: React.FC<ModalConfirmProps> = ({
   onDelete,

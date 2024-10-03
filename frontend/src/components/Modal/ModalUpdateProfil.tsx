@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useData } from "../../context/DataContext";
 import ButtonSubmit from "../Button/ButtonSubmit";
 import ErrorMessage from "../Messages/ErrorMessage";
@@ -117,7 +117,7 @@ const ModalUpdateProfil = () => {
 
             <div className="flex flex-col gap-1 w-2/3 lg:w-1/4">
               <label htmlFor="firstname" className="self-start font-bold">
-                Prenom
+                Prénom
               </label>
               <input
                 className="input input-bordered flex items-center gap-2 justify-center"

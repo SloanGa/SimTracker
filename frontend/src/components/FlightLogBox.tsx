@@ -3,7 +3,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ModalConfirm from "./Modal/ModalConfirm";
 import { FlightLogBoxProps } from "../interfaces/FlightLogBoxPRops.interface";
 import { useData } from "../context/DataContext";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData }) => {
   const formattedFlight = formatFlightData(flight);
@@ -28,7 +28,7 @@ const FlightLogBox: React.FC<FlightLogBoxProps> = ({ flight, formatFlightData })
             "Content-Type": "application/json",
           },
           credentials: "include",
-        }
+        },
       );
       if (!res.ok) {
         const error = await res.json();

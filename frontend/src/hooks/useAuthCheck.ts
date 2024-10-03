@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 const useAuthCheck = (setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>) => {
   useEffect(() => {
@@ -6,10 +6,6 @@ const useAuthCheck = (setIsAuthenticated: React.Dispatch<React.SetStateAction<bo
       try {
         // @ts-ignore
         const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/user`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
         });
 

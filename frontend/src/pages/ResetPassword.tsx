@@ -7,7 +7,7 @@ import Spinner from "../components/Spinner";
 function ResetPassword() {
   const [isValidToken, setIsValidToken] = useState(true);
   const [userId, setUserId] = useState("");
-  const [isloading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
@@ -20,12 +20,8 @@ function ResetPassword() {
             // @ts-ignore
             `${import.meta.env.VITE_APP_API_URL}/user/resetpassword/confirm?token=${token}`,
             {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
               credentials: "include",
-            }
+            },
           );
 
           if (!res.ok) {
@@ -49,7 +45,7 @@ function ResetPassword() {
     fetchConfirmToken();
   }, [token]);
 
-  if (isloading) {
+  if (isLoading) {
     return <Spinner />;
   }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonSubmit from "../Button/ButtonSubmit";
 import ButtonToggle from "../Button/ButtonToggle";
 import ErrorMessage from "../Messages/ErrorMessage";
@@ -111,7 +111,7 @@ const ModalAddFlight = () => {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `https://www.simbrief.com/api/xml.fetcher.php?userid=${simbriefId}&json=1`
+        `https://www.simbrief.com/api/xml.fetcher.php?userid=${simbriefId}&json=1`,
       );
 
       if (!res.ok) {
