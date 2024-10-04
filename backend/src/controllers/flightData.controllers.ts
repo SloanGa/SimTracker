@@ -1,6 +1,6 @@
-import { dataMapper } from "../data/dataMapper";
 import { NextFunction, Request, Response } from "express";
 import sanitize from "sanitize-html";
+import { FlightLogContent } from "../models/FlightLogContent";
 
 export const flightDataControllers = {
   async getFlightData(req: Request, res: Response, next: NextFunction) {
@@ -8,8 +8,15 @@ export const flightDataControllers = {
       return next();
     }
     const currentPage = req.query.currentPage || 1;
+    const limit = 10;
     const offset = (Number(currentPage) - 1) * 10;
-    const flightData = await dataMapper.getFlightData(req.user.id, offset);
+    const flightData = await FlightLogContent.findAll({
+      where: {
+        user_id: req.user.id,
+      },
+      limit: limit,
+      offset: offset,
+    });
 
     return res.json(flightData);
   },
@@ -18,7 +25,11 @@ export const flightDataControllers = {
     if (!req.user) {
       return next();
     }
-    const flightData = await dataMapper.getAllFlightData(req.user.id);
+    const flightData = await FlightLogContent.findAll({
+      where: {
+        user_id: req.user.id,
+      },
+    });
 
     return res.json(flightData);
   },
@@ -27,25 +38,26 @@ export const flightDataControllers = {
     if (!req.user) {
       return next();
     }
-    const email = req.user.email;
     const { date, flight_number, departure, arrival, flight_time, aircraft } = req.body;
 
-    await dataMapper.addFlightData(
-      email,
-      date,
-      sanitize(flight_number),
-      sanitize(departure),
-      sanitize(arrival),
-      flight_time,
-      sanitize(aircraft)
-    );
-    res.json({ message: "Vol ajouté avec succés" });
+    await FlightLogContent.create({
+      date: date,
+      flight_number: sanitize(flight_number),
+      departure: sanitize(departure),
+      arrival: sanitize(arrival),
+      flight_time: flight_time,
+      aircraft: sanitize(aircraft),
+    });
+
+    res.json({ message: "Vol ajouté avec sucées" });
   },
 
   async deleteFlight(req: Request, res: Response) {
     const id = Number(req.params.id);
 
-    await dataMapper.deleteFlightData(id);
+    await FlightLogContent.destroy({
+      where: { id: id },
+    });
     res.json("Flight data has deleted");
   },
 };

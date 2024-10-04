@@ -2,8 +2,8 @@ import app from "../app";
 
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { dataMapper } from "../data/dataMapper";
 import bcrypt from "bcrypt";
+import { Users } from "../models/Users";
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -16,7 +16,7 @@ passport.use(
       passwordField: "password",
     },
     async (email, password, done) => {
-      const user = await dataMapper.findUserPerEmail(email);
+      const user = await Users.findOne({ where: { email: email } });
       if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
@@ -27,8 +27,8 @@ passport.use(
       } else {
         done(null, false, { message: "Email ou mot de passe incorrect" });
       }
-    }
-  )
+    },
+  ),
 );
 
 passport.serializeUser((user: Express.User, done) => {
@@ -37,7 +37,7 @@ passport.serializeUser((user: Express.User, done) => {
 
 passport.deserializeUser(async (id: number, done) => {
   try {
-    const user = await dataMapper.findUserPerId(id);
+    const user = await Users.findByPk(id);
     done(null, user);
   } catch (err) {
     done(err, null);
