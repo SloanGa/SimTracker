@@ -1,5 +1,6 @@
 import { Users } from "./Users";
 import { FlightLogContent } from "./FlightLogContent";
+import { Sessions } from "./Sessions";
 
 Users.hasMany(FlightLogContent, {
   foreignKey: "user_id",
@@ -11,4 +12,4 @@ FlightLogContent.hasOne(Users, {
   as: "user",
 });
 
-export { Users, FlightLogContent };
+export { Users, FlightLogContent, Sessions };

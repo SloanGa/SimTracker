@@ -20,6 +20,7 @@ function syncDatabase() {
         try {
             yield associations_1.Users.sync({ force: true });
             yield associations_1.FlightLogContent.sync({ force: true });
+            yield associations_1.Sessions.sync({ force: true });
             console.log("Tables created");
         }
         catch (err) {

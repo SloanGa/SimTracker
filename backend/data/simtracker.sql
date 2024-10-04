@@ -32,8 +32,10 @@ CREATE TABLE "flight_log_content"
 );
 CREATE TABLE "sessions"
 (
-    "sid"    varchar PRIMARY KEY,
-    "sess"   json         NOT NULL,
-    "expire" timestamp(6) NOT NULL
+    "sid"        varchar PRIMARY KEY,
+    "sess"       json         NOT NULL,
+    "expire"     timestamp(6) NOT NULL,
+    "created_at" TIMESTAMPTZ  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ
 );
 CREATE INDEX "IDX_sessions_expire" ON "sessions" ("expire");
