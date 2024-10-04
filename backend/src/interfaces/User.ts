@@ -5,4 +5,5 @@ export interface User {
   email: string;
   password: string;
   picture_url?: string;
+  simbrief_id?: string;
 }

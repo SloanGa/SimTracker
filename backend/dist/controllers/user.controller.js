@@ -14,29 +14,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const resetPasswordDev_1 = require("../email/resetPasswordDev");
 const resetPasswordProd_1 = require("../email/resetPasswordProd");
 const sanitize_html_1 = __importDefault(require("sanitize-html"));
+const Users_1 = require("../models/Users");
+dotenv_1.default.config();
 exports.userController = {
-    all(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!req.user) {
-                return next();
-            }
-            const users = yield dataMapper_1.dataMapper.findAllUsers();
-            return res.json(users);
-        });
-    },
     getUser(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!req.user) {
                 return next();
             }
-            const user = yield dataMapper_1.dataMapper.findUserPerId(req.user.id);
+            const user = yield Users_1.Users.findByPk(req.user.id, {
+                attributes: {
+                    exclude: ["password"],
+                },
+            });
             if (!user) {
                 return next();
             }
@@ -48,7 +43,7 @@ exports.userController = {
             if (!req.user) {
                 return next();
             }
-            yield dataMapper_1.dataMapper.deleteUser(Number(req.user.id));
+            yield Users_1.Users.destroy({ where: { id: req.user.id } });
             req.logout(() => {
                 return res.status(204).json("L'utilisateur a été supprimé");
             });
@@ -64,21 +59,27 @@ exports.userController = {
             if (password) {
                 hashedPassword = yield bcrypt_1.default.hash(password, 10);
             }
-            yield dataMapper_1.dataMapper.updateUser(Number(req.user.id), {
+            yield Users_1.Users.update({
                 firstname: (0, sanitize_html_1.default)(firstname),
                 lastname: (0, sanitize_html_1.default)(lastname),
                 email: (0, sanitize_html_1.default)(email),
                 password: hashedPassword,
                 simbrief_id: (0, sanitize_html_1.default)(simbrief_id),
+            }, {
+                where: { id: Number(req.user.id) },
             });
-            const user = yield dataMapper_1.dataMapper.findUserPerId(Number(req.user.id));
+            const user = yield Users_1.Users.findByPk(req.user.id, {
+                attributes: {
+                    exclude: ["password"],
+                },
+            });
             return res.json({ user: user, message: "Modifications prises en compte" });
         });
     },
     resetPassword(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { email } = req.body;
-            const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+            const user = yield Users_1.Users.findOne({ where: { email: email } });
             if (!user) {
                 const error = { message: "Email non reconnu" };
                 return next(error);
@@ -89,7 +90,7 @@ exports.userController = {
             else {
                 (0, resetPasswordProd_1.sendMailResetPasswordProd)(user);
             }
-            res.json({ message: "Email envoyé. (Verifiez les mails indésirables)" });
+            res.json({ message: "Email envoyé. (Vérifiez les mails indésirables)" });
         });
     },
     resetPasswordConfirm(req, res, next) {
@@ -109,15 +110,15 @@ exports.userController = {
     updatePassword(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { userId, password } = req.body;
-            const user = yield dataMapper_1.dataMapper.findUserPerId(Number(userId));
+            const user = Users_1.Users.findByPk(userId);
             if (!user) {
                 const error = { message: "Une erreur est survenu. Veuillez réesaeyer." };
                 return next(error);
             }
             const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-            yield dataMapper_1.dataMapper.updateUser(Number(userId), {
+            yield Users_1.Users.update({
                 password: hashedPassword,
-            });
+            }, { where: { id: userId } });
             res.json({ message: "Modification prise en compte" });
         });
     },

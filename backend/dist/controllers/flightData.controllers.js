@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.flightDataControllers = void 0;
-const dataMapper_1 = require("../data/dataMapper");
 const sanitize_html_1 = __importDefault(require("sanitize-html"));
+const FlightLogContent_1 = require("../models/FlightLogContent");
 exports.flightDataControllers = {
     getFlightData(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -22,8 +22,15 @@ exports.flightDataControllers = {
                 return next();
             }
             const currentPage = req.query.currentPage || 1;
+            const limit = 10;
             const offset = (Number(currentPage) - 1) * 10;
-            const flightData = yield dataMapper_1.dataMapper.getFlightData(req.user.id, offset);
+            const flightData = yield FlightLogContent_1.FlightLogContent.findAll({
+                where: {
+                    user_id: req.user.id,
+                },
+                limit: limit,
+                offset: offset,
+            });
             return res.json(flightData);
         });
     },
@@ -32,7 +39,11 @@ exports.flightDataControllers = {
             if (!req.user) {
                 return next();
             }
-            const flightData = yield dataMapper_1.dataMapper.getAllFlightData(req.user.id);
+            const flightData = yield FlightLogContent_1.FlightLogContent.findAll({
+                where: {
+                    user_id: req.user.id,
+                },
+            });
             return res.json(flightData);
         });
     },
@@ -41,16 +52,25 @@ exports.flightDataControllers = {
             if (!req.user) {
                 return next();
             }
-            const email = req.user.email;
             const { date, flight_number, departure, arrival, flight_time, aircraft } = req.body;
-            yield dataMapper_1.dataMapper.addFlightData(email, date, (0, sanitize_html_1.default)(flight_number), (0, sanitize_html_1.default)(departure), (0, sanitize_html_1.default)(arrival), flight_time, (0, sanitize_html_1.default)(aircraft));
-            res.json({ message: "Vol ajouté avec succés" });
+            yield FlightLogContent_1.FlightLogContent.create({
+                date: date,
+                flight_number: (0, sanitize_html_1.default)(flight_number),
+                departure: (0, sanitize_html_1.default)(departure),
+                arrival: (0, sanitize_html_1.default)(arrival),
+                flight_time: flight_time,
+                aircraft_name: (0, sanitize_html_1.default)(aircraft),
+                user_id: req.user.id,
+            });
+            res.json({ message: "Vol ajouté avec sucées" });
         });
     },
     deleteFlight(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = Number(req.params.id);
-            yield dataMapper_1.dataMapper.deleteFlightData(id);
+            yield FlightLogContent_1.FlightLogContent.destroy({
+                where: { id: id },
+            });
             res.json("Flight data has deleted");
         });
     },

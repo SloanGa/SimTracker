@@ -1,26 +1,25 @@
 import dotenv from "dotenv";
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
-
 import express from "express";
 import cors from "cors";
 import { errorHandler, notFound } from "./middlewares/errorHandlers";
-
 import router from "./routes/routes";
-import "./data/client";
+
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
 const app = express();
 export default app;
 
 import "./config/sessions.config";
 import "./config/passport.config";
+import "./database/client";
 
 app.use(
   cors({
     origin: process.env.REACT_URL,
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());

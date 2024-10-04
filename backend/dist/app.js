@@ -4,18 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({
-    path: `.env.${process.env.NODE_ENV}`,
-});
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandlers_1 = require("./middlewares/errorHandlers");
 const routes_1 = __importDefault(require("./routes/routes"));
-require("./data/client");
+dotenv_1.default.config({
+    path: `.env.${process.env.NODE_ENV}`,
+});
 const app = (0, express_1.default)();
 exports.default = app;
 require("./config/sessions.config");
 require("./config/passport.config");
+require("./database/client");
 app.use((0, cors_1.default)({
     origin: process.env.REACT_URL,
     credentials: true,

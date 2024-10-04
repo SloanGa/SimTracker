@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../app"));
 const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = require("passport-local");
-const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const Users_1 = require("../models/Users");
 app_1.default.use(passport_1.default.initialize());
 app_1.default.use(passport_1.default.session());
 passport_1.default.use("local", new passport_local_1.Strategy({
     usernameField: "email",
     passwordField: "password",
 }, (email, password, done) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+    const user = yield Users_1.Users.findOne({ where: { email: email } });
     if (user) {
         const match = yield bcrypt_1.default.compare(password, user.password);
         if (match) {
@@ -42,7 +42,7 @@ passport_1.default.serializeUser((user, done) => {
 });
 passport_1.default.deserializeUser((id, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield dataMapper_1.dataMapper.findUserPerId(id);
+        const user = yield Users_1.Users.findByPk(id);
         done(null, user);
     }
     catch (err) {

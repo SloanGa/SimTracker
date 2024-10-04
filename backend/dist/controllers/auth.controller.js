@@ -13,23 +13,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
-const dataMapper_1 = require("../data/dataMapper");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const passport_1 = __importDefault(require("passport"));
 const sanitize_html_1 = __importDefault(require("sanitize-html"));
+const associations_1 = require("../models/associations");
 exports.authController = {
     signup(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { firstname, lastname, email, password, simbrief_id } = req.body;
-            const users = yield dataMapper_1.dataMapper.findAllUsers();
+            const users = yield associations_1.Users.findAll();
             if (users.some((user) => user.email === email)) {
                 const error = { message: "Email non disponible" };
                 return next(error);
             }
             const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-            yield dataMapper_1.dataMapper.userCreate((0, sanitize_html_1.default)(firstname), (0, sanitize_html_1.default)(lastname), (0, sanitize_html_1.default)(email), hashedPassword, simbrief_id);
-            yield dataMapper_1.dataMapper.createFlightLogId(email);
-            const newUser = yield dataMapper_1.dataMapper.findUserPerEmail(email);
+            const newUser = yield associations_1.Users.create({
+                firstname: (0, sanitize_html_1.default)(firstname),
+                lastname: (0, sanitize_html_1.default)(lastname),
+                email: (0, sanitize_html_1.default)(email),
+                password: hashedPassword,
+                simbrief_id,
+            });
             if (newUser) {
                 req.login(newUser, (error) => {
                     if (error) {

@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { dataMapper } from "../data/dataMapper";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import sanitize from "sanitize-html";
+import { Users } from "../models/associations";
 
 export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {
     const { firstname, lastname, email, password, simbrief_id } = req.body;
 
-    const users = await dataMapper.findAllUsers();
+    const users = await Users.findAll();
 
     if (users.some((user) => user.email === email)) {
       const error = { message: "Email non disponible" };
@@ -16,15 +16,13 @@ export const authController = {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await dataMapper.userCreate(
-      sanitize(firstname),
-      sanitize(lastname),
-      sanitize(email),
-      hashedPassword,
-      simbrief_id
-    );
-    await dataMapper.createFlightLogId(email);
-    const newUser = await dataMapper.findUserPerEmail(email);
+    const newUser = await Users.create({
+      firstname: sanitize(firstname),
+      lastname: sanitize(lastname),
+      email: sanitize(email),
+      password: hashedPassword,
+      simbrief_id,
+    });
 
     if (newUser) {
       req.login(newUser, (error) => {
