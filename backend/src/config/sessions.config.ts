@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 
 dotenv.config();
+
 import app from "../app";
 
 import session from "express-session";
@@ -22,5 +23,5 @@ app.use(
       maxAge: 3 * 60 * 60 * 1000, // 3 hours
     },
     store: sessionStore,
-  })
+  }),
 );

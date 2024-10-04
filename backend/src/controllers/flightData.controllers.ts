@@ -46,7 +46,8 @@ export const flightDataControllers = {
       departure: sanitize(departure),
       arrival: sanitize(arrival),
       flight_time: flight_time,
-      aircraft: sanitize(aircraft),
+      aircraft_name: sanitize(aircraft),
+      user_id: req.user.id,
     });
 
     res.json({ message: "Vol ajouté avec sucées" });

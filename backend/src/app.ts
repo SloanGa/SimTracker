@@ -2,11 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { errorHandler, notFound } from "./middlewares/errorHandlers";
-
 import router from "./routes/routes";
-import "./database/client";
-import "./config/sessions.config";
-import "./config/passport.config";
 
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -14,6 +10,10 @@ dotenv.config({
 
 const app = express();
 export default app;
+
+import "./config/sessions.config";
+import "./config/passport.config";
+import "./database/client";
 
 app.use(
   cors({

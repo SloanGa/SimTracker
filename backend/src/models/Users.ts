@@ -29,12 +29,6 @@ Users.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: {
-          args: [8, 60],
-          msg: "Password must be between 8 and 60 characters long.",
-        },
-      },
     },
     picture_url: DataTypes.STRING,
     simbrief_id: DataTypes.STRING,

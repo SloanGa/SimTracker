@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import sanitize from "sanitize-html";
-import { Users } from "../models/Users";
+import { Users } from "../models/associations";
 
 export const authController = {
   async signup(req: Request, res: Response, next: NextFunction) {

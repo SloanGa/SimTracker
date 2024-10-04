@@ -3,9 +3,12 @@ import { sequelize } from "../database/client";
 
 export class FlightLogContent extends Model {
   declare id: number;
-  declare firstname: string;
-  declare email: string;
-  declare password: string;
+  declare date: string;
+  declare flight_number: string;
+  declare departure: string;
+  declare arrival: string;
+  declare flight_time: number;
+  declare aircraft_name: string;
 }
 
 FlightLogContent.init(
