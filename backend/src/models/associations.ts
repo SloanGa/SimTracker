@@ -7,7 +7,7 @@ Users.hasMany(FlightLogContent, {
   as: "flightLogs",
 });
 
-FlightLogContent.hasOne(Users, {
+FlightLogContent.belongsTo(Users, {
   foreignKey: "user_id",
   as: "user",
 });

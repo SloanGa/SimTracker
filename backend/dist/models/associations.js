@@ -11,7 +11,7 @@ Users_1.Users.hasMany(FlightLogContent_1.FlightLogContent, {
     foreignKey: "user_id",
     as: "flightLogs",
 });
-FlightLogContent_1.FlightLogContent.hasOne(Users_1.Users, {
+FlightLogContent_1.FlightLogContent.belongsTo(Users_1.Users, {
     foreignKey: "user_id",
     as: "user",
 });
