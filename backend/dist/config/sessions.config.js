@@ -19,6 +19,7 @@ app_1.default.use((0, express_session_1.default)({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
         maxAge: 3 * 60 * 60 * 1000,
     },
     store: sessionStore,
