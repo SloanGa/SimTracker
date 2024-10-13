@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import { errorHandler, notFound } from "./middlewares/errorHandlers";
 import router from "./routes/routes";
@@ -25,6 +25,10 @@ app.use(
 app.use(express.json());
 
 app.use(router);
+
+app.get("/", (_req: Request, res: Response) => {
+  res.send("API SimTracker");
+});
 
 app.use(notFound);
 app.use(errorHandler);

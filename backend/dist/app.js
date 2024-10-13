@@ -22,6 +22,9 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use(routes_1.default);
+app.get("/", (_req, res) => {
+    res.send("API SimTracker");
+});
 app.use(errorHandlers_1.notFound);
 app.use(errorHandlers_1.errorHandler);
 app.listen(process.env.PORT || 5000, () => {
