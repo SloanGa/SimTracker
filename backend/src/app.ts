@@ -22,8 +22,6 @@ app.use(
   }),
 );
 
-console.log("REACT_URL:", process.env.REACT_URL);
-
 app.use(express.json());
 
 app.use(router);
