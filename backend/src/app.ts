@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { errorHandler, notFound } from "./middlewares/errorHandlers";
 import router from "./routes/routes";
@@ -14,6 +14,13 @@ export default app;
 import "./config/sessions.config";
 import "./config/passport.config";
 import "./database/client";
+
+app.use((_req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Origin", process.env.REACT_URL!);
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  next();
+});
 
 app.use(
   cors({

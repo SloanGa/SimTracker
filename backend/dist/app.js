@@ -16,6 +16,12 @@ exports.default = app;
 require("./config/sessions.config");
 require("./config/passport.config");
 require("./database/client");
+app.use((_req, res, next) => {
+    res.header("Access-Control-Allow-Origin", process.env.REACT_URL);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    next();
+});
 app.use((0, cors_1.default)({
     origin: [process.env.REACT_URL, "http://localhost:4173", "http://localhost:5173"],
     credentials: true,
