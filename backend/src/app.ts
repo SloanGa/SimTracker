@@ -17,10 +17,12 @@ import "./database/client";
 
 app.use(
   cors({
-    origin: process.env.REACT_URL,
+    origin: [process.env.REACT_URL!, "http://localhost:4173", "http://localhost:5173"],
     credentials: true,
   }),
 );
+
+console.log("REACT_URL:", process.env.REACT_URL);
 
 app.use(express.json());
 

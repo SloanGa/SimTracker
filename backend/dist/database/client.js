@@ -9,9 +9,20 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({
     path: `.env.${process.env.NODE_ENV}`,
 });
+if (!process.env.PG_URL) {
+    throw new Error("PG_URL environment variable is not set!");
+}
 exports.sequelize = new sequelize_1.Sequelize(process.env.PG_URL, {
     dialect: "postgres",
     logging: false,
+    dialectOptions: process.env.NODE_ENV === "production"
+        ? {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+        }
+        : {},
     define: {
         createdAt: "created_at",
         updatedAt: "updated_at",

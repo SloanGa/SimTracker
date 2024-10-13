@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 
-dotenv.config({ path: ".env.development" });
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
 import { Users, FlightLogContent, Sessions } from "../models/associations";
 

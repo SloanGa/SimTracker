@@ -6,9 +6,22 @@ dotenv.config({
   path: `.env.${process.env.NODE_ENV}`, // Cela charge automatiquement le bon fichier selon NODE_ENV
 });
 
-export const sequelize = new Sequelize(process.env.PG_URL!, {
+if (!process.env.PG_URL) {
+  throw new Error("PG_URL environment variable is not set!");
+}
+
+export const sequelize = new Sequelize(process.env.PG_URL, {
   dialect: "postgres",
   logging: false,
+  dialectOptions:
+    process.env.NODE_ENV === "production"
+      ? {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        }
+      : {},
   define: {
     createdAt: "created_at",
     updatedAt: "updated_at",

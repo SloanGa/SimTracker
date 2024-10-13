@@ -17,9 +17,10 @@ require("./config/sessions.config");
 require("./config/passport.config");
 require("./database/client");
 app.use((0, cors_1.default)({
-    origin: process.env.REACT_URL,
+    origin: [process.env.REACT_URL, "http://localhost:4173", "http://localhost:5173"],
     credentials: true,
 }));
+console.log("REACT_URL:", process.env.REACT_URL);
 app.use(express_1.default.json());
 app.use(routes_1.default);
 app.use(errorHandlers_1.notFound);
