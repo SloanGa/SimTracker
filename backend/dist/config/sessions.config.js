@@ -14,9 +14,9 @@ const sessionStore = new postgresStore({
     tableName: "sessions",
 });
 app_1.default.use((0, express_session_1.default)({
-    secret: process.env.SESSION_SECRET || "",
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
