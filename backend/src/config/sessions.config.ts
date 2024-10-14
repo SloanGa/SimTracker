@@ -18,11 +18,10 @@ app.use(
     secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
-    name: "connect.sid",
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "none",
       domain: ".sloan-gauthier.fr",
       maxAge: 3 * 60 * 60 * 1000, // 3 hours
     },
