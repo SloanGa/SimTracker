@@ -17,6 +17,7 @@ app_1.default.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    name: "connect.sid",
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
