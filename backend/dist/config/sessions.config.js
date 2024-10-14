@@ -16,11 +16,12 @@ const sessionStore = new postgresStore({
 app_1.default.use((0, express_session_1.default)({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "none",
+        domain: ".sloan-gauthier.fr",
         maxAge: 3 * 60 * 60 * 1000,
     },
     store: sessionStore,
