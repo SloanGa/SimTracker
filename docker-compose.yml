@@ -1,0 +1,63 @@
+networks:
+  nodejs:
+    driver: bridge
+
+services:
+  # Postgres Service
+  pg-simtracker:
+    image: postgres:16.3-alpine3.20
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+    networks:
+      - nodejs
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./backend/.env.development
+
+  # Backend Service
+  api-simtracker:
+    image: node:lts
+    volumes:
+      - ./backend:/app/backend
+    working_dir: /app/backend
+    networks:
+      - nodejs
+    depends_on:
+      - pg-simtracker
+
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+    command: [ "sh", "-c", "npm install && npm run dev --host 0.0.0.0" ]
+    env_file:
+      - ./backend/.env.development
+
+
+  # Frontend Service (Vite)
+  front-simtracker:
+    image: node:lts
+    volumes:
+      - ./frontend:/app/frontend
+    working_dir: /app/frontend
+    networks:
+      - nodejs
+    depends_on:
+      - api-simtracker
+
+    expose:
+      - "5173"
+    ports:
+      - "5173:5173"
+    command: [ "sh", "-c", "npm install && npm run dev --host 0.0.0.0" ]
+    env_file:
+      - ./frontend/.env.development
+
+volumes:
+  pg_data:
