@@ -21,9 +21,8 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-      domain: ".sloan-gauthier.fr",
-      maxAge: 3 * 60 * 60 * 1000, // 3 hours
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 3 * 60 * 60 * 1000, // 3 heures
     },
     store: sessionStore,
   }),

@@ -20,9 +20,9 @@ const associations_1 = require("../models/associations");
 function syncDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield associations_1.Users.sync({ force: true });
-            yield associations_1.FlightLogContent.sync({ force: true });
-            yield associations_1.Sessions.sync({ force: true });
+            yield associations_1.Users.sync();
+            yield associations_1.FlightLogContent.sync();
+            yield associations_1.Sessions.sync();
             console.log("Tables created");
         }
         catch (err) {

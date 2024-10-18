@@ -8,13 +8,45 @@ carnet de vol.*
 Follow these instructions to set up and run the application locally.  
 Suivez ces instructions pour configurer et exécuter l'application en local.
 
+### Installation with docker
+
+1. **Configure environment variables / Configurer les variables d'environnement :**
+
+    - Create a ``.env.development`` file at the root of the `backend` directory based on .env.development.docker.exemple
+    - Créez un fichier ``.env.development`` à la racine du répertoire `backend` basé sur .env.development.docker.exemple
+
+    - Create a ``.env.development`` file at the root of the `frontend` directory based on
+      .env.development.docker.exemple
+    - Créez un fichier ``.env.development`` à la racine du répertoire `frontend` basé sur
+      .env.development.docker.exemple
+
+
+2. **Start Docker Services / Démarrer les services Docker :**
+
+    - Make sure you have Docker installed and running on your machine.
+    - Assurez-vous que Docker est installé et en cours d'exécution sur votre machine.
+
+    - Run the following command to start all services defined in ``docker-compose.yml`` :
+    - Exécutez la commande suivante pour démarrer tous les services définis dans ``docker-compose.yml`` :
+
+    ```bash
+   docker-compose up -d
+
+3. **Access Application / Accéder à l'application**
+
+    - You can now access the front via ``localhost:5173``
+    - Vous pouvez maintenant accéder au front via ``localhost:5173``
+
+    - The backend API will be connected to the PostgreSQL database and ready to receive requests.
+    - L'API backend sera connectée à la base de données PostgreSQL et prête à recevoir des requêtes.
+
+### Installation local
+
 ### Prerequisites / Prérequis
 
 - **Node.js** (version 20.13.1 ou supérieure)
 - **PostgreSQL** (pour la base de données backend)
 - **Compte Mailtrap** (pour les tests d'envoi d'emails)
-
-### Installation
 
 #### Backend Setup / Configuration du Backend
 

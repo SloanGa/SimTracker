@@ -8,9 +8,9 @@ import { Users, FlightLogContent, Sessions } from "../models/associations";
 
 async function syncDatabase() {
   try {
-    await Users.sync({ force: true });
-    await FlightLogContent.sync({ force: true });
-    await Sessions.sync({ force: true });
+    await Users.sync();
+    await FlightLogContent.sync();
+    await Sessions.sync();
     console.log("Tables created");
   } catch (err) {
     console.log("Error syncing the database:", err);
